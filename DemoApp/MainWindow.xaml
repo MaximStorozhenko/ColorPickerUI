@@ -1,0 +1,81 @@
+﻿<Window x:Class="DemoApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:ColorPicker.Wpf.Controls;assembly=ColorPicker.Wpf"
+        xmlns:local="clr-namespace:DemoApp"
+        mc:Ignorable="d"
+        Title="ColorPicker Demo" Width="780" Height="560"
+        MinWidth="650" MinHeight="480"
+        WindowStartupLocation="CenterScreen" Background="#FF18191C">
+
+    <Grid Margin="30">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0"
+                    VerticalAlignment="Center">
+
+            <controls:ColorPicker
+                SelectedColor="{Binding SelectedColor, Mode=TwoWay}"/>
+
+        </StackPanel>
+
+        <StackPanel Grid.Column="1"
+                    Margin="28,0,0,0"
+                    VerticalAlignment="Center">
+
+            <TextBlock Text="Selected color"
+                       Foreground="#FFE8EAED"
+                       FontSize="24"
+                       FontWeight="SemiBold"/>
+
+            <TextBlock Text="The value updates automatically"
+                       Foreground="#FF9AA0A6"
+                       FontSize="13"
+                       Margin="0,8,0,24"/>
+            
+            <!--Background="#FF202124"-->
+            <Border 
+                    BorderBrush="#FF3C4043"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="16">
+                <Border.Background>
+                    <SolidColorBrush Color="{Binding SelectedColor}"/>
+                </Border.Background>
+
+                <StackPanel>
+                    <TextBlock Text="HEX VALUE"
+                               Foreground="#FF9AA0A6"
+                               FontSize="11"
+                               Margin="0,0,0,8"/>
+
+                    <TextBlock Text="{Binding SelectedColorHex}"
+                               Foreground="#FFE8EAED"
+                               FontSize="22"
+                               FontFamily="Consolas"/>
+
+                    <TextBlock Text="SelectedColor"
+                               Foreground="#FF9AA0A6"
+                               FontSize="11"
+                               Margin="0,20,0,8"/>
+
+                    <TextBlock Text="{Binding SelectedColor}"
+                               Foreground="#FFE8EAED"
+                               FontSize="14"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="Try selecting a preset or entering a HEX value."
+                       Foreground="#FF9AA0A6"
+                       TextWrapping="Wrap"
+                       Margin="0,18,0,0"/>
+
+        </StackPanel>
+    </Grid>
+</Window>
