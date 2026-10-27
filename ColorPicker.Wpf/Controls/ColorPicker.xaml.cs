@@ -8,6 +8,7 @@ namespace ColorPicker.Wpf.Controls
 {
     public partial class ColorPicker : UserControl
     {
+        #region Settings
         public static readonly DependencyProperty SelectedColorProperty =
             DependencyProperty.Register(
                 nameof(SelectedColor),
@@ -23,6 +24,20 @@ namespace ColorPicker.Wpf.Controls
             get => (Color)GetValue(SelectedColorProperty);
             set => SetValue(SelectedColorProperty, value);
         }
+
+        public static readonly DependencyProperty ShowPresetColorsProperty =
+            DependencyProperty.Register(
+                nameof(ShowPresetColors),
+                typeof(Visibility),
+                typeof(ColorPicker),
+                new PropertyMetadata(Visibility.Visible));
+
+        public Visibility ShowPresetColors
+        {
+            get => (Visibility)GetValue(ShowPresetColorsProperty);
+            set => SetValue(ShowPresetColorsProperty, value);
+        }
+        #endregion
 
         public ColorPicker()
         {

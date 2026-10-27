@@ -20,7 +20,8 @@
                     VerticalAlignment="Center">
 
             <controls:ColorPicker
-                SelectedColor="{Binding SelectedColor, Mode=TwoWay}"/>
+                SelectedColor="{Binding SelectedColor, Mode=TwoWay}"
+                ShowPresetColors="Visible"/>
 
         </StackPanel>
 
