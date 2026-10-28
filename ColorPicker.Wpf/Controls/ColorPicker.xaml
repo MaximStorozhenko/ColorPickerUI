@@ -78,6 +78,36 @@
                         <GradientStop Color="Red" Offset="1"/>
                     </LinearGradientBrush>
                 </Slider.Background>
+
+                <Slider.Template>
+                    <ControlTemplate TargetType="{x:Type Slider}">
+                        <Grid VerticalAlignment="Center">
+
+                            <!--Colored path-->
+                            <Border Height="8" CornerRadius="4" Background="{TemplateBinding Background}"/>
+                            
+                            <!--Slider-->
+                            <Track x:Name="PART_Track"
+                                   IsDirectionReversed="{TemplateBinding IsDirectionReversed}">
+
+                                <Track.Thumb>
+                                    <Thumb Width="18" Height="18" Background="White"
+                                           BorderBrush="#555555" BorderThickness="3">
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="{x:Type Thumb}">
+                                                <Border Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="9"/>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Slider.Template>
             </Slider>
 
             <!--HEX-->
