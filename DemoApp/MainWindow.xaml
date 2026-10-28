@@ -12,17 +12,23 @@
 
     <Grid Margin="30">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0"
-                    VerticalAlignment="Center">
+        
+
+        <ScrollViewer Grid.Column="0"
+                VerticalScrollBarVisibility="Auto"
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalAlignment="Center">
 
             <controls:ColorPicker
-                SelectedColor="{Binding SelectedColor, Mode=TwoWay}"/>
+                SelectedColor="{Binding SelectedColor, Mode=TwoWay}"
+                ShowPresetColors="Visible"/>
+                
+        </ScrollViewer>
 
-        </StackPanel>
 
         <StackPanel Grid.Column="1"
                     Margin="28,0,0,0"
