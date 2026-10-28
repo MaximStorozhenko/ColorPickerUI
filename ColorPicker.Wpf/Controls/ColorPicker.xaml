@@ -5,21 +5,84 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ColorPicker.Wpf.Controls"
              mc:Ignorable="d"
-             MinWidth="280"
-             d:DesignHeight="450" d:DesignWidth="280">
-    
+             MinWidth="280" d:DesignWidth="280">
+
     <Border Background="#FF202124" BorderBrush="#FF3C4043"
-            BorderThickness="1" CornerRadius="10" Padding="16">
+            BorderThickness="1" CornerRadius="10" Padding="10">
         <StackPanel>
-            <TextBlock Text="COLOR PICKER" Foreground="#FFE8EAED" FontSize="15" FontWeight="SemiBold" Margin="0 0 0 14"/>
+            <!--<TextBlock Text="COLOR PICKER" Foreground="#FFE8EAED" FontSize="15" FontWeight="SemiBold" Margin="0 0 0 10"/>-->
 
             <!--Preview of the selected color-->
             <Border x:Name="PreviewBorder" Height="64" CornerRadius="8"
                     Background="#FF3B82F6" BorderBrush="#FF5F6368" BorderThickness="1"/>
-            
+
+            <!--HSV Color Selection-->
+            <!-- Saturation / Value -->
+            <Grid Margin="0 16 0 0">
+                <Canvas x:Name="SvCanvas" Height="150" ClipToBounds="True" Background="Red"
+                        MouseLeftButtonDown="SvCanvas_MouseLeftButtonDown"
+                        MouseMove="SvCanvas_MouseMove"
+                        MouseLeftButtonUp="SvCanvas_MouseLeftButtonUp"
+                        SizeChanged="SvCanvas_SizeChanged"
+                        LostMouseCapture="SvCanvas_LostMouseCapture">
+
+                    <!-- White gradient: saturation -->
+                    <Rectangle IsHitTestVisible="False"
+                               Width="{Binding ActualWidth, ElementName=SvCanvas}"
+                               Height="{Binding ActualHeight, ElementName=SvCanvas}">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,0"
+                                        EndPoint="1,0">
+                                <GradientStop Color="White" Offset="0"/>
+                                <GradientStop Color="#00FFFFFF" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+
+                    <!-- Black gradient: value -->
+                    <Rectangle IsHitTestVisible="False"
+                               Width="{Binding ActualWidth, ElementName=SvCanvas}"
+                               Height="{Binding ActualHeight, ElementName=SvCanvas}">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="0,1">
+                                <GradientStop Color="#00000000" Offset="0"/>
+                                <GradientStop Color="Black" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+
+                    <!-- Selection marker -->
+                    <Ellipse x:Name="SvMarker"
+                             Width="14" Height="14"
+                             Stroke="White" StrokeThickness="2" Fill="Transparent"
+                             IsHitTestVisible="False">
+                        <Ellipse.Effect>
+                            <DropShadowEffect BlurRadius="3" ShadowDepth="0" Opacity="0.8"/>
+                        </Ellipse.Effect>
+                    </Ellipse>
+
+                </Canvas>
+            </Grid>
+
+            <Slider x:Name="HueSlider" Minimum="0" Maximum="359" Value="210"
+                    Margin="0 5 0 0" Height="22" ValueChanged="HueSlider_ValueChanged">
+                <Slider.Background>
+                    <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
+                        <GradientStop Color="Red" Offset="0"/>
+                        <GradientStop Color="Yellow" Offset="0.167"/>
+                        <GradientStop Color="Lime" Offset="0.333"/>
+                        <GradientStop Color="Cyan" Offset="0.5"/>
+                        <GradientStop Color="Blue" Offset="0.667"/>
+                        <GradientStop Color="Magenta" Offset="0.833"/>
+                        <GradientStop Color="Red" Offset="1"/>
+                    </LinearGradientBrush>
+                </Slider.Background>
+            </Slider>
+
             <!--HEX-->
             <TextBlock Text="HEX" Foreground="#FFBDC1C6"
-                       Margin="0,16,0,6"/>
+                       Margin="0 5 0 5"/>
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -29,7 +92,7 @@
 
                 <TextBox x:Name="HexTextBox"
                          Grid.Column="0"
-                         Height="36"
+                         Height="35"
                          Padding="9,0"
                          VerticalContentAlignment="Center"
                          Background="#FF303134"
@@ -44,7 +107,7 @@
                         Content="Apply"
                         Margin="8,0,0,0"
                         Padding="14,0"
-                        Height="36"
+                        Height="35"
                         Background="#FF3B82F6"
                         Foreground="White"
                         BorderThickness="0"
@@ -65,7 +128,7 @@
                 RelativeSource={RelativeSource AncestorType={x:Type local:ColorPicker}}}">
                 <TextBlock Text="PRESET COLORS"
                            Foreground="#FFBDC1C6"
-                           Margin="0,18,0,10"/>
+                           Margin="0,5,0,0"/>
 
                 <UniformGrid Columns="6" Rows="2" HorizontalAlignment="Center">
 
