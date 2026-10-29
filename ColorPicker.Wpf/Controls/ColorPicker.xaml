@@ -13,8 +13,43 @@
             <!--<TextBlock Text="COLOR PICKER" Foreground="#FFE8EAED" FontSize="15" FontWeight="SemiBold" Margin="0 0 0 10"/>-->
 
             <!--Preview of the selected color-->
-            <Border x:Name="PreviewBorder" Height="64" CornerRadius="8"
-                    Background="#FF3B82F6" BorderBrush="#FF5F6368" BorderThickness="1"/>
+            <Border Height="64" CornerRadius="8"
+                    BorderBrush="#FF5F6368" BorderThickness="1" ClipToBounds="True">
+                <Border.Resources>
+                    <DrawingBrush x:Key="CheckerboardBrush"
+                      TileMode="Tile"
+                      Viewport="0 0 16 16" ViewportUnits="Absolute"
+                      Viewbox="0 0 16 16" ViewboxUnits="Absolute"
+                      Stretch="None">
+                        <DrawingBrush.Drawing>
+                            <DrawingGroup>
+                                <GeometryDrawing Brush="White">
+                                    <GeometryDrawing.Geometry>
+                                        <RectangleGeometry Rect="0 0 16 16"/>
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+
+                                <GeometryDrawing Brush="#FFCCCCCC">
+                                    <GeometryDrawing.Geometry>
+                                        <GeometryGroup>
+                                            <RectangleGeometry Rect="0 0 8 8"/>
+                                            <RectangleGeometry Rect="8 8 8 8"/>
+                                        </GeometryGroup>
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                            </DrawingGroup>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Border.Resources>
+
+                <Grid>
+                    <!-- Chess background -->
+                    <Border Background="{StaticResource CheckerboardBrush}" CornerRadius="7.5"/>
+
+                    <!-- Selected color -->
+                    <Border x:Name="PreviewBorder" Background="Red"  CornerRadius="7.5"/>
+                </Grid>
+            </Border>
 
             <!-- HSV Palette -->
             <Grid Margin="0 16 0 0">
