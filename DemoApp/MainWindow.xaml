@@ -43,8 +43,24 @@
                        Foreground="#FF9AA0A6"
                        FontSize="13"
                        Margin="0,8,0,24"/>
+
+
+            <StackPanel Orientation="Horizontal">
+                <Button Tag="#F44336"
+                        Background="#FFF44336"
+                        Height="30" Width="30" Margin="5"
+                        Command="{Binding SetColorCommand}"
+                        CommandParameter="#F44336"
+                        ToolTip="#F44336"/>
+
+                <Button Tag="#FF9800"
+                        Background="#FFFF9800"
+                        Height="30" Width="30" Margin="5"
+                        Command="{Binding SetColorCommand}"
+                        CommandParameter="#FF9800"
+                        ToolTip="#FF9800"/>
+            </StackPanel>
             
-            <!--Background="#FF202124"-->
             <Border 
                     BorderBrush="#FF3C4043"
                     BorderThickness="1"

@@ -13,12 +13,46 @@
             <!--<TextBlock Text="COLOR PICKER" Foreground="#FFE8EAED" FontSize="15" FontWeight="SemiBold" Margin="0 0 0 10"/>-->
 
             <!--Preview of the selected color-->
-            <Border x:Name="PreviewBorder" Height="64" CornerRadius="8"
-                    Background="#FF3B82F6" BorderBrush="#FF5F6368" BorderThickness="1"/>
+            <Border Height="64" CornerRadius="8"
+                    BorderBrush="#FF5F6368" BorderThickness="1" ClipToBounds="True">
+                <Border.Resources>
+                    <DrawingBrush x:Key="CheckerboardBrush"
+                      TileMode="Tile"
+                      Viewport="0 0 16 16" ViewportUnits="Absolute"
+                      Viewbox="0 0 16 16" ViewboxUnits="Absolute"
+                      Stretch="None">
+                        <DrawingBrush.Drawing>
+                            <DrawingGroup>
+                                <GeometryDrawing Brush="White">
+                                    <GeometryDrawing.Geometry>
+                                        <RectangleGeometry Rect="0 0 16 16"/>
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
 
-            <!--HSV Color Selection-->
-            <!-- Saturation / Value -->
-            <Grid Margin="0 16 0 0">
+                                <GeometryDrawing Brush="#FFCCCCCC">
+                                    <GeometryDrawing.Geometry>
+                                        <GeometryGroup>
+                                            <RectangleGeometry Rect="0 0 8 8"/>
+                                            <RectangleGeometry Rect="8 8 8 8"/>
+                                        </GeometryGroup>
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                            </DrawingGroup>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Border.Resources>
+
+                <Grid>
+                    <!-- Chess background -->
+                    <Border Background="{StaticResource CheckerboardBrush}" CornerRadius="7.5"/>
+
+                    <!-- Selected color -->
+                    <Border x:Name="PreviewBorder" Background="Red"  CornerRadius="7.5"/>
+                </Grid>
+            </Border>
+
+            <!-- HSV Palette -->
+            <Grid Margin="0 10 0 0">
                 <Canvas x:Name="SvCanvas" Height="150" ClipToBounds="True" Background="Red"
                         MouseLeftButtonDown="SvCanvas_MouseLeftButtonDown"
                         MouseMove="SvCanvas_MouseMove"
@@ -31,8 +65,7 @@
                                Width="{Binding ActualWidth, ElementName=SvCanvas}"
                                Height="{Binding ActualHeight, ElementName=SvCanvas}">
                         <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0,0"
-                                        EndPoint="1,0">
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                 <GradientStop Color="White" Offset="0"/>
                                 <GradientStop Color="#00FFFFFF" Offset="1"/>
                             </LinearGradientBrush>
@@ -44,8 +77,7 @@
                                Width="{Binding ActualWidth, ElementName=SvCanvas}"
                                Height="{Binding ActualHeight, ElementName=SvCanvas}">
                         <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0,0"
-                                     EndPoint="0,1">
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                 <GradientStop Color="#00000000" Offset="0"/>
                                 <GradientStop Color="Black" Offset="1"/>
                             </LinearGradientBrush>
@@ -58,107 +90,238 @@
                              Stroke="White" StrokeThickness="2" Fill="Transparent"
                              IsHitTestVisible="False">
                         <Ellipse.Effect>
-                            <DropShadowEffect BlurRadius="3" ShadowDepth="0" Opacity="0.8"/>
+                            <DropShadowEffect BlurRadius="3" ShadowDepth="1" Opacity="0.8"/>
                         </Ellipse.Effect>
                     </Ellipse>
 
                 </Canvas>
             </Grid>
 
-            <Slider x:Name="HueSlider" Minimum="0" Maximum="359" Value="210"
-                    Margin="0 5 0 0" Height="22" ValueChanged="HueSlider_ValueChanged">
-                <Slider.Background>
-                    <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
-                        <GradientStop Color="Red" Offset="0"/>
-                        <GradientStop Color="Yellow" Offset="0.167"/>
-                        <GradientStop Color="Lime" Offset="0.333"/>
-                        <GradientStop Color="Cyan" Offset="0.5"/>
-                        <GradientStop Color="Blue" Offset="0.667"/>
-                        <GradientStop Color="Magenta" Offset="0.833"/>
-                        <GradientStop Color="Red" Offset="1"/>
-                    </LinearGradientBrush>
-                </Slider.Background>
+            <!--Color model tabs-->
+            <TabControl Margin="0 10 0 0" Background="Transparent" BorderThickness="0">
 
-                <Slider.Template>
-                    <ControlTemplate TargetType="{x:Type Slider}">
-                        <Grid VerticalAlignment="Center">
+                <TabControl.Resources>
+                    <!--Style buttons-->
+                    <Style TargetType="{x:Type TabItem}">
+                        <Setter Property="Foreground" Value="#FFBDC1C6"/>
+                        <Setter Property="Background" Value="#FF303134"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Padding" Value="12 8"/>
+                        <Setter Property="Margin" Value="2 0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
 
-                            <!--Colored path-->
-                            <Border Height="8" CornerRadius="4" Background="{TemplateBinding Background}"/>
-                            
-                            <!--Slider-->
-                            <Track x:Name="PART_Track"
-                                   IsDirectionReversed="{TemplateBinding IsDirectionReversed}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TabItem}">
+                                    <Border x:Name="TabBorder"
+                                            Background="{TemplateBinding Background}"
+                                            Padding="{TemplateBinding Padding}"
+                                            CornerRadius="8">
+                                        <ContentPresenter ContentSource="Header"
+                                                          HorizontalAlignment="Stretch"                                                          
+                                                          VerticalAlignment="Center"
+                                                          TextBlock.TextAlignment="Center"/>
+                                    </Border>
 
-                                <Track.Thumb>
-                                    <Thumb Width="18" Height="18" Background="White"
-                                           BorderBrush="#555555" BorderThickness="3">
-                                        <Thumb.Template>
-                                            <ControlTemplate TargetType="{x:Type Thumb}">
-                                                <Border Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                        CornerRadius="9"/>
-                                            </ControlTemplate>
-                                        </Thumb.Template>
-                                    </Thumb>
-                                </Track.Thumb>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="TabBorder"
+                                                    Property="Background" Value="#FF3B82F6"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </Trigger>
 
-                            </Track>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="TabBorder"
+                                                    Property="Opacity" Value="0.85"/>
+                                        </Trigger>
+
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Opacity" Value="0.5"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TabControl.Resources>
+
+                <TabControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="2"/>
+                    </ItemsPanelTemplate>
+                </TabControl.ItemsPanel>
+                
+                <!-- Убираем стандартную рамку и нижнюю полосу -->
+                <TabControl.Template>
+                    <ControlTemplate TargetType="{x:Type TabControl}">
+                        <Grid KeyboardNavigation.TabNavigation="Local">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0">
+                                <ItemsPresenter/>
+                            </StackPanel>
+
+                            <ContentPresenter Grid.Row="1" ContentSource="SelectedContent" Margin="0 5 0 0"/>
                         </Grid>
                     </ControlTemplate>
-                </Slider.Template>
-            </Slider>
+                </TabControl.Template>
+
+                <!--HSV TAB-->
+                <TabItem Header="HSV">
+                    <StackPanel>
+
+                        <TextBlock Text="Hue" Foreground="#FFBDC1C6"/>
+
+                        <Slider x:Name="HueSlider" Minimum="0" Maximum="359" Value="210"
+                                Margin="0" Height="22" ValueChanged="HsvSlider_ValueChanged">
+                            <Slider.Background>
+                                <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
+                                    <GradientStop Color="Red" Offset="0"/>
+                                    <GradientStop Color="Yellow" Offset="0.167"/>
+                                    <GradientStop Color="Lime" Offset="0.333"/>
+                                    <GradientStop Color="Cyan" Offset="0.5"/>
+                                    <GradientStop Color="Blue" Offset="0.667"/>
+                                    <GradientStop Color="Magenta" Offset="0.833"/>
+                                    <GradientStop Color="Red" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Slider.Background>
+
+                            <Slider.Template>
+                                <ControlTemplate TargetType="{x:Type Slider}">
+                                    <Grid VerticalAlignment="Center">
+
+                                        <!--Colored path-->
+                                        <Border Height="8" CornerRadius="4" Background="{TemplateBinding Background}"/>
+
+                                        <!--Slider-->
+                                        <Track x:Name="PART_Track"
+                                               IsDirectionReversed="{TemplateBinding IsDirectionReversed}">
+
+                                            <Track.Thumb>
+                                                <Thumb Width="20" Height="20" Background="#FF0067C0"
+                                                       BorderBrush="#FF454545" BorderThickness="3">
+                                                    <Thumb.Template>
+                                                        <ControlTemplate TargetType="{x:Type Thumb}">
+
+                                                            <Grid>
+                                                                <Ellipse x:Name="FocusRing"
+                                                                         Stroke="#80454545"
+                                                                         StrokeThickness="2"
+                                                                         Fill="Transparent"
+                                                                         Margin="0"/>
+
+                                                                <Ellipse x:Name="ThumbCircle"
+                                                                         Width="18" Height="18"
+                                                                         Fill="{TemplateBinding Background}"
+                                                                         StrokeThickness="3"
+                                                                         Stroke="{TemplateBinding BorderBrush}"
+                                                                         HorizontalAlignment="Center"
+                                                                         VerticalAlignment="Center"/>
+                                                            </Grid>
+
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter TargetName="ThumbCircle" Property="Fill" Value="#71ADDC"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Thumb.Template>
+                                                </Thumb>
+                                            </Track.Thumb>
+
+                                        </Track>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Slider.Template>
+                        </Slider>
+
+                        <TextBlock Text="Saturation" Foreground="#FFBDC1C6"/>
+
+                        <Slider x:Name="SaturationSlider" Minimum="0" Maximum="100" Value="74"
+                                Margin="0" ValueChanged="HsvSlider_ValueChanged"/>
+
+                        <TextBlock Text="Value" Foreground="#FFBDC1C6"/>
+
+                        <Slider x:Name="ValueSlider" Minimum="0" Maximum="100" Value="96"
+                                Margin="0" ValueChanged="HsvSlider_ValueChanged"/>
+
+                    </StackPanel>
+                </TabItem>
+
+                <!--RGB TAB-->
+                <TabItem Header="RGB">
+                    <StackPanel>
+
+                        <TextBlock Text="Red"  Foreground="#FFBDC1C6"/>
+
+                        <Slider x:Name="RedSlider" Minimum="0" Maximum="255" Value="59"
+                                Margin="0" ValueChanged="RgbSlider_ValueChanged"/>
+
+                        <TextBlock Text="Green" Foreground="#FFBDC1C6"/>
+
+                        <Slider x:Name="GreenSlider" Minimum="0" Maximum="255" Value="130"
+                                Margin="0" ValueChanged="RgbSlider_ValueChanged"/>
+
+                        <TextBlock Text="Blue" Foreground="#FFBDC1C6"/>
+
+                        <Slider x:Name="BlueSlider" Minimum="0" Maximum="255" Value="246"
+                                Margin="0" ValueChanged="RgbSlider_ValueChanged"/>
+
+                    </StackPanel>
+                </TabItem>
+
+            </TabControl>
+
+            <!-- Common Alpha slider -->
+            <StackPanel Margin="0 5 0 0">
+                <TextBlock Text="Alpha" Foreground="#FFBDC1C6"/>
+
+                <Slider x:Name="AlphaSlider" Minimum="0" Maximum="255" Value="255"
+                        Margin="0" ValueChanged="AlphaSlider_ValueChanged"/>
+            </StackPanel>
 
             <!--HEX-->
-            <TextBlock Text="HEX" Foreground="#FFBDC1C6"
-                       Margin="0 5 0 5"/>
+            <TextBlock Text="HEX" Foreground="#FFBDC1C6" Margin="0 5"/>
 
-            <Grid>
+            <Grid Margin="0 0 0 5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox x:Name="HexTextBox"
-                         Grid.Column="0"
-                         Height="35"
-                         Padding="9,0"
+                <TextBox x:Name="HexTextBox" Grid.Column="0"
+                         Height="35" Padding="9 0"
                          VerticalContentAlignment="Center"
-                         Background="#FF303134"
-                         Foreground="#FFE8EAED"
-                         BorderBrush="#FF5F6368"
-                         BorderThickness="1"
-                         FontFamily="Consolas"
-                         Text="#3B82F6"
+                         Background="#FF303134" Foreground="#FFE8EAED"
+                         BorderBrush="#FF5F6368" BorderThickness="1"
+                         FontFamily="Consolas" Text="#3B82F6"
                          KeyDown="HexTextBox_KeyDown"/>
 
-                <Button Grid.Column="1"
-                        Content="Apply"
-                        Margin="8,0,0,0"
-                        Padding="14,0"
+                <Button Grid.Column="1" Content="Apply"
+                        Margin="8 0 0 0" Padding="14 0"
                         Height="35"
-                        Background="#FF3B82F6"
-                        Foreground="White"
-                        BorderThickness="0"
-                        Cursor="Hand"
+                        Background="#FF3B82F6" Foreground="White"
+                        BorderThickness="0" Cursor="Hand"
                         Click="ApplyHexButton_Click"/>
-
             </Grid>
 
             <TextBlock x:Name="ErrorTextBlock"
                        Foreground="#FFFF6B6B"
                        FontSize="12"
-                       Margin="0,5,0,0"
+                       Margin="0 5"
                        Visibility="Collapsed"
                        Text="Invalid HEX color"/>
 
             <!-- Preset colors -->
-            <StackPanel Visibility="{Binding ShowPresetColors,
-                RelativeSource={RelativeSource AncestorType={x:Type local:ColorPicker}}}">
+            <StackPanel Visibility="{Binding ShowPresetColors, RelativeSource={RelativeSource AncestorType={x:Type local:ColorPicker}}}">
+
                 <TextBlock Text="PRESET COLORS"
                            Foreground="#FFBDC1C6"
-                           Margin="0,5,0,0"/>
+                           Margin="0 5 0 0"/>
 
                 <UniformGrid Columns="6" Rows="2" HorizontalAlignment="Center">
 
