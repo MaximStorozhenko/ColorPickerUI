@@ -10,6 +10,48 @@
 
     <UserControl.Resources>
         <converters:SliderValuePositionConverter x:Key="SliderValuePositionConverter"/>
+
+        <Style x:Key="ColorSliderStyle" TargetType="{x:Type Slider}">
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Background" Value="#FF9A9A9B"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Slider}">
+                        <Grid VerticalAlignment="Center">
+
+                            <!--Colored path-->
+                            <Border Height="8" CornerRadius="4" Background="{TemplateBinding Background}"/>
+
+                            <!--Slider-->
+                            <Track x:Name="PART_Track" IsDirectionReversed="{TemplateBinding IsDirectionReversed}">
+                                <Track.Thumb>
+                                    <Thumb Width="20" Height="20" Background="#FF0067C0" BorderBrush="#FF454545" BorderThickness="3">
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="{x:Type Thumb}">
+                                                <Grid>
+                                                    <Ellipse x:Name="FocusRing" Stroke="#80454545" StrokeThickness="2"
+                                                     Fill="Transparent" Margin="0"/>
+
+                                                    <Ellipse x:Name="ThumbCircle" Width="18" Height="18" Fill="{TemplateBinding Background}"
+                                                     StrokeThickness="3" Stroke="{TemplateBinding BorderBrush}"
+                                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Grid>
+
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="ThumbCircle" Property="Fill" Value="#71ADDC"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     
     <Border Background="#FF202124" BorderBrush="#FF3C4043"
@@ -183,7 +225,8 @@
 
                         <Grid Height="40">
                             <Slider x:Name="HueSlider" Minimum="0" Maximum="359" Value="210"
-                                    ValueChanged="HsvSlider_ValueChanged" Margin="0 18 0 0">
+                                    ValueChanged="HsvSlider_ValueChanged" Margin="0 18 0 0"
+                                    Style="{StaticResource ColorSliderStyle}">
                                 <Slider.Background>
                                     <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
                                         <GradientStop Color="Red" Offset="0"/>
@@ -195,54 +238,6 @@
                                         <GradientStop Color="Red" Offset="1"/>
                                     </LinearGradientBrush>
                                 </Slider.Background>
-
-                                <Slider.Template>
-                                    <ControlTemplate TargetType="{x:Type Slider}">
-                                        <Grid VerticalAlignment="Center">
-
-                                            <!--Colored path-->
-                                            <Border Height="8" CornerRadius="4" Background="{TemplateBinding Background}"/>
-
-                                            <!--Slider-->
-                                            <Track x:Name="PART_Track"
-                                                   IsDirectionReversed="{TemplateBinding IsDirectionReversed}">
-
-                                                <Track.Thumb>
-                                                    <Thumb Width="20" Height="20" Background="#FF0067C0"
-                                                           BorderBrush="#FF454545" BorderThickness="3">
-                                                        <Thumb.Template>
-                                                            <ControlTemplate TargetType="{x:Type Thumb}">
-
-                                                                <Grid>
-                                                                    <Ellipse x:Name="FocusRing"
-                                                                             Stroke="#80454545"
-                                                                             StrokeThickness="2"
-                                                                             Fill="Transparent"
-                                                                             Margin="0"/>
-
-                                                                    <Ellipse x:Name="ThumbCircle"
-                                                                             Width="18" Height="18"
-                                                                             Fill="{TemplateBinding Background}"
-                                                                             StrokeThickness="3"
-                                                                             Stroke="{TemplateBinding BorderBrush}"
-                                                                             HorizontalAlignment="Center"
-                                                                             VerticalAlignment="Center"/>
-                                                                </Grid>
-
-                                                                <ControlTemplate.Triggers>
-                                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                                        <Setter TargetName="ThumbCircle" Property="Fill" Value="#71ADDC"/>
-                                                                    </Trigger>
-                                                                </ControlTemplate.Triggers>
-                                                            </ControlTemplate>
-                                                        </Thumb.Template>
-                                                    </Thumb>
-                                                </Track.Thumb>
-
-                                            </Track>
-                                        </Grid>
-                                    </ControlTemplate>
-                                </Slider.Template>
                             </Slider>
 
                             <Canvas IsHitTestVisible="False">
@@ -269,8 +264,7 @@
 
                         <Grid Height="40">
                             <Slider x:Name="SaturationSlider" Minimum="0" Maximum="100" Value="74"
-                                    Margin="0 18 0 0" ValueChanged="HsvSlider_ValueChanged"
-                                    />
+                                    Margin="0 18 0 0" ValueChanged="HsvSlider_ValueChanged"/>
 
                             <Canvas IsHitTestVisible="False">
                                 <Border Width="35" Height="18" CornerRadius="4"
@@ -329,7 +323,8 @@
 
                         <Grid Height="40">
                             <Slider x:Name="RedSlider" Minimum="0" Maximum="255" Value="59" Height="22"
-                                    Margin="0 18 0 0" ValueChanged="RgbSlider_ValueChanged">
+                                    Margin="0 18 0 0" ValueChanged="RgbSlider_ValueChanged"
+                                    Style="{StaticResource ColorSliderStyle}">
                                 <Slider.Background>
                                     <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
                                         <GradientStop Color="#FF303134" Offset="0"/>
@@ -362,7 +357,15 @@
 
                         <Grid Height="40">
                             <Slider x:Name="GreenSlider" Minimum="0" Maximum="255" Value="130"
-                                    Margin="0 18 0 0" ValueChanged="RgbSlider_ValueChanged"/>
+                                    Margin="0 18 0 0" ValueChanged="RgbSlider_ValueChanged"
+                                    Style="{StaticResource ColorSliderStyle}">
+                                <Slider.Background>
+                                    <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
+                                        <GradientStop Color="#FF303134" Offset="0"/>
+                                        <GradientStop Color="#FF00FF00" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Slider.Background>
+                            </Slider>
 
                             <Canvas IsHitTestVisible="False">
                                 <Border Width="35" Height="18" CornerRadius="4"
@@ -387,7 +390,15 @@
 
                         <Grid Height="40">
                             <Slider x:Name="BlueSlider" Minimum="0" Maximum="255" Value="246"
-                                    Margin="0 18 0 0" ValueChanged="RgbSlider_ValueChanged"/>
+                                    Margin="0 18 0 0" ValueChanged="RgbSlider_ValueChanged"
+                                    Style="{StaticResource ColorSliderStyle}">
+                                <Slider.Background>
+                                    <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
+                                        <GradientStop Color="#FF303134" Offset="0"/>
+                                        <GradientStop Color="#FF0000FF" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Slider.Background>
+                            </Slider>
 
                             <Canvas IsHitTestVisible="False">
                                 <Border Width="35" Height="18" CornerRadius="4"
