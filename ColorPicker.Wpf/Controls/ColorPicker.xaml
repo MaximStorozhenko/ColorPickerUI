@@ -52,7 +52,7 @@
             </Border>
 
             <!-- HSV Palette -->
-            <Grid Margin="0 16 0 0">
+            <Grid Margin="0 10 0 0">
                 <Canvas x:Name="SvCanvas" Height="150" ClipToBounds="True" Background="Red"
                         MouseLeftButtonDown="SvCanvas_MouseLeftButtonDown"
                         MouseMove="SvCanvas_MouseMove"
@@ -98,16 +98,83 @@
             </Grid>
 
             <!--Color model tabs-->
-            <TabControl Margin="0 5 0 0"
-                        Background="#FF202124"
-                        Foreground="#FFE8EAED"
-                        BorderBrush="#FF5F6368">
+            <TabControl Margin="0 10 0 0" Background="Transparent" BorderThickness="0">
+
+                <TabControl.Resources>
+                    <!--Style buttons-->
+                    <Style TargetType="{x:Type TabItem}">
+                        <Setter Property="Foreground" Value="#FFBDC1C6"/>
+                        <Setter Property="Background" Value="#FF303134"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Padding" Value="12 8"/>
+                        <Setter Property="Margin" Value="2 0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TabItem}">
+                                    <Border x:Name="TabBorder"
+                                            Background="{TemplateBinding Background}"
+                                            Padding="{TemplateBinding Padding}"
+                                            CornerRadius="8">
+                                        <ContentPresenter ContentSource="Header"
+                                                          HorizontalAlignment="Stretch"                                                          
+                                                          VerticalAlignment="Center"
+                                                          TextBlock.TextAlignment="Center"/>
+                                    </Border>
+
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="TabBorder"
+                                                    Property="Background" Value="#FF3B82F6"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </Trigger>
+
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="TabBorder"
+                                                    Property="Opacity" Value="0.85"/>
+                                        </Trigger>
+
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Opacity" Value="0.5"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TabControl.Resources>
+
+                <TabControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="2"/>
+                    </ItemsPanelTemplate>
+                </TabControl.ItemsPanel>
+                
+                <!-- Убираем стандартную рамку и нижнюю полосу -->
+                <TabControl.Template>
+                    <ControlTemplate TargetType="{x:Type TabControl}">
+                        <Grid KeyboardNavigation.TabNavigation="Local">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0">
+                                <ItemsPresenter/>
+                            </StackPanel>
+
+                            <ContentPresenter Grid.Row="1" ContentSource="SelectedContent" Margin="0 5 0 0"/>
+                        </Grid>
+                    </ControlTemplate>
+                </TabControl.Template>
 
                 <!--HSV TAB-->
                 <TabItem Header="HSV">
-                    <StackPanel Margin="0 5">
+                    <StackPanel>
 
-                        <TextBlock Text="H - Hue" Foreground="#FFBDC1C6"/>
+                        <TextBlock Text="Hue" Foreground="#FFBDC1C6"/>
 
                         <Slider x:Name="HueSlider" Minimum="0" Maximum="359" Value="210"
                                 Margin="0" Height="22" ValueChanged="HsvSlider_ValueChanged">
@@ -154,12 +221,12 @@
                             </Slider.Template>
                         </Slider>
 
-                        <TextBlock Text="S - Saturation" Foreground="#FFBDC1C6"/>
+                        <TextBlock Text="Saturation" Foreground="#FFBDC1C6"/>
 
                         <Slider x:Name="SaturationSlider" Minimum="0" Maximum="100" Value="74"
                                 Margin="0" ValueChanged="HsvSlider_ValueChanged"/>
 
-                        <TextBlock Text="V — Value" Foreground="#FFBDC1C6"/>
+                        <TextBlock Text="Value" Foreground="#FFBDC1C6"/>
 
                         <Slider x:Name="ValueSlider" Minimum="0" Maximum="100" Value="96"
                                 Margin="0" ValueChanged="HsvSlider_ValueChanged"/>
@@ -169,19 +236,19 @@
 
                 <!--RGB TAB-->
                 <TabItem Header="RGB">
-                    <StackPanel Margin="0 5">
+                    <StackPanel>
 
-                        <TextBlock Text="R - Red"  Foreground="#FFBDC1C6"/>
+                        <TextBlock Text="Red"  Foreground="#FFBDC1C6"/>
 
                         <Slider x:Name="RedSlider" Minimum="0" Maximum="255" Value="59"
                                 Margin="0" ValueChanged="RgbSlider_ValueChanged"/>
 
-                        <TextBlock Text="G — Green" Foreground="#FFBDC1C6"/>
+                        <TextBlock Text="Green" Foreground="#FFBDC1C6"/>
 
                         <Slider x:Name="GreenSlider" Minimum="0" Maximum="255" Value="130"
                                 Margin="0" ValueChanged="RgbSlider_ValueChanged"/>
 
-                        <TextBlock Text="B — Blue" Foreground="#FFBDC1C6"/>
+                        <TextBlock Text="Blue" Foreground="#FFBDC1C6"/>
 
                         <Slider x:Name="BlueSlider" Minimum="0" Maximum="255" Value="246"
                                 Margin="0" ValueChanged="RgbSlider_ValueChanged"/>
@@ -192,7 +259,7 @@
             </TabControl>
 
             <!-- Common Alpha slider -->
-            <StackPanel Margin="0 5">
+            <StackPanel Margin="0 5 0 0">
                 <TextBlock Text="Alpha" Foreground="#FFBDC1C6"/>
 
                 <Slider x:Name="AlphaSlider" Minimum="0" Maximum="255" Value="255"
@@ -200,9 +267,9 @@
             </StackPanel>
 
             <!--HEX-->
-            <TextBlock Text="HEX" Foreground="#FFBDC1C6" Margin="0 5 0 5"/>
+            <TextBlock Text="HEX" Foreground="#FFBDC1C6" Margin="0 5"/>
 
-            <Grid>
+            <Grid Margin="0 0 0 5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
@@ -227,7 +294,7 @@
             <TextBlock x:Name="ErrorTextBlock"
                        Foreground="#FFFF6B6B"
                        FontSize="12"
-                       Margin="0 5 0 0"
+                       Margin="0 5"
                        Visibility="Collapsed"
                        Text="Invalid HEX color"/>
 
