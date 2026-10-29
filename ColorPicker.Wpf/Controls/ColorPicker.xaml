@@ -4,16 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ColorPicker.Wpf.Controls"
+             xmlns:converters="clr-namespace:ColorPicker.Wpf.Converters"
              mc:Ignorable="d"
              MinWidth="280" d:DesignWidth="280">
 
+    <UserControl.Resources>
+        <converters:SliderValuePositionConverter x:Key="SliderValuePositionConverter"/>
+    </UserControl.Resources>
+    
     <Border Background="#FF202124" BorderBrush="#FF3C4043"
             BorderThickness="1" CornerRadius="10" Padding="10">
         <StackPanel>
             <!--<TextBlock Text="COLOR PICKER" Foreground="#FFE8EAED" FontSize="15" FontWeight="SemiBold" Margin="0 0 0 10"/>-->
 
             <!--Preview of the selected color-->
-            <Border Height="64" CornerRadius="8"
+            <Border Height="50" CornerRadius="8"
                     BorderBrush="#FF5F6368" BorderThickness="1" ClipToBounds="True">
                 <Border.Resources>
                     <DrawingBrush x:Key="CheckerboardBrush"
@@ -53,7 +58,7 @@
 
             <!-- HSV Palette -->
             <Grid Margin="0 10 0 0">
-                <Canvas x:Name="SvCanvas" Height="150" ClipToBounds="True" Background="Red"
+                <Canvas x:Name="SvCanvas" Height="140" ClipToBounds="True" Background="Red"
                         MouseLeftButtonDown="SvCanvas_MouseLeftButtonDown"
                         MouseMove="SvCanvas_MouseMove"
                         MouseLeftButtonUp="SvCanvas_MouseLeftButtonUp"
@@ -176,78 +181,142 @@
 
                         <TextBlock Text="Hue" Foreground="#FFBDC1C6"/>
 
-                        <Slider x:Name="HueSlider" Minimum="0" Maximum="359" Value="210"
-                                Margin="0" Height="22" ValueChanged="HsvSlider_ValueChanged">
-                            <Slider.Background>
-                                <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
-                                    <GradientStop Color="Red" Offset="0"/>
-                                    <GradientStop Color="Yellow" Offset="0.167"/>
-                                    <GradientStop Color="Lime" Offset="0.333"/>
-                                    <GradientStop Color="Cyan" Offset="0.5"/>
-                                    <GradientStop Color="Blue" Offset="0.667"/>
-                                    <GradientStop Color="Magenta" Offset="0.833"/>
-                                    <GradientStop Color="Red" Offset="1"/>
-                                </LinearGradientBrush>
-                            </Slider.Background>
+                        <Grid Height="40">
+                            <Slider x:Name="HueSlider" Minimum="0" Maximum="359" Value="210"
+                                    ValueChanged="HsvSlider_ValueChanged" Margin="0 18 0 0">
+                                <Slider.Background>
+                                    <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
+                                        <GradientStop Color="Red" Offset="0"/>
+                                        <GradientStop Color="Yellow" Offset="0.167"/>
+                                        <GradientStop Color="Lime" Offset="0.333"/>
+                                        <GradientStop Color="Cyan" Offset="0.5"/>
+                                        <GradientStop Color="Blue" Offset="0.667"/>
+                                        <GradientStop Color="Magenta" Offset="0.833"/>
+                                        <GradientStop Color="Red" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Slider.Background>
 
-                            <Slider.Template>
-                                <ControlTemplate TargetType="{x:Type Slider}">
-                                    <Grid VerticalAlignment="Center">
+                                <Slider.Template>
+                                    <ControlTemplate TargetType="{x:Type Slider}">
+                                        <Grid VerticalAlignment="Center">
 
-                                        <!--Colored path-->
-                                        <Border Height="8" CornerRadius="4" Background="{TemplateBinding Background}"/>
+                                            <!--Colored path-->
+                                            <Border Height="8" CornerRadius="4" Background="{TemplateBinding Background}"/>
 
-                                        <!--Slider-->
-                                        <Track x:Name="PART_Track"
-                                               IsDirectionReversed="{TemplateBinding IsDirectionReversed}">
+                                            <!--Slider-->
+                                            <Track x:Name="PART_Track"
+                                                   IsDirectionReversed="{TemplateBinding IsDirectionReversed}">
 
-                                            <Track.Thumb>
-                                                <Thumb Width="20" Height="20" Background="#FF0067C0"
-                                                       BorderBrush="#FF454545" BorderThickness="3">
-                                                    <Thumb.Template>
-                                                        <ControlTemplate TargetType="{x:Type Thumb}">
+                                                <Track.Thumb>
+                                                    <Thumb Width="20" Height="20" Background="#FF0067C0"
+                                                           BorderBrush="#FF454545" BorderThickness="3">
+                                                        <Thumb.Template>
+                                                            <ControlTemplate TargetType="{x:Type Thumb}">
 
-                                                            <Grid>
-                                                                <Ellipse x:Name="FocusRing"
-                                                                         Stroke="#80454545"
-                                                                         StrokeThickness="2"
-                                                                         Fill="Transparent"
-                                                                         Margin="0"/>
+                                                                <Grid>
+                                                                    <Ellipse x:Name="FocusRing"
+                                                                             Stroke="#80454545"
+                                                                             StrokeThickness="2"
+                                                                             Fill="Transparent"
+                                                                             Margin="0"/>
 
-                                                                <Ellipse x:Name="ThumbCircle"
-                                                                         Width="18" Height="18"
-                                                                         Fill="{TemplateBinding Background}"
-                                                                         StrokeThickness="3"
-                                                                         Stroke="{TemplateBinding BorderBrush}"
-                                                                         HorizontalAlignment="Center"
-                                                                         VerticalAlignment="Center"/>
-                                                            </Grid>
+                                                                    <Ellipse x:Name="ThumbCircle"
+                                                                             Width="18" Height="18"
+                                                                             Fill="{TemplateBinding Background}"
+                                                                             StrokeThickness="3"
+                                                                             Stroke="{TemplateBinding BorderBrush}"
+                                                                             HorizontalAlignment="Center"
+                                                                             VerticalAlignment="Center"/>
+                                                                </Grid>
 
-                                                            <ControlTemplate.Triggers>
-                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter TargetName="ThumbCircle" Property="Fill" Value="#71ADDC"/>
-                                                                </Trigger>
-                                                            </ControlTemplate.Triggers>
-                                                        </ControlTemplate>
-                                                    </Thumb.Template>
-                                                </Thumb>
-                                            </Track.Thumb>
+                                                                <ControlTemplate.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter TargetName="ThumbCircle" Property="Fill" Value="#71ADDC"/>
+                                                                    </Trigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Thumb.Template>
+                                                    </Thumb>
+                                                </Track.Thumb>
 
-                                        </Track>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Slider.Template>
-                        </Slider>
+                                            </Track>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Slider.Template>
+                            </Slider>
+
+                            <Canvas IsHitTestVisible="False">
+                                <Border Width="35" Height="18" CornerRadius="4"
+                                        Background="#FF303134" BorderBrush="#FF5F6368" BorderThickness="1">
+
+                                    <Canvas.Left>
+                                        <MultiBinding Converter="{StaticResource SliderValuePositionConverter}">
+                                            <Binding ElementName="HueSlider" Path="Value"/>
+                                            <Binding ElementName="HueSlider" Path="Minimum"/>
+                                            <Binding ElementName="HueSlider" Path="Maximum"/>
+                                            <Binding ElementName="HueSlider" Path="ActualWidth"/>
+                                        </MultiBinding>
+                                    </Canvas.Left>
+
+                                    <TextBlock Text="{Binding ElementName=HueSlider, Path=Value, StringFormat={}{0:F0}}"
+                                               Foreground="White" FontSize="12"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Canvas>
+                        </Grid>
 
                         <TextBlock Text="Saturation" Foreground="#FFBDC1C6"/>
 
-                        <Slider x:Name="SaturationSlider" Minimum="0" Maximum="100" Value="74"
-                                Margin="0" ValueChanged="HsvSlider_ValueChanged"/>
+                        <Grid Height="40">
+                            <Slider x:Name="SaturationSlider" Minimum="0" Maximum="100" Value="74"
+                                    Margin="0 18 0 0" ValueChanged="HsvSlider_ValueChanged"
+                                    />
+
+                            <Canvas IsHitTestVisible="False">
+                                <Border Width="35" Height="18" CornerRadius="4"
+                                        Background="#FF303134" BorderBrush="#FF5F6368" BorderThickness="1">
+
+                                    <Canvas.Left>
+                                        <MultiBinding Converter="{StaticResource SliderValuePositionConverter}">
+                                            <Binding ElementName="SaturationSlider" Path="Value"/>
+                                            <Binding ElementName="SaturationSlider" Path="Minimum"/>
+                                            <Binding ElementName="SaturationSlider" Path="Maximum"/>
+                                            <Binding ElementName="SaturationSlider" Path="ActualWidth"/>
+                                        </MultiBinding>
+                                    </Canvas.Left>
+
+                                    <TextBlock Text="{Binding ElementName=SaturationSlider, Path=Value, StringFormat={}{0:F0}}"
+                                               Foreground="White" FontSize="12"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Canvas>
+                            
+                        </Grid>
 
                         <TextBlock Text="Value" Foreground="#FFBDC1C6"/>
 
-                        <Slider x:Name="ValueSlider" Minimum="0" Maximum="100" Value="96"
-                                Margin="0" ValueChanged="HsvSlider_ValueChanged"/>
+                        <Grid Height="40">
+                            <Slider x:Name="ValueSlider" Minimum="0" Maximum="100" Value="96"
+                                    Margin="0 18 0 0" ValueChanged="HsvSlider_ValueChanged"/>
+
+                            <Canvas IsHitTestVisible="False">
+                                <Border Width="35" Height="18" CornerRadius="4"
+                                        Background="#FF303134" BorderBrush="#FF5F6368" BorderThickness="1">
+                                    <Canvas.Left>
+                                        <MultiBinding Converter="{StaticResource SliderValuePositionConverter}">
+                                            <Binding ElementName="ValueSlider" Path="Value"/>
+                                            <Binding ElementName="ValueSlider" Path="Minimum"/>
+                                            <Binding ElementName="ValueSlider" Path="Maximum"/>
+                                            <Binding ElementName="ValueSlider" Path="ActualWidth"/>
+                                        </MultiBinding>
+                                    </Canvas.Left>
+
+                                    <TextBlock Text="{Binding ElementName=ValueSlider, Path=Value, StringFormat={}{0:F0}}"
+                                               Foreground="White" FontSize="12"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Canvas>
+                        </Grid>
 
                     </StackPanel>
                 </TabItem>
@@ -258,18 +327,86 @@
 
                         <TextBlock Text="Red"  Foreground="#FFBDC1C6"/>
 
-                        <Slider x:Name="RedSlider" Minimum="0" Maximum="255" Value="59"
-                                Margin="0" ValueChanged="RgbSlider_ValueChanged"/>
+                        <Grid Height="40">
+                            <Slider x:Name="RedSlider" Minimum="0" Maximum="255" Value="59" Height="22"
+                                    Margin="0 18 0 0" ValueChanged="RgbSlider_ValueChanged">
+                                <Slider.Background>
+                                    <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
+                                        <GradientStop Color="#FF303134" Offset="0"/>
+                                        <GradientStop Color="#FFFF0000" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Slider.Background>
+
+                            </Slider>
+
+                            <Canvas IsHitTestVisible="False">
+                                <Border Width="35" Height="18" CornerRadius="4"
+                                        Background="#FF303134" BorderBrush="#FF5F6368" BorderThickness="1">
+                                    <Canvas.Left>
+                                        <MultiBinding Converter="{StaticResource SliderValuePositionConverter}">
+                                            <Binding ElementName="RedSlider" Path="Value"/>
+                                            <Binding ElementName="RedSlider" Path="Minimum"/>
+                                            <Binding ElementName="RedSlider" Path="Maximum"/>
+                                            <Binding ElementName="RedSlider" Path="ActualWidth"/>
+                                        </MultiBinding>
+                                    </Canvas.Left>
+
+                                    <TextBlock Text="{Binding ElementName=RedSlider, Path=Value, StringFormat={}{0:F0}}"
+                                               Foreground="White" FontSize="12"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Canvas>
+                        </Grid>
 
                         <TextBlock Text="Green" Foreground="#FFBDC1C6"/>
 
-                        <Slider x:Name="GreenSlider" Minimum="0" Maximum="255" Value="130"
-                                Margin="0" ValueChanged="RgbSlider_ValueChanged"/>
+                        <Grid Height="40">
+                            <Slider x:Name="GreenSlider" Minimum="0" Maximum="255" Value="130"
+                                    Margin="0 18 0 0" ValueChanged="RgbSlider_ValueChanged"/>
+
+                            <Canvas IsHitTestVisible="False">
+                                <Border Width="35" Height="18" CornerRadius="4"
+                                        Background="#FF303134" BorderBrush="#FF5F6368" BorderThickness="1">
+                                    <Canvas.Left>
+                                        <MultiBinding Converter="{StaticResource SliderValuePositionConverter}">
+                                            <Binding ElementName="GreenSlider" Path="Value"/>
+                                            <Binding ElementName="GreenSlider" Path="Minimum"/>
+                                            <Binding ElementName="GreenSlider" Path="Maximum"/>
+                                            <Binding ElementName="GreenSlider" Path="ActualWidth"/>
+                                        </MultiBinding>
+                                    </Canvas.Left>
+
+                                    <TextBlock Text="{Binding ElementName=GreenSlider, Path=Value, StringFormat={}{0:F0}}"
+                                               Foreground="White" FontSize="12"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Canvas>
+                        </Grid>
 
                         <TextBlock Text="Blue" Foreground="#FFBDC1C6"/>
 
-                        <Slider x:Name="BlueSlider" Minimum="0" Maximum="255" Value="246"
-                                Margin="0" ValueChanged="RgbSlider_ValueChanged"/>
+                        <Grid Height="40">
+                            <Slider x:Name="BlueSlider" Minimum="0" Maximum="255" Value="246"
+                                    Margin="0 18 0 0" ValueChanged="RgbSlider_ValueChanged"/>
+
+                            <Canvas IsHitTestVisible="False">
+                                <Border Width="35" Height="18" CornerRadius="4"
+                                        Background="#FF303134" BorderBrush="#FF5F6368" BorderThickness="1">
+                                    <Canvas.Left>
+                                        <MultiBinding Converter="{StaticResource SliderValuePositionConverter}">
+                                            <Binding ElementName="BlueSlider" Path="Value"/>
+                                            <Binding ElementName="BlueSlider" Path="Minimum"/>
+                                            <Binding ElementName="BlueSlider" Path="Maximum"/>
+                                            <Binding ElementName="BlueSlider" Path="ActualWidth"/>
+                                        </MultiBinding>
+                                    </Canvas.Left>
+
+                                    <TextBlock Text="{Binding ElementName=BlueSlider, Path=Value, StringFormat={}{0:F0}}"
+                                               Foreground="White" FontSize="12"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Canvas>
+                        </Grid>
 
                     </StackPanel>
                 </TabItem>
@@ -280,8 +417,27 @@
             <StackPanel Margin="0 5 0 0">
                 <TextBlock Text="Alpha" Foreground="#FFBDC1C6"/>
 
-                <Slider x:Name="AlphaSlider" Minimum="0" Maximum="255" Value="255"
-                        Margin="0" ValueChanged="AlphaSlider_ValueChanged"/>
+                <Grid Height="40">
+                    <Slider x:Name="AlphaSlider" Minimum="0" Maximum="255" Value="255"
+                            Margin="0 18 0 0" ValueChanged="AlphaSlider_ValueChanged"/>
+                    <Canvas IsHitTestVisible="False">
+                        <Border Width="35" Height="18" CornerRadius="4"
+                                Background="#FF303134" BorderBrush="#FF5F6368" BorderThickness="1">
+                            <Canvas.Left>
+                                <MultiBinding Converter="{StaticResource SliderValuePositionConverter}">
+                                    <Binding ElementName="AlphaSlider" Path="Value"/>
+                                    <Binding ElementName="AlphaSlider" Path="Minimum"/>
+                                    <Binding ElementName="AlphaSlider" Path="Maximum"/>
+                                    <Binding ElementName="AlphaSlider" Path="ActualWidth"/>
+                                </MultiBinding>
+                            </Canvas.Left>
+
+                            <TextBlock Text="{Binding ElementName=AlphaSlider, Path=Value, StringFormat={}{0:F0}}"
+                                       Foreground="White" FontSize="12"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Canvas>
+                </Grid>
             </StackPanel>
 
             <!--HEX-->
