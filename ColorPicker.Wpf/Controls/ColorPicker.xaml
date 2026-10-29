@@ -202,14 +202,32 @@
                                                IsDirectionReversed="{TemplateBinding IsDirectionReversed}">
 
                                             <Track.Thumb>
-                                                <Thumb Width="18" Height="18" Background="White"
-                                                       BorderBrush="#555555" BorderThickness="3">
+                                                <Thumb Width="20" Height="20" Background="#FF0067C0"
+                                                       BorderBrush="#FF454545" BorderThickness="3">
                                                     <Thumb.Template>
                                                         <ControlTemplate TargetType="{x:Type Thumb}">
-                                                            <Border Background="{TemplateBinding Background}"
-                                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                                                    CornerRadius="9"/>
+
+                                                            <Grid>
+                                                                <Ellipse x:Name="FocusRing"
+                                                                         Stroke="#80454545"
+                                                                         StrokeThickness="2"
+                                                                         Fill="Transparent"
+                                                                         Margin="0"/>
+
+                                                                <Ellipse x:Name="ThumbCircle"
+                                                                         Width="18" Height="18"
+                                                                         Fill="{TemplateBinding Background}"
+                                                                         StrokeThickness="3"
+                                                                         Stroke="{TemplateBinding BorderBrush}"
+                                                                         HorizontalAlignment="Center"
+                                                                         VerticalAlignment="Center"/>
+                                                            </Grid>
+
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter TargetName="ThumbCircle" Property="Fill" Value="#71ADDC"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
                                                         </ControlTemplate>
                                                     </Thumb.Template>
                                                 </Thumb>
