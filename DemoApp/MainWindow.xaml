@@ -6,11 +6,11 @@
         xmlns:controls="clr-namespace:ColorPicker.Wpf.Controls;assembly=ColorPicker.Wpf"
         xmlns:local="clr-namespace:DemoApp"
         mc:Ignorable="d"
-        Title="ColorPicker Demo" Width="780" Height="560"
+        Title="ColorPicker Demo" Width="650"
         MinWidth="650" MinHeight="480"
         WindowStartupLocation="CenterScreen" Background="#FF18191C">
 
-    <Grid Margin="30">
+    <Grid Margin="3">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
