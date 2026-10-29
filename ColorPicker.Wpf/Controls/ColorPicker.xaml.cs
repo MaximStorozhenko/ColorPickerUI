@@ -62,29 +62,42 @@ namespace ColorPicker.Wpf.Controls
 
         private void UpdateVisuals()
         {
-            if (PreviewBorder is null || HexTextBox is null)
-                return;
+            if (PreviewBorder is null || HexTextBox is null) return;
 
             PreviewBorder.Background = new SolidColorBrush(SelectedColor);
             HexTextBox.Text = ColorHelper.ToHex(SelectedColor);
             ErrorTextBlock.Visibility = Visibility.Collapsed;
 
-            if (_isUpdatingFromHsv) return;
-
-            (double Hue, double Saturation, double Value) hsv = ColorHelper.ToHsv(SelectedColor);
-
             _isUpdating = true;
 
-            hue = hsv.Hue;
-            saturation = hsv.Saturation;
-            value = hsv.Value;
+            try
+            {
+                if (!_isUpdatingFromHsv)
+                {
+                    (double Hue, double Saturation, double Value) hsv = ColorHelper.ToHsv(SelectedColor);
 
-            HueSlider.Value = hue;
+                    hue = hsv.Hue;
+                    saturation = hsv.Saturation;
+                    value = hsv.Value;
 
-            _isUpdating = false;
+                }
 
-            UpdateSvBackground();
-            UpdateMarker();
+                HueSlider.Value = hue;
+                SaturationSlider.Value = saturation * 100;
+                ValueSlider.Value = value * 100;
+
+                RedSlider.Value = SelectedColor.R;
+                GreenSlider.Value = SelectedColor.G;
+                BlueSlider.Value = SelectedColor.B;
+                AlphaSlider.Value = SelectedColor.A;
+
+                UpdateSvBackground();
+                UpdateMarker();
+            }
+            finally
+            {
+                _isUpdating = false;
+            }
         }
 
         private void SetColor(Color color)
@@ -151,15 +164,22 @@ namespace ColorPicker.Wpf.Controls
 
         private void UpdateSelectedColorFromHsv()
         {
-            Color rgb = ColorHelper.FromHsv(
-                hue, saturation, value);
+            Color rgb = ColorHelper.FromHsv(hue, saturation, value);
 
             _isUpdatingFromHsv = true;
 
-            SetColor(Color.FromArgb(
-                SelectedColor.A, rgb.R, rgb.G, rgb.B));
-
-            _isUpdatingFromHsv = false;
+            try
+            {
+                SetColor(Color.FromArgb(
+                    (byte)AlphaSlider.Value,
+                    rgb.R,
+                    rgb.G,
+                    rgb.B));
+            }
+            finally
+            {
+                _isUpdatingFromHsv = false;
+            }
         }
 
         private void SelectColorAt(Point position)
@@ -179,14 +199,45 @@ namespace ColorPicker.Wpf.Controls
             UpdateSelectedColorFromHsv();
         }
 
-        private void HueSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void HsvSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (_isUpdating || SvCanvas is null) return;
+            if (_isUpdating || HueSlider is null || SaturationSlider is null ||
+                ValueSlider is null || AlphaSlider is null || SvCanvas is null) return;
 
             hue = HueSlider.Value;
+            saturation = SaturationSlider.Value / 100.0;
+            value = ValueSlider.Value / 100.0;
 
             UpdateSvBackground();
             UpdateSelectedColorFromHsv();
+
+            Color rgb = ColorHelper.FromHsv(hue, saturation, value);
+
+            SetColor(Color.FromArgb((byte)AlphaSlider.Value, rgb.R, rgb.G, rgb.B));
+        }
+
+        private void RgbSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (_isUpdating || RedSlider is null || GreenSlider is null ||
+                BlueSlider is null || AlphaSlider is null) return;
+
+                SetColor(Color.FromArgb(
+                (byte)AlphaSlider.Value,
+                (byte)RedSlider.Value,
+                (byte)GreenSlider.Value,
+                (byte)BlueSlider.Value));
+        }
+
+        private void AlphaSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (_isUpdating || AlphaSlider is null)
+                return;
+
+            SetColor(Color.FromArgb(
+                (byte)AlphaSlider.Value,
+                SelectedColor.R,
+                SelectedColor.G,
+                SelectedColor.B));
         }
 
         private void SvCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
