@@ -6,6 +6,7 @@
         Material,
         Pastel,
         Grayscale,
-        Extended
+        Extended,
+        Custom
     }
 }

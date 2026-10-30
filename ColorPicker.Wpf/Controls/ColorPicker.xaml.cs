@@ -2,6 +2,7 @@
 using ColorPicker.Wpf.Helpers;
 using ColorPicker.Wpf.Models;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -66,6 +67,19 @@ namespace ColorPicker.Wpf.Controls
             get => (PresetColorShape)GetValue(PresetColorShapeProperty);
             set => SetValue(PresetColorShapeProperty, value);
         }
+
+        public static readonly DependencyProperty PresetCustomColorsProperty =
+            DependencyProperty.Register(
+                nameof(PresetCustomColors),
+                typeof(ObservableCollection<Color>),
+                typeof(ColorPicker),
+                new PropertyMetadata(null, OnPresetCustomColorsChanged));
+
+        public ObservableCollection<Color>? PresetCustomColors
+        {
+            get => (ObservableCollection<Color>?)GetValue(PresetCustomColorsProperty);
+            set => SetValue(PresetCustomColorsProperty, value);
+        }
         #endregion
 
         private double hue = 210;
@@ -76,14 +90,35 @@ namespace ColorPicker.Wpf.Controls
         private bool _isUpdating;
 
         private bool _isUpdatingFromHsv;
-
-        public ObservableCollection<Color> PresetColors { get; } = new();
+                
+        public ObservableCollection<Color> DisplayedPresetColors { get; } = new();
 
         public ColorPicker()
         {
             InitializeComponent();
+
+            SetCurrentValue(PresetCustomColorsProperty, new ObservableCollection<Color>());
+
             UpdateVisuals();
             UpdatePresetColors();
+        }
+
+        private void UpdatePresetColors()
+        {
+            DisplayedPresetColors.Clear();
+
+            if(Palette == ColorPaletteType.Custom)
+            {
+                if(PresetCustomColors is not null)
+                    foreach(Color color in PresetCustomColors)
+                        DisplayedPresetColors.Add(color);
+
+                return;
+            }
+
+            if(ColorPalettes.All.TryGetValue(Palette, out ColorPalette palette))
+                foreach(Color color in palette.Colors)
+                    DisplayedPresetColors.Add(color);
         }
 
         private static void OnPaletteChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -92,19 +127,29 @@ namespace ColorPicker.Wpf.Controls
                 picker.UpdatePresetColors();
         }
 
-        private void UpdatePresetColors()
-        {
-            PresetColors.Clear();
-
-            if(ColorPalettes.All.TryGetValue(Palette, out ColorPalette palette))
-                foreach(Color color in palette.Colors)
-                    PresetColors.Add(color);
-        }
-
         private static void OnSelectedColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is ColorPicker picker)
                 picker.UpdateVisuals();
+        }
+
+        private static void OnPresetCustomColorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is not ColorPicker picker)
+                return;
+
+            if (e.OldValue is ObservableCollection<Color> oldColors)
+                oldColors.CollectionChanged -= picker.PresetCustomColors_CollectionChanged;
+
+            if (e.NewValue is ObservableCollection<Color> newColors)
+                newColors.CollectionChanged += picker.PresetCustomColors_CollectionChanged;
+
+            picker.UpdatePresetColors();
+        }
+
+        private void PresetCustomColors_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            UpdatePresetColors();
         }
 
         private void UpdateVisuals()
