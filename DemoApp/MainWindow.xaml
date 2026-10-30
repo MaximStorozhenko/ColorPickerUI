@@ -25,8 +25,16 @@
 
             <controls:ColorPicker
                 SelectedColor="{Binding SelectedColor, Mode=TwoWay}"
-                ShowPresetColors="Visible"/>
-                
+                ShowPresetColors="Visible" Palette="Custom"
+                PresetColorShape="Circle">
+                <controls:ColorPicker.PresetCustomColors>
+                    <Color>#FFFF0000</Color>
+                    <Color>#FF10B981</Color>
+                    <Color>#FFF59E0B</Color>
+                    <Color>#FFFF0000</Color>
+                </controls:ColorPicker.PresetCustomColors>
+            </controls:ColorPicker>
+
         </ScrollViewer>
 
 

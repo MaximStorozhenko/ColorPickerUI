@@ -10,7 +10,7 @@
 
     <UserControl.Resources>
         <converters:SliderValuePositionConverter x:Key="SliderValuePositionConverter"/>
-
+        <converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
 
         <DrawingBrush x:Key="CheckerboardBrush"
                       TileMode="Tile"
@@ -155,14 +155,14 @@
                         <Setter Property="Margin" Value="2 0"/>
                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
                         <Setter Property="VerticalContentAlignment" Value="Center"/>
-
+                        
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type TabItem}">
                                     <Border x:Name="TabBorder"
                                             Background="{TemplateBinding Background}"
                                             Padding="{TemplateBinding Padding}"
-                                            CornerRadius="8">
+                                            CornerRadius="8" Cursor="Hand">
                                         <ContentPresenter ContentSource="Header"
                                                           HorizontalAlignment="Stretch"                                                          
                                                           VerticalAlignment="Center"
@@ -217,7 +217,7 @@
 
                 <!--HSV TAB-->
                 <TabItem Header="HSV">
-                    <StackPanel>
+                    <StackPanel Background="Transparent">
 
                         <TextBlock Text="Hue" Foreground="#FFBDC1C6"/>
 
@@ -331,7 +331,7 @@
 
                 <!--RGB TAB-->
                 <TabItem Header="RGB">
-                    <StackPanel>
+                    <StackPanel Background="Transparent">
 
                         <TextBlock Text="Red"  Foreground="#FFBDC1C6"/>
 
@@ -517,81 +517,60 @@
                            Foreground="#FFBDC1C6"
                            Margin="0 5 0 0"/>
 
-                <UniformGrid Columns="6" Rows="2" HorizontalAlignment="Center">
+                <ItemsControl ItemsSource="{Binding DisplayedPresetColors, RelativeSource={RelativeSource AncestorType={x:Type local:ColorPicker}}}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="8" HorizontalAlignment="Center"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
 
-                    <Button Tag="#F44336"
-                            Background="#FFF44336"
-                            Height="30" Width="30" Margin="5"
-                            Click="PresetColorButton_Click"
-                            ToolTip="#F44336"/>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Width="30" Height="30" Margin="5"
+                                    Background="{Binding Converter={StaticResource ColorToBrushConverter}}"
+                                    BorderThickness="1" BorderBrush="#FF5F6368"
+                                    Tag="{Binding}"
+                                    Cursor="Hand" Click="PresetColorButton_Click">
+                                
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="ColorBorder"
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="4" SnapsToDevicePixels="True">
+                                            <Border.Effect>
+                                                <DropShadowEffect BlurRadius="3" ShadowDepth="0" Opacity="0"/>
+                                            </Border.Effect>
+                                        </Border>
 
-                    <Button Tag="#FF9800"
-                            Background="#FFFF9800"
-                            Height="30" Width="30" Margin="5"
-                            Click="PresetColorButton_Click"
-                            ToolTip="#FF9800"/>
+                                        <ControlTemplate.Triggers>
 
-                    <Button Tag="#FFEB3B"
-                            Background="#FFFFEB3B"
-                            Height="30" Width="30" Margin="5"
-                            Click="PresetColorButton_Click"
-                            ToolTip="#FFEB3B"/>
+                                            <DataTrigger Binding="{Binding PresetColorShape, RelativeSource={RelativeSource AncestorType={x:Type local:ColorPicker}}}"
+                                                         Value="Circle">
+                                                <Setter TargetName="ColorBorder" Property="CornerRadius" Value="50"/>
+                                            </DataTrigger>
+                                            
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="ColorBorder" Property="BorderBrush" Value="White"/>
+                                                <Setter TargetName="ColorBorder" Property="BorderThickness" Value="2"/>
+                                            </Trigger>
+                                            
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="ColorBorder" Property="Opacity" Value="0.7"/>
+                                            </Trigger>
+                                            
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="ColorBorder" Property="Opacity" Value="0.4"/>
+                                            </Trigger>
 
-                    <Button Tag="#4CAF50"
-                            Background="#FF4CAF50"
-                            Height="30" Width="30" Margin="5"
-                            Click="PresetColorButton_Click"
-                            ToolTip="#4CAF50"/>
-
-                    <Button Tag="#00BCD4"
-                            Background="#FF00BCD4"
-                            Height="30" Width="30" Margin="5"
-                            Click="PresetColorButton_Click"
-                            ToolTip="#00BCD4"/>
-
-                    <Button Tag="#2196F3"
-                            Background="#FF2196F3"
-                            Height="30" Width="30" Margin="5"
-                            Click="PresetColorButton_Click"
-                            ToolTip="#2196F3"/>
-
-                    <Button Tag="#3F51B5"
-                            Background="#FF3F51B5"
-                            Height="30" Width="30" Margin="5"
-                            Click="PresetColorButton_Click"
-                            ToolTip="#3F51B5"/>
-
-                    <Button Tag="#9C27B0"
-                            Background="#FF9C27B0"
-                            Height="30" Width="30" Margin="5"
-                            Click="PresetColorButton_Click"
-                            ToolTip="#9C27B0"/>
-
-                    <Button Tag="#E91E63"
-                            Background="#FFE91E63"
-                            Height="30" Width="30" Margin="5"
-                            Click="PresetColorButton_Click"
-                            ToolTip="#E91E63"/>
-
-                    <Button Tag="#FFFFFF"
-                            Background="#FFFFFFFF"
-                            Height="30" Width="30" Margin="5"
-                            Click="PresetColorButton_Click"
-                            ToolTip="#FFFFFF"/>
-
-                    <Button Tag="#9E9E9E"
-                            Background="#FF9E9E9E"
-                            Height="30" Width="30" Margin="5"
-                            Click="PresetColorButton_Click"
-                            ToolTip="#9E9E9E"/>
-
-                    <Button Tag="#212121"
-                            Background="#FF212121"
-                            Height="30" Width="30" Margin="5"
-                            Click="PresetColorButton_Click"
-                            ToolTip="#212121"/>
-
-                </UniformGrid>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
         </StackPanel>
     </Border>
