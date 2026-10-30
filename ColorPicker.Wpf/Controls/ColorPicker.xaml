@@ -11,6 +11,31 @@
     <UserControl.Resources>
         <converters:SliderValuePositionConverter x:Key="SliderValuePositionConverter"/>
 
+
+        <DrawingBrush x:Key="CheckerboardBrush"
+                      TileMode="Tile"
+                      Viewport="0 0 16 16" ViewportUnits="Absolute"
+                      Viewbox="0 0 16 16" ViewboxUnits="Absolute" Stretch="None">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="White">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry Rect="0 0 16 16"/>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+
+                    <GeometryDrawing Brush="#FFCCCCCC">
+                        <GeometryDrawing.Geometry>
+                            <GeometryGroup>
+                                <RectangleGeometry Rect="0 0 8 8"/>
+                                <RectangleGeometry Rect="8 8 8 8"/>
+                            </GeometryGroup>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
         <Style x:Key="ColorSliderStyle" TargetType="{x:Type Slider}">
             <Setter Property="Height" Value="22"/>
             <Setter Property="Background" Value="#FF9A9A9B"/>
@@ -22,7 +47,7 @@
                             <!--Colored path-->
                             <Border Height="8" CornerRadius="4" Background="{TemplateBinding Background}"/>
 
-                            <!--Slider-->
+                            <!--Thumb-->
                             <Track x:Name="PART_Track" IsDirectionReversed="{TemplateBinding IsDirectionReversed}">
                                 <Track.Thumb>
                                     <Thumb Width="20" Height="20" Background="#FF0067C0" BorderBrush="#FF454545" BorderThickness="3">
@@ -62,33 +87,6 @@
             <!--Preview of the selected color-->
             <Border Height="50" CornerRadius="8"
                     BorderBrush="#FF5F6368" BorderThickness="1" ClipToBounds="True">
-                <Border.Resources>
-                    <DrawingBrush x:Key="CheckerboardBrush"
-                      TileMode="Tile"
-                      Viewport="0 0 16 16" ViewportUnits="Absolute"
-                      Viewbox="0 0 16 16" ViewboxUnits="Absolute"
-                      Stretch="None">
-                        <DrawingBrush.Drawing>
-                            <DrawingGroup>
-                                <GeometryDrawing Brush="White">
-                                    <GeometryDrawing.Geometry>
-                                        <RectangleGeometry Rect="0 0 16 16"/>
-                                    </GeometryDrawing.Geometry>
-                                </GeometryDrawing>
-
-                                <GeometryDrawing Brush="#FFCCCCCC">
-                                    <GeometryDrawing.Geometry>
-                                        <GeometryGroup>
-                                            <RectangleGeometry Rect="0 0 8 8"/>
-                                            <RectangleGeometry Rect="8 8 8 8"/>
-                                        </GeometryGroup>
-                                    </GeometryDrawing.Geometry>
-                                </GeometryDrawing>
-                            </DrawingGroup>
-                        </DrawingBrush.Drawing>
-                    </DrawingBrush>
-                </Border.Resources>
-
                 <Grid>
                     <!-- Chess background -->
                     <Border Background="{StaticResource CheckerboardBrush}" CornerRadius="7.5"/>
@@ -223,7 +221,7 @@
 
                         <TextBlock Text="Hue" Foreground="#FFBDC1C6"/>
 
-                        <Grid Height="40">
+                        <Grid>
                             <Slider x:Name="HueSlider" Minimum="0" Maximum="359" Value="210"
                                     ValueChanged="HsvSlider_ValueChanged" Margin="0 18 0 0"
                                     Style="{StaticResource ColorSliderStyle}">
@@ -262,9 +260,17 @@
 
                         <TextBlock Text="Saturation" Foreground="#FFBDC1C6"/>
 
-                        <Grid Height="40">
+                        <Grid>
                             <Slider x:Name="SaturationSlider" Minimum="0" Maximum="100" Value="74"
-                                    Margin="0 18 0 0" ValueChanged="HsvSlider_ValueChanged"/>
+                                    Margin="0 18 0 0" ValueChanged="HsvSlider_ValueChanged"
+                                    Style="{StaticResource ColorSliderStyle}">
+                                <Slider.Background>
+                                    <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
+                                        <GradientStop Color="#FF808080" Offset="0"/>
+                                        <GradientStop Color="#FF3B82F6" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Slider.Background>
+                            </Slider>
 
                             <Canvas IsHitTestVisible="False">
                                 <Border Width="35" Height="18" CornerRadius="4"
@@ -289,9 +295,17 @@
 
                         <TextBlock Text="Value" Foreground="#FFBDC1C6"/>
 
-                        <Grid Height="40">
+                        <Grid>
                             <Slider x:Name="ValueSlider" Minimum="0" Maximum="100" Value="96"
-                                    Margin="0 18 0 0" ValueChanged="HsvSlider_ValueChanged"/>
+                                    Margin="0 18 0 0" ValueChanged="HsvSlider_ValueChanged"
+                                    Style="{StaticResource ColorSliderStyle}">
+                                <Slider.Background>
+                                    <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
+                                        <GradientStop Color="Black" Offset="0"/>
+                                        <GradientStop Color="#FF3B82F6" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Slider.Background>
+                            </Slider>
 
                             <Canvas IsHitTestVisible="False">
                                 <Border Width="35" Height="18" CornerRadius="4"
@@ -321,7 +335,7 @@
 
                         <TextBlock Text="Red"  Foreground="#FFBDC1C6"/>
 
-                        <Grid Height="40">
+                        <Grid>
                             <Slider x:Name="RedSlider" Minimum="0" Maximum="255" Value="59" Height="22"
                                     Margin="0 18 0 0" ValueChanged="RgbSlider_ValueChanged"
                                     Style="{StaticResource ColorSliderStyle}">
@@ -355,7 +369,7 @@
 
                         <TextBlock Text="Green" Foreground="#FFBDC1C6"/>
 
-                        <Grid Height="40">
+                        <Grid>
                             <Slider x:Name="GreenSlider" Minimum="0" Maximum="255" Value="130"
                                     Margin="0 18 0 0" ValueChanged="RgbSlider_ValueChanged"
                                     Style="{StaticResource ColorSliderStyle}">
@@ -388,7 +402,7 @@
 
                         <TextBlock Text="Blue" Foreground="#FFBDC1C6"/>
 
-                        <Grid Height="40">
+                        <Grid>
                             <Slider x:Name="BlueSlider" Minimum="0" Maximum="255" Value="246"
                                     Margin="0 18 0 0" ValueChanged="RgbSlider_ValueChanged"
                                     Style="{StaticResource ColorSliderStyle}">
@@ -428,9 +442,22 @@
             <StackPanel Margin="0 5 0 0">
                 <TextBlock Text="Alpha" Foreground="#FFBDC1C6"/>
 
-                <Grid Height="40">
-                    <Slider x:Name="AlphaSlider" Minimum="0" Maximum="255" Value="255"
-                            Margin="0 18 0 0" ValueChanged="AlphaSlider_ValueChanged"/>
+                <Grid>
+                    <Grid>
+                        <Border Height="8" VerticalAlignment="Center" CornerRadius="4" Margin="0 18 0 0" 
+                                Background="{StaticResource CheckerboardBrush}"/>
+                        <Slider x:Name="AlphaSlider" Minimum="0" Maximum="255" Value="255"
+                                Margin="0 18 0 0" ValueChanged="AlphaSlider_ValueChanged"
+                                Style="{StaticResource ColorSliderStyle}">
+                            <Slider.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#003B82F6" Offset="0"/>
+                                    <GradientStop Color="#FF3B82F6" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Slider.Background>
+                        </Slider>
+                    </Grid>
+                    
                     <Canvas IsHitTestVisible="False">
                         <Border Width="35" Height="18" CornerRadius="4"
                                 Background="#FF303134" BorderBrush="#FF5F6368" BorderThickness="1">

@@ -91,6 +91,7 @@ namespace ColorPicker.Wpf.Controls
                 BlueSlider.Value = SelectedColor.B;
                 AlphaSlider.Value = SelectedColor.A;
 
+                UpdateSliderGradients();
                 UpdateSvBackground();
                 UpdateMarker();
             }
@@ -269,6 +270,26 @@ namespace ColorPicker.Wpf.Controls
         private void SvCanvas_LostMouseCapture(object sender, MouseEventArgs e)
         {
             _isDragging = false;
+        }
+
+        private void UpdateSliderGradients()
+        {
+            Color pureHue = ColorHelper.FromHsv(hue, 1, 1);
+            Color currentSaturation = ColorHelper.FromHsv(hue, 1, value);
+            Color currentValue = ColorHelper.FromHsv(hue, saturation, 1);
+
+            SaturationSlider.Background = new LinearGradientBrush(
+                ColorHelper.FromHsv(hue, 0, value), currentSaturation, new Point(0, 0.5), new Point(1, 0.5));
+
+            ValueSlider.Background = new LinearGradientBrush(
+                Colors.Black, currentValue, new Point(0, 0.5), new Point(1, 0.5));
+
+            Color alphaColor = SelectedColor;
+
+            AlphaSlider.Background = new LinearGradientBrush(
+                Color.FromArgb(0, alphaColor.R, alphaColor.G, alphaColor.B),
+                Color.FromArgb(255, alphaColor.R, alphaColor.G, alphaColor.B),
+                new Point(0, 0.5), new Point(1, 0.5));
         }
     }
 }
