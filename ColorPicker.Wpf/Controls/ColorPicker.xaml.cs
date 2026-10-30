@@ -53,6 +53,19 @@ namespace ColorPicker.Wpf.Controls
             get => (ColorPaletteType)GetValue(PaletteProperty);
             set => SetValue(PaletteProperty, value);
         }
+
+        public static readonly DependencyProperty PresetColorShapeProperty =
+            DependencyProperty.Register(
+                nameof(PresetColorShape),
+                typeof(PresetColorShape),
+                typeof(ColorPicker),
+                new PropertyMetadata(PresetColorShape.Circle));
+
+        public PresetColorShape PresetColorShape
+        {
+            get => (PresetColorShape)GetValue(PresetColorShapeProperty);
+            set => SetValue(PresetColorShapeProperty, value);
+        }
         #endregion
 
         private double hue = 210;

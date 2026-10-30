@@ -25,7 +25,8 @@
 
             <controls:ColorPicker
                 SelectedColor="{Binding SelectedColor, Mode=TwoWay}"
-                ShowPresetColors="Visible" Palette="Classic"/>
+                ShowPresetColors="Visible" Palette="Classic"
+                PresetColorShape="Circle"/>
                 
         </ScrollViewer>
 

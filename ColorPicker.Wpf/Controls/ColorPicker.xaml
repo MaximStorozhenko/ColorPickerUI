@@ -155,14 +155,14 @@
                         <Setter Property="Margin" Value="2 0"/>
                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
                         <Setter Property="VerticalContentAlignment" Value="Center"/>
-
+                        
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type TabItem}">
                                     <Border x:Name="TabBorder"
                                             Background="{TemplateBinding Background}"
                                             Padding="{TemplateBinding Padding}"
-                                            CornerRadius="8">
+                                            CornerRadius="8" Cursor="Hand">
                                         <ContentPresenter ContentSource="Header"
                                                           HorizontalAlignment="Stretch"                                                          
                                                           VerticalAlignment="Center"
@@ -217,7 +217,7 @@
 
                 <!--HSV TAB-->
                 <TabItem Header="HSV">
-                    <StackPanel>
+                    <StackPanel Background="Transparent">
 
                         <TextBlock Text="Hue" Foreground="#FFBDC1C6"/>
 
@@ -331,7 +331,7 @@
 
                 <!--RGB TAB-->
                 <TabItem Header="RGB">
-                    <StackPanel>
+                    <StackPanel Background="Transparent">
 
                         <TextBlock Text="Red"  Foreground="#FFBDC1C6"/>
 
@@ -528,8 +528,11 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Button Width="30" Height="30" Margin="5"
-                                    Background="{Binding Converter={StaticResource ColorToBrushConverter}}" BorderThickness="1" BorderBrush="#FF5F6368"
-                                    Cursor="Hand" Click="PresetColorButton_Click" Tag="{Binding}">
+                                    Background="{Binding Converter={StaticResource ColorToBrushConverter}}"
+                                    BorderThickness="1" BorderBrush="#FF5F6368"
+                                    Tag="{Binding}"
+                                    Cursor="Hand" Click="PresetColorButton_Click">
+                                
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border x:Name="ColorBorder"
@@ -544,6 +547,11 @@
 
                                         <ControlTemplate.Triggers>
 
+                                            <DataTrigger Binding="{Binding PresetColorShape, RelativeSource={RelativeSource AncestorType={x:Type local:ColorPicker}}}"
+                                                         Value="Circle">
+                                                <Setter TargetName="ColorBorder" Property="CornerRadius" Value="50"/>
+                                            </DataTrigger>
+                                            
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter TargetName="ColorBorder" Property="BorderBrush" Value="White"/>
                                                 <Setter TargetName="ColorBorder" Property="BorderThickness" Value="2"/>
