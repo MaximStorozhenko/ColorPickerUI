@@ -1,4 +1,6 @@
-﻿namespace ColorPickerUI.Enums
+﻿using ColorPickerUI.Controls;
+
+namespace ColorPickerUI.Enums
 {
     /// <summary>
     /// Specifies the preset color palette used by the color picker.
