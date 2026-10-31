@@ -1,4 +1,4 @@
-﻿using ColorPicker.Wpf.Helpers;
+﻿using ColorPickerUI.Helpers;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;

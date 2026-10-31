@@ -1,4 +1,4 @@
-﻿namespace ColorPicker.Wpf.Enums
+﻿namespace ColorPickerUI.Enums
 {
     /// <summary>
     /// Specifies the shape used to display preset color items.

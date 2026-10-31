@@ -1,6 +1,6 @@
-﻿using ColorPicker.Wpf.Enums;
-using ColorPicker.Wpf.Helpers;
-using ColorPicker.Wpf.Models;
+﻿using ColorPickerUI.Enums;
+using ColorPickerUI.Helpers;
+using ColorPickerUI.Models;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace ColorPicker.Wpf.Controls
+namespace ColorPickerUI.Controls
 {
     /// <summary>
     /// A customizable WPF color picker control that allows users

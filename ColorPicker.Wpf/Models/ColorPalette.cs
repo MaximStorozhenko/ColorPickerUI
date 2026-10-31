@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace ColorPicker.Wpf.Models
+namespace ColorPickerUI.Models
 {
     public sealed class ColorPalette
     {

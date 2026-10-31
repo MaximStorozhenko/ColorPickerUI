@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
 
-namespace ColorPicker.Wpf.Converters
+namespace ColorPickerUI.Converters
 {
     internal class SliderValuePositionConverter : IMultiValueConverter
     {

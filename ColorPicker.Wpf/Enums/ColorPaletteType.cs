@@ -1,4 +1,4 @@
-﻿namespace ColorPicker.Wpf.Enums
+﻿namespace ColorPickerUI.Enums
 {
     /// <summary>
     /// Specifies the preset color palette used by the color picker.

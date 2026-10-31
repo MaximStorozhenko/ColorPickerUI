@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Media;
 
-namespace ColorPicker.Wpf.Helpers
+namespace ColorPickerUI.Helpers
 {
     internal static class ColorHelper
     {

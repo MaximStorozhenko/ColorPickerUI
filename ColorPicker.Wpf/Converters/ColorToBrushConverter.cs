@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace ColorPicker.Wpf.Converters
+namespace ColorPickerUI.Converters
 {
     internal class ColorToBrushConverter : IValueConverter
     {

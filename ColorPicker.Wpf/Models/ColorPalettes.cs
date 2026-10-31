@@ -1,7 +1,7 @@
-﻿using ColorPicker.Wpf.Enums;
+﻿using ColorPickerUI.Enums;
 using System.Windows.Media;
 
-namespace ColorPicker.Wpf.Models
+namespace ColorPickerUI.Models
 {
     internal static class ColorPalettes
     {
