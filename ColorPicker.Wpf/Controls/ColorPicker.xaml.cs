@@ -154,7 +154,10 @@ namespace ColorPicker.Wpf.Controls
 
         private void UpdateVisuals()
         {
-            if (PreviewBorder is null || HexTextBox is null) return;
+            if (PreviewBorder is null || HexTextBox is null || ErrorTextBlock is null ||
+                HueSlider is null || SaturationSlider is null || ValueSlider is null ||
+                RedSlider is null || GreenSlider is null || BlueSlider is null ||
+                AlphaSlider is null || SvCanvas is null || SvMarker is null) return;
 
             PreviewBorder.Background = new SolidColorBrush(SelectedColor);
             HexTextBox.Text = ColorHelper.ToHex(SelectedColor);
@@ -171,7 +174,6 @@ namespace ColorPicker.Wpf.Controls
                     hue = hsv.Hue;
                     saturation = hsv.Saturation;
                     value = hsv.Value;
-
                 }
 
                 HueSlider.Value = hue;
@@ -260,11 +262,7 @@ namespace ColorPicker.Wpf.Controls
 
             try
             {
-                SetColor(Color.FromArgb(
-                    (byte)AlphaSlider.Value,
-                    rgb.R,
-                    rgb.G,
-                    rgb.B));
+                SetColor(Color.FromArgb((byte)AlphaSlider.Value, rgb.R, rgb.G, rgb.B));
             }
             finally
             {
@@ -300,10 +298,7 @@ namespace ColorPicker.Wpf.Controls
 
             UpdateSvBackground();
             UpdateSelectedColorFromHsv();
-
-            Color rgb = ColorHelper.FromHsv(hue, saturation, value);
-
-            SetColor(Color.FromArgb((byte)AlphaSlider.Value, rgb.R, rgb.G, rgb.B));
+            UpdateMarker();
         }
 
         private void RgbSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -363,15 +358,16 @@ namespace ColorPicker.Wpf.Controls
 
         private void UpdateSliderGradients()
         {
-            Color pureHue = ColorHelper.FromHsv(hue, 1, 1);
             Color currentSaturation = ColorHelper.FromHsv(hue, 1, value);
             Color currentValue = ColorHelper.FromHsv(hue, saturation, 1);
 
             SaturationSlider.Background = new LinearGradientBrush(
-                ColorHelper.FromHsv(hue, 0, value), currentSaturation, new Point(0, 0.5), new Point(1, 0.5));
+                ColorHelper.FromHsv(hue, 0, value), currentSaturation,
+                new Point(0, 0.5), new Point(1, 0.5));
 
             ValueSlider.Background = new LinearGradientBrush(
-                Colors.Black, currentValue, new Point(0, 0.5), new Point(1, 0.5));
+                Colors.Black, currentValue,
+                new Point(0, 0.5), new Point(1, 0.5));
 
             Color alphaColor = SelectedColor;
 
