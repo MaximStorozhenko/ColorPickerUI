@@ -3,9 +3,9 @@ using System.Windows.Media;
 
 namespace ColorPicker.Wpf.Models
 {
-    public class ColorPalettes
+    internal static class ColorPalettes
     {
-        public static readonly Dictionary<ColorPaletteType, ColorPalette> All = new()
+        internal static readonly Dictionary<ColorPaletteType, ColorPalette> All = new()
         {
             [ColorPaletteType.Classic] = new ColorPalette
             {

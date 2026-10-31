@@ -222,7 +222,7 @@
                         <TextBlock Text="Hue" Foreground="#FFBDC1C6"/>
 
                         <Grid>
-                            <Slider x:Name="HueSlider" Minimum="0" Maximum="359" Value="210"
+                            <Slider x:Name="HueSlider" Minimum="0" Maximum="359"
                                     ValueChanged="HsvSlider_ValueChanged" Margin="0 18 0 0"
                                     Style="{StaticResource ColorSliderStyle}">
                                 <Slider.Background>
@@ -261,7 +261,7 @@
                         <TextBlock Text="Saturation" Foreground="#FFBDC1C6"/>
 
                         <Grid>
-                            <Slider x:Name="SaturationSlider" Minimum="0" Maximum="100" Value="74"
+                            <Slider x:Name="SaturationSlider" Minimum="0" Maximum="100"
                                     Margin="0 18 0 0" ValueChanged="HsvSlider_ValueChanged"
                                     Style="{StaticResource ColorSliderStyle}">
                                 <Slider.Background>
@@ -296,7 +296,7 @@
                         <TextBlock Text="Value" Foreground="#FFBDC1C6"/>
 
                         <Grid>
-                            <Slider x:Name="ValueSlider" Minimum="0" Maximum="100" Value="96"
+                            <Slider x:Name="ValueSlider" Minimum="0" Maximum="100"
                                     Margin="0 18 0 0" ValueChanged="HsvSlider_ValueChanged"
                                     Style="{StaticResource ColorSliderStyle}">
                                 <Slider.Background>
@@ -336,7 +336,7 @@
                         <TextBlock Text="Red"  Foreground="#FFBDC1C6"/>
 
                         <Grid>
-                            <Slider x:Name="RedSlider" Minimum="0" Maximum="255" Value="59" Height="22"
+                            <Slider x:Name="RedSlider" Minimum="0" Maximum="255" Height="22"
                                     Margin="0 18 0 0" ValueChanged="RgbSlider_ValueChanged"
                                     Style="{StaticResource ColorSliderStyle}">
                                 <Slider.Background>
@@ -370,7 +370,7 @@
                         <TextBlock Text="Green" Foreground="#FFBDC1C6"/>
 
                         <Grid>
-                            <Slider x:Name="GreenSlider" Minimum="0" Maximum="255" Value="130"
+                            <Slider x:Name="GreenSlider" Minimum="0" Maximum="255"
                                     Margin="0 18 0 0" ValueChanged="RgbSlider_ValueChanged"
                                     Style="{StaticResource ColorSliderStyle}">
                                 <Slider.Background>
@@ -403,7 +403,7 @@
                         <TextBlock Text="Blue" Foreground="#FFBDC1C6"/>
 
                         <Grid>
-                            <Slider x:Name="BlueSlider" Minimum="0" Maximum="255" Value="246"
+                            <Slider x:Name="BlueSlider" Minimum="0" Maximum="255"
                                     Margin="0 18 0 0" ValueChanged="RgbSlider_ValueChanged"
                                     Style="{StaticResource ColorSliderStyle}">
                                 <Slider.Background>
@@ -446,7 +446,7 @@
                     <Grid>
                         <Border Height="8" VerticalAlignment="Center" CornerRadius="4" Margin="0 18 0 0" 
                                 Background="{StaticResource CheckerboardBrush}"/>
-                        <Slider x:Name="AlphaSlider" Minimum="0" Maximum="255" Value="255"
+                        <Slider x:Name="AlphaSlider" Minimum="0" Maximum="255"
                                 Margin="0 18 0 0" ValueChanged="AlphaSlider_ValueChanged"
                                 Style="{StaticResource ColorSliderStyle}">
                             <Slider.Background>
@@ -492,7 +492,7 @@
                          VerticalContentAlignment="Center"
                          Background="#FF303134" Foreground="#FFE8EAED"
                          BorderBrush="#FF5F6368" BorderThickness="1"
-                         FontFamily="Consolas" Text="#3B82F6"
+                         FontFamily="Consolas"
                          KeyDown="HexTextBox_KeyDown"/>
 
                 <Button Grid.Column="1" Content="Apply"

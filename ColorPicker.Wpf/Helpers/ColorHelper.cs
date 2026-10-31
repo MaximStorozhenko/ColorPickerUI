@@ -3,16 +3,16 @@ using System.Windows.Media;
 
 namespace ColorPicker.Wpf.Helpers
 {
-    public static class ColorHelper
+    internal static class ColorHelper
     {
-        public static string ToHex(Color color)
+        internal static string ToHex(Color color)
         {
             return color.A == 255
                 ? $"#{color.R:X2}{color.G:X2}{color.B:X2}"
                 : $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}";
         }
 
-        public static bool TryParseHex(string? hex, out Color color)
+        internal static bool TryParseHex(string? hex, out Color color)
         {
             color = Colors.Transparent;
 
@@ -47,8 +47,17 @@ namespace ColorPicker.Wpf.Helpers
             }
         }
 
-        public static Color FromHsv(double hue, double saturation, double value)
+        internal static Color FromHsv(double hue, double saturation, double value)
         {
+            if (!double.IsFinite(hue))
+                throw new ArgumentOutOfRangeException(nameof(hue));
+
+            if (!double.IsFinite(saturation))
+                throw new ArgumentOutOfRangeException(nameof(saturation));
+
+            if (!double.IsFinite(value))
+                throw new ArgumentOutOfRangeException(nameof(value));
+
             hue = ((hue % 360) + 360) % 360;
             saturation = Math.Clamp(saturation, 0, 1);
             value = Math.Clamp(value, 0, 1);
@@ -78,7 +87,7 @@ namespace ColorPicker.Wpf.Helpers
                 ToByte((b + m) * 255));
         }
 
-        public static (double Hue, double Saturation, double Value) ToHsv(Color color)
+        internal static (double Hue, double Saturation, double Value) ToHsv(Color color)
         {
             double r = color.R / 255.0;
             double g = color.G / 255.0;
@@ -108,12 +117,9 @@ namespace ColorPicker.Wpf.Helpers
             return (hue, saturation, max);
         }
 
-        private static byte ToByte(double value)
+        internal static byte ToByte(double value)
         {
-            return (byte)Math.Clamp(
-                (int)Math.Round(value),
-                0,
-                255);
+            return (byte)Math.Clamp((int)Math.Round(value), 0, 255);
         }
     }
 }

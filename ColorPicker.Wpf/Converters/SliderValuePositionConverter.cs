@@ -3,7 +3,7 @@ using System.Windows.Data;
 
 namespace ColorPicker.Wpf.Converters
 {
-    public class SliderValuePositionConverter : IMultiValueConverter
+    internal class SliderValuePositionConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
@@ -29,7 +29,9 @@ namespace ColorPicker.Wpf.Converters
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return targetTypes
+                .Select(_ => Binding.DoNothing)
+                .ToArray();
         }
     }
 }

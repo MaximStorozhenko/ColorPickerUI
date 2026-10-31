@@ -46,8 +46,8 @@ namespace DemoApp
             if (strColor is not string hex)
                 return;
 
-            if (ColorHelper.TryParseHex(hex, out Color color))
-                SelectedColor = color;
+            //if (ColorHelper.TryParseHex(hex, out Color color))
+            //    SelectedColor = color;
         }
     }
 }
