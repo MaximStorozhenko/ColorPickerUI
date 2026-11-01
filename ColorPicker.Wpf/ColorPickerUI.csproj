@@ -14,7 +14,13 @@
 		<Authors>Maxim Storozhenko</Authors>
 		<Description>A customizable WPF color picker control with HSV, RGB, HEX and preset color palettes.</Description>
 		<PackageTags>WPF;ColorPicker;Color;ColorSelection</PackageTags>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="../LICENSE"
+			  Pack="true"
+			  PackagePath="" />
+	</ItemGroup>
 
 </Project>
