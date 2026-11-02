@@ -3,26 +3,35 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controls="clr-namespace:ColorPicker.Wpf.Controls;assembly=ColorPicker.Wpf"
+        xmlns:controls="clr-namespace:ColorPickerUI.Controls;assembly=ColorPickerUI"
         xmlns:local="clr-namespace:DemoApp"
         mc:Ignorable="d"
-        Title="ColorPicker Demo" Width="780" Height="560"
+        Title="ColorPicker Demo" Width="650"
         MinWidth="650" MinHeight="480"
         WindowStartupLocation="CenterScreen" Background="#FF18191C">
 
-    <Grid Margin="30">
+    <Grid Margin="3">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0"
-                    VerticalAlignment="Center">
+        <ScrollViewer Grid.Column="0"
+                VerticalScrollBarVisibility="Auto"
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalAlignment="Center">
 
             <controls:ColorPicker
-                SelectedColor="{Binding SelectedColor, Mode=TwoWay}"/>
+                SelectedColor="{Binding SelectedColor, Mode=TwoWay}"
+                ShowPresetColors="Visible" Palette="Custom"
+                PresetColorShape="Circle">
+                <controls:ColorPicker.PresetCustomColors>
+                    <Color>#FFF59E0B</Color>
+                    <Color>#FFFF0000</Color>
+                </controls:ColorPicker.PresetCustomColors>
+            </controls:ColorPicker>
 
-        </StackPanel>
+        </ScrollViewer>
 
         <StackPanel Grid.Column="1"
                     Margin="28,0,0,0"
@@ -37,8 +46,24 @@
                        Foreground="#FF9AA0A6"
                        FontSize="13"
                        Margin="0,8,0,24"/>
-            
-            <!--Background="#FF202124"-->
+
+
+            <StackPanel Orientation="Horizontal">
+                <Button Tag="#F44336"
+                        Background="#FFF44336"
+                        Height="30" Width="30" Margin="5"
+                        Command="{Binding SetColorCommand}"
+                        CommandParameter="#F44336"
+                        ToolTip="#F44336"/>
+
+                <Button Tag="#FF9800"
+                        Background="#FFFF9800"
+                        Height="30" Width="30" Margin="5"
+                        Command="{Binding SetColorCommand}"
+                        CommandParameter="#FF9800"
+                        ToolTip="#FF9800"/>
+            </StackPanel>
+
             <Border 
                     BorderBrush="#FF3C4043"
                     BorderThickness="1"

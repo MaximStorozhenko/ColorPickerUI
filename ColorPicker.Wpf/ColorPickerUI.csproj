@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+		<AssemblyName>ColorPickerUI</AssemblyName>
+		<RootNamespace>ColorPickerUI</RootNamespace>
+
+		<PackageId>ColorPickerUI</PackageId>
+		<Version>0.1.0</Version>
+		<Authors>Maxim Storozhenko</Authors>
+		<Description>A customizable WPF color picker control with HSV, RGB, HEX and preset color palettes.</Description>
+		<PackageTags>WPF;ColorPicker;Color;ColorSelection</PackageTags>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="../LICENSE"
+			  Pack="true"
+			  PackagePath="" />
+	</ItemGroup>
+
+</Project>

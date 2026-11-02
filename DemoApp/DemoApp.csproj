@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ColorPicker.Wpf\ColorPicker.Wpf.csproj" />
+    <ProjectReference Include="..\ColorPicker.Wpf\ColorPickerUI.csproj" />
   </ItemGroup>
 
 </Project>

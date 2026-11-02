@@ -1,6 +1,8 @@
-﻿using System.ComponentModel;
+﻿using ColorPickerUI.Helpers;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
+using Wpf.Ui.Input;
 
 namespace DemoApp
 {
@@ -30,6 +32,22 @@ namespace DemoApp
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public RelayCommand<string> SetColorCommand { get; }
+
+        public MainViewModel()
+        {
+            SetColorCommand = new RelayCommand<string>(SetColor);
+        }
+
+        private void SetColor(string? strColor)
+        {
+            if (strColor is not string hex)
+                return;
+
+            //if (ColorHelper.TryParseHex(hex, out Color color))
+            //    SelectedColor = color;
         }
     }
 }
