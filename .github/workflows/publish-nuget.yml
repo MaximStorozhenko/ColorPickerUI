@@ -1,0 +1,58 @@
+
+name: Publish ColorPickerUI to NuGet
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Build and publish NuGet package
+    runs-on: windows-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Get package version from release tag
+        shell: pwsh
+        run: |
+          $version = "${{ github.event.release.tag_name }}".TrimStart('v')
+          "PACKAGE_VERSION=$version" >> $env:GITHUB_ENV
+
+      - name: Restore dependencies
+        run: dotnet restore .\ColorPicker.Wpf\ColorPickerUI.csproj
+
+      - name: Pack NuGet package
+        shell: pwsh
+        run: |
+          dotnet pack .\ColorPicker.Wpf\ColorPickerUI.csproj `
+            --configuration Release `
+            --output .\artifacts `
+            -p:PackageVersion=$env:PACKAGE_VERSION
+
+      - name: NuGet login (OIDC)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: MaximStorozhenko
+
+      - name: Publish to NuGet.org
+        shell: pwsh
+        run: |
+          dotnet nuget push .\artifacts\*.nupkg `
+            --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" `
+            --source https://api.nuget.org/v3/index.json `
+            --skip-duplicate
