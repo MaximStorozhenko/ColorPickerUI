@@ -85,7 +85,8 @@
             <!--<TextBlock Text="COLOR PICKER" Foreground="#FFE8EAED" FontSize="15" FontWeight="SemiBold" Margin="0 0 0 10"/>-->
 
             <!--Preview of the selected color-->
-            <Border Height="50" CornerRadius="8"
+            <Border Height="50" CornerRadius="8" Margin="0 0 0 10"
+                    Visibility="{Binding ShowPreviewSelectedColor, RelativeSource={RelativeSource AncestorType={x:Type local:ColorPicker}}}"
                     BorderBrush="#FF5F6368" BorderThickness="1" ClipToBounds="True">
                 <Grid>
                     <!-- Chess background -->
@@ -97,7 +98,7 @@
             </Border>
 
             <!-- HSV Palette -->
-            <Grid Margin="0 10 0 0">
+            <Grid>
                 <Canvas x:Name="SvCanvas" Height="140" ClipToBounds="True" Background="Red"
                         MouseLeftButtonDown="SvCanvas_MouseLeftButtonDown"
                         MouseMove="SvCanvas_MouseMove"
