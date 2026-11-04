@@ -23,8 +23,8 @@
 
             <controls:ColorPicker
                 SelectedColor="{Binding SelectedColor, Mode=TwoWay}"
-                ShowPresetColors="Visible" Palette="Custom"
-                PresetColorShape="Circle">
+                ShowPresetColors="Visible" Palette="Pastel"
+                PresetColorShape="Circle" PresetColorSize="Normal">
                 <controls:ColorPicker.PresetCustomColors>
                     <Color>#FFF59E0B</Color>
                     <Color>#FFFF0000</Color>
