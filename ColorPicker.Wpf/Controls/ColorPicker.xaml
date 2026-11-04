@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ColorPickerUI.Controls"
              xmlns:converters="clr-namespace:ColorPickerUI.Converters"
              mc:Ignorable="d"
-             MinWidth="280" d:DesignWidth="280">
+             MinWidth="262" d:DesignWidth="310">
 
     <UserControl.Resources>
         <converters:SliderValuePositionConverter x:Key="SliderValuePositionConverter"/>
@@ -526,15 +526,39 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Button Width="30" Height="30" Margin="5"
+                            <Button Margin="5"
                                     Background="{Binding Converter={StaticResource ColorToBrushConverter}}"
                                     BorderThickness="1" BorderBrush="#FF5F6368"
                                     Tag="{Binding}"
                                     Cursor="Hand" Click="PresetColorButton_Click">
+
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Width" Value="26"/>
+                                        <Setter Property="Height" Value="26"/>
+
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding PresetColorSize,
+                                                RelativeSource={RelativeSource AncestorType={x:Type local:ColorPicker}}}"
+                                                         Value="Small">
+                                                <Setter Property="Width" Value="20"/>
+                                                <Setter Property="Height" Value="20"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding PresetColorSize,
+                                                RelativeSource={RelativeSource AncestorType={x:Type local:ColorPicker}}}"
+                                                         Value="Large">
+                                                <Setter Property="Width" Value="32"/>
+                                                <Setter Property="Height" Value="32"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
                                 
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border x:Name="ColorBorder"
+                                                Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
                                                 Background="{TemplateBinding Background}"
                                                 BorderBrush="{TemplateBinding BorderBrush}"
                                                 BorderThickness="{TemplateBinding BorderThickness}"
