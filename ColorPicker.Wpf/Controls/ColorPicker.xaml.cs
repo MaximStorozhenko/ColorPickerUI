@@ -127,6 +127,44 @@ namespace ColorPickerUI.Controls
             get => (ObservableCollection<Color>?)GetValue(PresetCustomColorsProperty);
             set => SetValue(PresetCustomColorsProperty, value);
         }
+
+        /// <summary>
+        /// Identifies the <see cref="PresetColorSize"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty PresetColorSizeProperty =
+            DependencyProperty.Register(
+                nameof(PresetColorSize),
+                typeof(PresetColorSize),
+                typeof(ColorPicker),
+                new PropertyMetadata(PresetColorSize.Normal));
+
+        /// <summary>
+        /// Gets or sets the size of the preset color items.
+        /// </summary>
+        public PresetColorSize PresetColorSize
+        {
+            get => (PresetColorSize)GetValue(PresetColorSizeProperty);
+            set => SetValue(PresetColorSizeProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ShowPreviewSelectedColor"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ShowPreviewSelectedColorProperty =
+            DependencyProperty.Register(
+                nameof(ShowPreviewSelectedColor),
+                typeof(Visibility),
+                typeof(ColorPicker),
+                new PropertyMetadata(Visibility.Visible));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the selected color preview is visible.
+        /// </summary>
+        public Visibility ShowPreviewSelectedColor
+        {
+            get => (Visibility)GetValue(ShowPreviewSelectedColorProperty);
+            set => SetValue(ShowPreviewSelectedColorProperty, value);
+        }
         #endregion
 
         private double hue = 210;
