@@ -6,13 +6,14 @@
         xmlns:controls="clr-namespace:ColorPickerUI.Controls;assembly=ColorPickerUI"
         xmlns:local="clr-namespace:DemoApp"
         mc:Ignorable="d"
-        Title="ColorPicker Demo" Width="650"
-        MinWidth="650" MinHeight="480"
-        WindowStartupLocation="CenterScreen" Background="#FF18191C">
+        Title="ColorPicker Demo" Width="1000"
+        MinWidth="1000" MinHeight="500"
+        WindowStartupLocation="CenterScreen" Background="#FF2F3035">
 
     <Grid Margin="3">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -23,83 +24,199 @@
 
             <controls:ColorPicker
                 SelectedColor="{Binding SelectedColor, Mode=TwoWay}"
-                ShowPresetColors="Visible" Palette="Pastel"
-                PresetColorShape="Circle" PresetColorSize="Normal">
-                <controls:ColorPicker.PresetCustomColors>
-                    <Color>#FFF59E0B</Color>
-                    <Color>#FFFF0000</Color>
-                </controls:ColorPicker.PresetCustomColors>
-            </controls:ColorPicker>
+                ShowPresetColors="{Binding ShowPresetColor, Mode=TwoWay}"
+                ShowPreviewSelectedColor="{Binding ShowPreviewColor, Mode=TwoWay}"
+                Palette="{Binding ColorPalette, Mode=TwoWay}"
+                PresetCustomColors="{Binding CustomColors, Mode=OneWay}"
+                PresetColorShape="{Binding PresetColorShape, Mode=TwoWay}"
+                PresetColorSize="{Binding PresetColorSize, Mode=TwoWay}"/>
 
         </ScrollViewer>
 
-        <StackPanel Grid.Column="1"
-                    Margin="28,0,0,0"
-                    VerticalAlignment="Center">
+        <ScrollViewer Grid.Column="1" HorizontalAlignment="Center" Width="300"
+                VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                Margin="10 10 10 0" Padding="0 0 10 0">
+            <StackPanel Grid.Column="1" Margin="10 0">
 
-            <TextBlock Text="Selected color"
-                       Foreground="#FFE8EAED"
-                       FontSize="24"
-                       FontWeight="SemiBold"/>
+                <TextBlock Text="Selected color" Foreground="#FFE8EAED"
+                        FontSize="16" FontWeight="SemiBold"/>
 
-            <TextBlock Text="The value updates automatically"
-                       Foreground="#FF9AA0A6"
-                       FontSize="13"
-                       Margin="0,8,0,24"/>
+                <TextBlock Text="The value updates automatically" Foreground="#FF9AA0A6"
+                        FontSize="12" Margin="0"/>
 
-
-            <StackPanel Orientation="Horizontal">
-                <Button Tag="#F44336"
-                        Background="#FFF44336"
-                        Height="30" Width="30" Margin="5"
-                        Command="{Binding SetColorCommand}"
-                        CommandParameter="#F44336"
-                        ToolTip="#F44336"/>
-
-                <Button Tag="#FF9800"
-                        Background="#FFFF9800"
-                        Height="30" Width="30" Margin="5"
-                        Command="{Binding SetColorCommand}"
-                        CommandParameter="#FF9800"
-                        ToolTip="#FF9800"/>
-            </StackPanel>
-
-            <Border 
-                    BorderBrush="#FF3C4043"
-                    BorderThickness="1"
-                    CornerRadius="8"
-                    Padding="16">
-                <Border.Background>
-                    <SolidColorBrush Color="{Binding SelectedColor}"/>
-                </Border.Background>
-
-                <StackPanel>
-                    <TextBlock Text="HEX VALUE"
-                               Foreground="#FF9AA0A6"
-                               FontSize="11"
-                               Margin="0,0,0,8"/>
-
-                    <TextBlock Text="{Binding SelectedColorHex}"
-                               Foreground="#FFE8EAED"
-                               FontSize="22"
-                               FontFamily="Consolas"/>
-
-                    <TextBlock Text="SelectedColor"
-                               Foreground="#FF9AA0A6"
-                               FontSize="11"
-                               Margin="0,20,0,8"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="SELECTED COLOR VALUE: " Foreground="#FF9AA0A6" Margin="0 0 10 0"
+                            FontSize="10" VerticalAlignment="Center"/>
 
                     <TextBlock Text="{Binding SelectedColor}"
-                               Foreground="#FFE8EAED"
-                               FontSize="14"
-                               TextWrapping="Wrap"/>
+                            Foreground="#FFE8EAED" FontSize="16" FontFamily="Consolas"/>
                 </StackPanel>
-            </Border>
 
-            <TextBlock Text="Try selecting a preset or entering a HEX value."
-                       Foreground="#FF9AA0A6"
-                       TextWrapping="Wrap"
-                       Margin="0,18,0,0"/>
+                <Border BorderBrush="#FF3C4043" BorderThickness="1"
+                    CornerRadius="8" Padding="10 25" Margin="5 5 5 15">
+                    <Border.Background>
+                        <SolidColorBrush Color="{Binding SelectedColor}"/>
+                    </Border.Background>
+                </Border>
+
+                <TextBlock Text="Set color" Foreground="#FFE8EAED"
+                        FontSize="16" FontWeight="SemiBold"/>
+
+                <UniformGrid Rows="1" Margin="0 0 0 15">
+                    <Button Grid.Column="0" Background="#FFFF0000" Height="30" Width="30"
+                        Command="{Binding SetColorCommand}" CommandParameter="#FFFF0000"
+                        ToolTip="#FFFF0000" HorizontalAlignment="Center"/>
+                    <Button Grid.Column="1" Background="#FF00FF00" Height="30" Width="30"
+                        Command="{Binding SetColorCommand}" CommandParameter="#FF00FF00"
+                        ToolTip="#FF00FF00" HorizontalAlignment="Center"/>
+                    <Button Grid.Column="2" Background="#FF0000FF" Height="30" Width="30"
+                        Command="{Binding SetColorCommand}" CommandParameter="#FF0000FF"
+                        ToolTip="#FF0000FF" HorizontalAlignment="Center"/>
+                    <Button Grid.Column="3" Background="#FFC2490A" Height="30" Width="30"
+                        Command="{Binding SetColorCommand}" CommandParameter="#FFC2490A"
+                        ToolTip="#FFC2490A" HorizontalAlignment="Center"/>
+                    <Button Grid.Column="4" Background="#FF09BA83" Height="30" Width="30"
+                        Command="{Binding SetColorCommand}" CommandParameter="#FF09BA83"
+                        ToolTip="#FF09BA83" HorizontalAlignment="Center"/>
+                    <Button Grid.Column="5" Background="#FF740FBA" Height="30" Width="30"
+                        Command="{Binding SetColorCommand}" CommandParameter="#FF740FBA"
+                        ToolTip="#FF740FBA" HorizontalAlignment="Center"/>
+                </UniformGrid>
+
+                <TextBlock Text="Change Palette" Foreground="#FFE8EAED"
+                        FontSize="16" FontWeight="SemiBold" Margin="0 0 0 5"/>
+
+                <UniformGrid Rows="2" HorizontalAlignment="Stretch">
+                    <Button Content="Classic" Width="80" Height="30" Margin="0 3" Padding="0"
+                        Command="{Binding SetPaletteCommand}" CommandParameter="Classic"
+                        ToolTip="Classic" HorizontalAlignment="Center"/>
+                    <Button Content="Material" Width="80" Height="30" Margin="0 3" Padding="0"
+                        Command="{Binding SetPaletteCommand}" CommandParameter="Material"
+                        ToolTip="Material" HorizontalAlignment="Center"/>
+                    <Button Content="Pastel" Width="80" Height="30" Margin="0 3" Padding="0"
+                        Command="{Binding SetPaletteCommand}" CommandParameter="Pastel"
+                        ToolTip="Pastel" HorizontalAlignment="Center"/>
+                    <Button Content="Grayscale" Width="80" Height="30" Margin="0 3" Padding="0"
+                        Command="{Binding SetPaletteCommand}" CommandParameter="Grayscale"
+                        ToolTip="Grayscale" HorizontalAlignment="Center"/>
+                    <Button Content="Extended" Width="80" Height="30" Margin="0 3" Padding="0"
+                        Command="{Binding SetPaletteCommand}" CommandParameter="Extended"
+                        ToolTip="Extended" HorizontalAlignment="Center"/>
+                    <Button Content="Custom" Width="80" Height="30" Margin="0 3" Padding="0"
+                        Command="{Binding SetPaletteCommand}" CommandParameter="Custom"
+                        ToolTip="Custom" HorizontalAlignment="Center"/>
+                </UniformGrid>
+
+                <TextBlock Text="List colors custom" Foreground="#FF9AA0A6"
+                        FontSize="12" Margin="0"/>
+
+                <ItemsControl ItemsSource="{Binding CustomColors}" Margin="0 0 0 15">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="#FF3C4043" BorderThickness="1"
+                                CornerRadius="5" Padding="2" Margin="2">
+                                <Border.Background>
+                                    <SolidColorBrush Color="{Binding}"/>
+                                </Border.Background>
+                                <TextBlock Text="{Binding}" Foreground="#FFE8EAED" FontSize="16" FontFamily="Consolas"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <TextBlock Text="Add preset color to custom palette" Foreground="#FFE8EAED"
+                       FontSize="16" FontWeight="SemiBold" Margin="0 0 0 5"/>
+
+                <Grid Margin="0 0 0 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox x:Name="HexTextBox" Grid.Column="0"
+                         Text="{Binding HexInput, UpdateSourceTrigger=PropertyChanged}"
+                         Height="35" Padding="9 0"
+                         VerticalContentAlignment="Center"
+                         Background="#FF303134" Foreground="#FFE8EAED"
+                         BorderBrush="#FF5F6368" BorderThickness="1"
+                         FontFamily="Consolas"/>
+
+                    <Button Grid.Column="1" Content="Add" Margin="8 0 0 0" Padding="14 0"
+                        Height="35" Background="#FF3B82F6" Foreground="White"
+                        BorderThickness="0" Cursor="Hand"
+                        Command="{Binding AddHexButtonCommand}"/>
+                </Grid>
+
+                
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Column="2" Margin="10 10 10 0">
+            
+            <TextBlock Text="Change visibility preview selected color" Foreground="#FFE8EAED"
+                       FontSize="16" FontWeight="SemiBold" Margin="0 0 0 5"/>
+
+            <UniformGrid Rows="1" Margin="0 0 0 15" HorizontalAlignment="Stretch">
+                <Button Content="Visible" Width="80" Height="30" Padding="0"
+                        Command="{Binding SetVisibilityPreviewCommand}" CommandParameter="Visible"
+                        ToolTip="Visible" HorizontalAlignment="Center"/>
+                <Button Content="Hidden" Width="80" Height="30" Padding="0"
+                        Command="{Binding SetVisibilityPreviewCommand}" CommandParameter="Hidden"
+                        ToolTip="Hidden" HorizontalAlignment="Center"/>
+                <Button Content="Collapsed" Width="80" Height="30" Padding="0"
+                        Command="{Binding SetVisibilityPreviewCommand}" CommandParameter="Collapsed"
+                        ToolTip="Collapsed" HorizontalAlignment="Center"/>
+            </UniformGrid>
+
+            <TextBlock Text="Change visibility preset colors" Foreground="#FFE8EAED"
+                       FontSize="16" FontWeight="SemiBold" Margin="0 0 0 5"/>
+
+            <UniformGrid Rows="1" Margin="0 0 0 15" HorizontalAlignment="Stretch">
+                <Button Content="Visible" Width="80" Height="30" Padding="0"
+                        Command="{Binding SetVisibilityPresetColorsCommand}" CommandParameter="Visible"
+                        ToolTip="Visible" HorizontalAlignment="Center"/>
+                <Button Content="Hidden" Width="80" Height="30" Padding="0"
+                        Command="{Binding SetVisibilityPresetColorsCommand}" CommandParameter="Hidden"
+                        ToolTip="Hidden" HorizontalAlignment="Center"/>
+                <Button Content="Collapsed" Width="80" Height="30" Padding="0"
+                        Command="{Binding SetVisibilityPresetColorsCommand}" CommandParameter="Collapsed"
+                        ToolTip="Collapsed" HorizontalAlignment="Center"/>
+            </UniformGrid>
+
+            <TextBlock Text="Change preset color shape" Foreground="#FFE8EAED"
+                       FontSize="16" FontWeight="SemiBold" Margin="0 0 0 5"/>
+
+            <UniformGrid Rows="1" HorizontalAlignment="Stretch" Margin="0 0 0 15">
+                <Button Content="Circle" Width="80" Height="30" Margin="0 3" Padding="0"
+                        Command="{Binding SetPresetColorShapeCommand}" CommandParameter="Circle"
+                        ToolTip="Circle" HorizontalAlignment="Center"/>
+                <Button Content="Square" Width="80" Height="30" Margin="0 3" Padding="0"
+                        Command="{Binding SetPresetColorShapeCommand}" CommandParameter="Square"
+                        ToolTip="Square" HorizontalAlignment="Center"/>
+            </UniformGrid>
+
+            <TextBlock Text="Change preset color item size" Foreground="#FFE8EAED"
+                       FontSize="16" FontWeight="SemiBold" Margin="0 0 0 5"/>
+
+            <UniformGrid Rows="1" HorizontalAlignment="Stretch" Margin="0 0 0 15">
+                <Button Content="Small" Width="80" Height="30" Margin="0 3" Padding="0"
+                        Command="{Binding SetPresetColorSizeCommand}" CommandParameter="Small"
+                        ToolTip="Small" HorizontalAlignment="Center"/>
+                <Button Content="Normal" Width="80" Height="30" Margin="0 3" Padding="0"
+                        Command="{Binding SetPresetColorSizeCommand}" CommandParameter="Normal"
+                        ToolTip="Normal" HorizontalAlignment="Center"/>
+                <Button Content="Large" Width="80" Height="30" Margin="0 3" Padding="0"
+                        Command="{Binding SetPresetColorSizeCommand}" CommandParameter="Large"
+                        ToolTip="Large" HorizontalAlignment="Center"/>
+            </UniformGrid>
 
         </StackPanel>
     </Grid>
