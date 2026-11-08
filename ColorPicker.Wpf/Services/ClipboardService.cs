@@ -32,23 +32,19 @@ namespace ColorPickerUI.Services
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern IntPtr GlobalFree(IntPtr hMem);
 
-        public static bool TryCopyText(string text)
+        public static bool TryCopyText(string text, IntPtr ownerHandle)
         {
-            if (!OpenClipboard(IntPtr.Zero)) return false;
+            byte[] bytes = Encoding.Unicode.GetBytes(text + '\0');
 
-            IntPtr memory = IntPtr.Zero;
+            IntPtr memory = GlobalAlloc(GMEM_MOVEABLE, (UIntPtr)bytes.Length);
+
+            if (memory == IntPtr.Zero) return false;
+
+            bool opened = false;
             bool transferred = false;
 
             try
             {
-                if (!EmptyClipboard()) return false;
-
-                byte[] bytes = Encoding.Unicode.GetBytes(text + '\0');
-
-                memory = GlobalAlloc( GMEM_MOVEABLE, (UIntPtr)bytes.Length);
-
-                if (memory == IntPtr.Zero) return false;
-
                 IntPtr pointer = GlobalLock(memory);
 
                 if (pointer == IntPtr.Zero) return false;
@@ -62,15 +58,23 @@ namespace ColorPickerUI.Services
                     GlobalUnlock(memory);
                 }
 
+                if (!OpenClipboard(ownerHandle)) return false;
+
+                opened = true;
+
+                if (!EmptyClipboard())return false;
+
                 transferred = SetClipboardData(CF_UNICODETEXT, memory) != IntPtr.Zero;
 
                 return transferred;
             }
             finally
             {
-                if (!transferred && memory != IntPtr.Zero) GlobalFree(memory);
+                if (opened)
+                    CloseClipboard();
 
-                CloseClipboard();
+                if (!transferred)
+                    GlobalFree(memory);
             }
         }
     }

@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace ColorPickerUI.Controls
@@ -593,7 +594,9 @@ namespace ColorPickerUI.Controls
                 _ => string.Empty
             };
 
-            bool copied = ClipboardService.TryCopyText(text);
+            IntPtr hwnd = new WindowInteropHelper(Window.GetWindow(this)).Handle;
+
+            bool copied = ClipboardService.TryCopyText(text, hwnd);
 
             if (!copied)
                 Debug.WriteLine("Clipboard занят. Копирование пропущено.");
