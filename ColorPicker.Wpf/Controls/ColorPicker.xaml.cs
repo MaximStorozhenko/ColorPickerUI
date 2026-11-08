@@ -1,8 +1,10 @@
 ﻿using ColorPickerUI.Enums;
 using ColorPickerUI.Helpers;
 using ColorPickerUI.Models;
+using ColorPickerUI.Services;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -184,6 +186,11 @@ namespace ColorPickerUI.Controls
         /// or custom preset colors change.
         /// </remarks>
         public ObservableCollection<Color> DisplayedPresetColors { get; } = new();
+
+        /// <summary>
+        /// The current color format used for clipboard copying.
+        /// </summary>
+        private CopyColorFormat copyFormat = CopyColorFormat.HEX;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorPicker"/> control.
@@ -562,6 +569,53 @@ namespace ColorPickerUI.Controls
                 Color.FromArgb(0, alphaColor.R, alphaColor.G, alphaColor.B),
                 Color.FromArgb(255, alphaColor.R, alphaColor.G, alphaColor.B),
                 new Point(0, 0.5), new Point(1, 0.5));
+        }
+
+        /// <summary>
+        /// Copies the currently selected color to the clipboard
+        /// using the selected copy format.
+        /// </summary>
+        private void CopyColorButton_Click(object sender, RoutedEventArgs e)
+        {
+            Color color = SelectedColor;
+
+            string text = copyFormat switch
+            {
+                CopyColorFormat.HEX =>
+                    $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}",
+
+                CopyColorFormat.RGB =>
+                    $"{color.R}, {color.G}, {color.B}",
+
+                CopyColorFormat.ARGB =>
+                    $"{color.A}, {color.R}, {color.G}, {color.B}",
+
+                _ => string.Empty
+            };
+
+            bool copied = ClipboardService.TryCopyText(text);
+
+            if (!copied)
+                Debug.WriteLine("Clipboard занят. Копирование пропущено.");
+        }
+
+        /// <summary>
+        /// Opens the context menu with available color copy formats.
+        /// </summary>
+        private void CopyFormatButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+                button.ContextMenu.IsOpen = true;
+        }
+
+        /// <summary>
+        /// Updates the selected color copy format based on the chosen menu item.
+        /// </summary>
+        private void CopyFormatMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem menuItem &&
+                Enum.TryParse(menuItem.Tag?.ToString(), out CopyColorFormat format))
+                copyFormat = format;
         }
     }
 }
