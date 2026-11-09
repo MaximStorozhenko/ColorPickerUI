@@ -17,8 +17,9 @@ namespace ColorPickerUI
         /// </summary>
         public event Action<Color>? ColorPicked;
 
-        private bool wasLeftButtonDown;
         private bool wasEscapeDown;
+
+        private readonly MouseHookService mouseHookService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EyedropperWindow"/> class.
@@ -26,6 +27,10 @@ namespace ColorPickerUI
         public EyedropperWindow()
         {
             InitializeComponent();
+
+            mouseHookService = new MouseHookService();
+            mouseHookService.LeftButtonDown += MouseHook_LeftButtonDown;
+            mouseHookService.Start();
 
             timer = new DispatcherTimer
             {
@@ -63,20 +68,6 @@ namespace ColorPickerUI
             MagnifierImage.Source = EyedropperService.CaptureAroundCursor();
 
             UpdateWindowPosition(x, y);
-
-            bool leftButtonDown = EyedropperService.IsLeftMouseButtonDown();
-
-            if(leftButtonDown && !wasLeftButtonDown)
-            {
-                Color color = EyedropperService.GetScreenPixelColor(x, y);
-
-                ColorPicked?.Invoke(color);
-
-                Close();
-                return;
-            }
-
-            wasLeftButtonDown = leftButtonDown;
         }
 
         /// <summary>
@@ -153,6 +144,8 @@ namespace ColorPickerUI
         protected override void OnClosed(EventArgs e)
         {
             timer.Stop();
+            mouseHookService.Dispose();
+
             base.OnClosed(e);
         }
 
@@ -174,6 +167,20 @@ namespace ColorPickerUI
 
             Left = left;
             Top = top;
+        }
+
+        private void MouseHook_LeftButtonDown()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                (int x, int y) = EyedropperService.GetCursorPosition();
+
+                Color color = EyedropperService.GetScreenPixelColor(x, y);
+
+                ColorPicked?.Invoke(color);
+
+                Close();
+            });
         }
     }
 }

@@ -22,7 +22,6 @@ namespace ColorPickerUI.Services
         [DllImport("user32.dll")]
         private static extern bool GetCursorPos(out POINT point);
 
-        //BitMap
         [DllImport("gdi32.dll")]
         private static extern IntPtr CreateCompatibleDC(IntPtr hdc);
 
@@ -55,7 +54,6 @@ namespace ColorPickerUI.Services
         [DllImport("user32.dll")]
         private static extern short GetAsyncKeyState(int vKey);
 
-        private const int VK_LBUTTON = 0x01;
         private const int VK_ESCAPE = 0x1B;
         #endregion
 
@@ -194,11 +192,6 @@ namespace ColorPickerUI.Services
                 throw new Win32Exception(Marshal.GetLastWin32Error());
 
             return info.rcWork;
-        }
-
-        public static bool IsLeftMouseButtonDown()
-        {
-            return (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
         }
 
         public static bool IsEscapePressed()
