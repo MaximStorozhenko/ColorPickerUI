@@ -204,6 +204,9 @@ namespace ColorPickerUI.Controls
 
             UpdateVisuals();
             UpdatePresetColors();
+
+            CopyIcon.Visibility = Visibility.Visible;
+            CopySuccessIcon.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -576,7 +579,7 @@ namespace ColorPickerUI.Controls
         /// Copies the currently selected color to the clipboard
         /// using the selected copy format.
         /// </summary>
-        private void CopyColorButton_Click(object sender, RoutedEventArgs e)
+        private async void CopyColorButton_Click(object sender, RoutedEventArgs e)
         {
             Color color = SelectedColor;
 
@@ -599,7 +602,18 @@ namespace ColorPickerUI.Controls
             bool copied = ClipboardService.TryCopyText(text, hwnd);
 
             if (!copied)
+            {
                 Debug.WriteLine("Clipboard занят. Копирование пропущено.");
+                return;
+            }
+
+            CopyIcon.Visibility = Visibility.Collapsed;
+            CopySuccessIcon.Visibility = Visibility.Visible;
+
+            await Task.Delay(700);
+
+            CopyIcon.Visibility = Visibility.Visible;
+            CopySuccessIcon.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
