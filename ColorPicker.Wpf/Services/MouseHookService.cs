@@ -51,7 +51,14 @@ namespace ColorPickerUI.Services
         {
             if (nCode >= 0 && wParam == (IntPtr)WM_LBUTTONDOWN)
             {
-                LeftButtonDown?.Invoke();
+                try
+                {
+                    LeftButtonDown?.Invoke();
+                }
+                catch
+                {
+                    // We do not allow exceptions to the exceptions for system callback restrictions.
+                }
 
                 return (IntPtr)1;
             }
@@ -63,8 +70,10 @@ namespace ColorPickerUI.Services
         {
             if (hookId == IntPtr.Zero) return;
 
-            UnhookWindowsHookEx(hookId);
-            hookId = IntPtr.Zero;
+            if(UnhookWindowsHookEx(hookId))
+                hookId = IntPtr.Zero;
+            else
+                throw new Win32Exception(Marshal.GetLastWin32Error());
         }
 
         public void Dispose()

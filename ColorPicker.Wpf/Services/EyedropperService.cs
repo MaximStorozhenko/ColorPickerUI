@@ -131,6 +131,9 @@ namespace ColorPickerUI.Services
 
                 oldBitmap = SelectObject(memoryDC, bitmap);
 
+                if(oldBitmap == IntPtr.Zero || oldBitmap == new IntPtr(-1))
+                    throw new Win32Exception(Marshal.GetLastWin32Error());
+
                 if (!BitBlt(memoryDC, 0, 0, width, height, screenDC, x, y, SRCCOPY))
                     throw new InvalidOperationException("Unable to capture screen area.");
 

@@ -30,7 +30,6 @@ namespace ColorPickerUI
 
             mouseHookService = new MouseHookService();
             mouseHookService.LeftButtonDown += MouseHook_LeftButtonDown;
-            mouseHookService.Start();
 
             timer = new DispatcherTimer
             {
@@ -39,6 +38,8 @@ namespace ColorPickerUI
 
             timer.Tick += Timer_Tick;
             timer.Start();
+
+            mouseHookService.Start();
         }
 
         /// <summary>
@@ -133,14 +134,6 @@ namespace ColorPickerUI
             Canvas.SetTop(GridCanvas.Children[^1], 7 * cellHeight);
         }
 
-        /// <summary>
-        /// Updates the magnifier image with the current screen capture.
-        /// </summary>
-        public void UpdateMagnifier()
-        {
-            MagnifierImage.Source = EyedropperService.CaptureAroundCursor();
-        }
-
         protected override void OnClosed(EventArgs e)
         {
             timer.Stop();
@@ -173,13 +166,18 @@ namespace ColorPickerUI
         {
             Dispatcher.Invoke(() =>
             {
-                (int x, int y) = EyedropperService.GetCursorPosition();
+                try
+                {
+                    (int x, int y) = EyedropperService.GetCursorPosition();
 
-                Color color = EyedropperService.GetScreenPixelColor(x, y);
+                    Color color = EyedropperService.GetScreenPixelColor(x, y);
 
-                ColorPicked?.Invoke(color);
-
-                Close();
+                    ColorPicked?.Invoke(color);
+                }
+                finally
+                {
+                    Close();
+                }
             });
         }
     }
