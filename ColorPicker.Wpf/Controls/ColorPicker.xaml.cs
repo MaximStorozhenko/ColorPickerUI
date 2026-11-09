@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace ColorPickerUI.Controls
 {
@@ -178,6 +179,8 @@ namespace ColorPickerUI.Controls
         private bool _isUpdating;
 
         private bool _isUpdatingFromHsv;
+
+        private EyedropperWindow? eyedropperWindow;
 
         /// <summary>
         /// Gets the collection of preset colors currently displayed by the control.
@@ -633,6 +636,38 @@ namespace ColorPickerUI.Controls
             if (sender is MenuItem menuItem &&
                 Enum.TryParse(menuItem.Tag?.ToString(), out CopyColorFormat format))
                 copyFormat = format;
+        }
+
+        /// <summary>
+        /// Handles the eyedropper button click and starts the color picking process.
+        /// </summary>
+        private void EyedropperButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (eyedropperWindow != null)
+            {
+                if (eyedropperWindow.IsVisible)
+                    return;
+
+                eyedropperWindow = null;
+            }
+
+            (int X, int Y) point = EyedropperService.GetCursorPosition();
+
+            BitmapSource screenshot = EyedropperService.CaptureScreenArea(point.X - 7, point.Y - 7, 15, 15);
+
+            eyedropperWindow = new();
+            eyedropperWindow.Owner = Window.GetWindow(this);
+            eyedropperWindow.ColorPicked += color =>
+            {
+                SelectedColor = color;
+            };
+            eyedropperWindow.Closed += (_, _) =>
+            {
+                eyedropperWindow = null;
+            };
+            eyedropperWindow.SetInitialPosition(point.X, point.Y);
+            eyedropperWindow.Show();
+            eyedropperWindow.UpdateMagnifier(screenshot);
         }
     }
 }
