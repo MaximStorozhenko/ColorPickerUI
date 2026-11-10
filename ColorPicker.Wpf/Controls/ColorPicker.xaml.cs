@@ -1,12 +1,16 @@
 ﻿using ColorPickerUI.Enums;
 using ColorPickerUI.Helpers;
 using ColorPickerUI.Models;
+using ColorPickerUI.Services;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace ColorPickerUI.Controls
 {
@@ -176,6 +180,8 @@ namespace ColorPickerUI.Controls
 
         private bool _isUpdatingFromHsv;
 
+        private EyedropperWindow? eyedropperWindow;
+
         /// <summary>
         /// Gets the collection of preset colors currently displayed by the control.
         /// </summary>
@@ -184,6 +190,11 @@ namespace ColorPickerUI.Controls
         /// or custom preset colors change.
         /// </remarks>
         public ObservableCollection<Color> DisplayedPresetColors { get; } = new();
+
+        /// <summary>
+        /// The current color format used for clipboard copying.
+        /// </summary>
+        private CopyColorFormat copyFormat = CopyColorFormat.HEX;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorPicker"/> control.
@@ -196,6 +207,9 @@ namespace ColorPickerUI.Controls
 
             UpdateVisuals();
             UpdatePresetColors();
+
+            CopyIcon.Visibility = Visibility.Visible;
+            CopySuccessIcon.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -562,6 +576,98 @@ namespace ColorPickerUI.Controls
                 Color.FromArgb(0, alphaColor.R, alphaColor.G, alphaColor.B),
                 Color.FromArgb(255, alphaColor.R, alphaColor.G, alphaColor.B),
                 new Point(0, 0.5), new Point(1, 0.5));
+        }
+
+        /// <summary>
+        /// Copies the currently selected color to the clipboard
+        /// using the selected copy format.
+        /// </summary>
+        private async void CopyColorButton_Click(object sender, RoutedEventArgs e)
+        {
+            Color color = SelectedColor;
+
+            string text = copyFormat switch
+            {
+                CopyColorFormat.HEX =>
+                    $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}",
+
+                CopyColorFormat.RGB =>
+                    $"{color.R}, {color.G}, {color.B}",
+
+                CopyColorFormat.ARGB =>
+                    $"{color.A}, {color.R}, {color.G}, {color.B}",
+
+                _ => string.Empty
+            };
+
+            IntPtr hwnd = new WindowInteropHelper(Window.GetWindow(this)).Handle;
+
+            bool copied = ClipboardService.TryCopyText(text, hwnd);
+
+            if (!copied)
+            {
+                Debug.WriteLine("Clipboard занят. Копирование пропущено.");
+                return;
+            }
+
+            CopyIcon.Visibility = Visibility.Collapsed;
+            CopySuccessIcon.Visibility = Visibility.Visible;
+
+            await Task.Delay(700);
+
+            CopyIcon.Visibility = Visibility.Visible;
+            CopySuccessIcon.Visibility = Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// Opens the context menu with available color copy formats.
+        /// </summary>
+        private void CopyFormatButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+                button.ContextMenu.IsOpen = true;
+        }
+
+        /// <summary>
+        /// Updates the selected color copy format based on the chosen menu item.
+        /// </summary>
+        private void CopyFormatMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem menuItem &&
+                Enum.TryParse(menuItem.Tag?.ToString(), out CopyColorFormat format))
+                copyFormat = format;
+        }
+
+        /// <summary>
+        /// Handles the eyedropper button click and starts the color picking process.
+        /// </summary>
+        private void EyedropperButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (eyedropperWindow != null)
+            {
+                if (eyedropperWindow.IsVisible)
+                    return;
+
+                eyedropperWindow = null;
+            }
+
+            (int X, int Y) point = EyedropperService.GetCursorPosition();
+
+            BitmapSource screenshot = EyedropperService.CaptureScreenArea(point.X - 7, point.Y - 7, 15, 15);
+
+            eyedropperWindow = new();
+            eyedropperWindow.Owner = Window.GetWindow(this);
+            eyedropperWindow.ColorPicked += color =>
+            {
+                SelectedColor = color;
+            };
+            eyedropperWindow.Closed += (_, _) =>
+            {
+                eyedropperWindow = null;
+            };
+            eyedropperWindow.SetInitialPosition(point.X, point.Y);
+            eyedropperWindow.Show();
+            eyedropperWindow.UpdateMagnifier(screenshot);
         }
     }
 }

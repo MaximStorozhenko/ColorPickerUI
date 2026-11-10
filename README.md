@@ -1,8 +1,10 @@
 # ColorPickerUI
 
 <p align="center">
-<img title="" src="https://img.shields.io/badge/NuGet-v0.1.0-blue?logo=nuget" alt="Static Badge" />
-<img title="" src="https://img.shields.io/badge/.Net-8.0%20Windows-orange?logo=dotnet" alt="Static Badge"/>
+<a href="https://www.nuget.org/packages/ColorPickerUI">
+    <img src="https://img.shields.io/nuget/v/ColorPickerUI?logo=nuget&label=NuGet" alt="NuGet" />
+</a>
+<img title="" src="https://img.shields.io/badge/.Net-8.0%20Windows-blue?logo=dotnet" alt="Static Badge"/>
 <img src="https://img.shields.io/badge/License-MIT-green?logo=opensourceinitiative" title="" alt="Static Badge" />
 </p>
 <p align="center">
@@ -19,7 +21,10 @@ A customizable color picker control for WPF applications.
 ---
 
 # English
-**ColorPickerUI** is a WPF color picker library that provides an intuitive interface for selecting and editing colors. It supports HSV and RGB color models, HEX input, alpha transparency, and customizable preset color palettes.
+
+**ColorPickerUI** is a WPF color picker library that provides an intuitive interface for selecting and editing colors.
+
+It supports HSV and RGB color models, HEX input, alpha transparency, customizable preset color palettes, color copying and screen color picking.
 
 ---
 
@@ -32,12 +37,16 @@ A customizable color picker control for WPF applications.
 - **Alpha channel** — control color transparency.
 
 - **HEX input** — enter colors using hexadecimal values.
+- **Color copying** — copy the selected color in HEX, RGB, orARGB format.
+- **Screen eyedropper** — pick colors directly from anywhere on the screen using a magnifier with pixel grid.
 
 - **Preset color palettes** — choose from predefined color collections.
 
 - **Custom palettes** — provide your own collection of preset colors.
 
 - **Preset shapes** — choose between square and circular color previews.
+- **Preset sizes** — choose the size of preset color previews.
+- **Color preview** — display the currently selected color.
 
 - **Two-way data binding** — bind the selected color to your ViewModel.
 
@@ -114,13 +123,15 @@ The `SelectedColor` property supports two-way binding, allowing changes in the c
 
 ColorPickerUI provides several properties for customizing the control.
 
-| Property             | Description                                    |
-| -------------------- | ---------------------------------------------- |
-| `SelectedColor`      | Gets or sets the currently selected color.     |
-| `ShowPresetColors`   | Controls the visibility of preset colors.      |
-| `Palette`            | Selects the preset color palette.              |
-| `PresetColorShape`   | Sets the shape of preset color previews.       |
-| `PresetCustomColors` | Provides a custom collection of preset colors. |
+| Property                   | Description                                            |
+| -------------------------- | ------------------------------------------------------ |
+| `SelectedColor`            | Gets or sets the currently selected color.             |
+| `ShowPresetColors`         | Controls the visibility of preset colors.              |
+| `ShowPreviewSelectedColor` | Controls the visibility of the selected color preview. |
+| `Palette`                  | Selects the preset color palette.                      |
+| `PresetColorShape`         | Sets the shape of preset color previews.               |
+| `PresetColorSize`          | Sets the size of preset color previews.                |
+| `PresetCustomColors`       | Provides a custom collection of preset colors.         |
 
 ### Available palettes
 
@@ -141,6 +152,10 @@ ColorPickerUI provides several properties for customizing the control.
 - `Circle`
 
 - `Square`
+### Preset color sizes
+- `Small`
+- `Normal`
+- `Large`
 
 ---
 
@@ -150,9 +165,12 @@ ColorPickerUI provides several properties for customizing the control.
 <controls:ColorPicker Width="342" Height="665"
 SelectedColor="{Binding SelectedColor, Mode=TwoWay}"
 ShowPresetColors="Visible"
+ShowPreviewSelectedColor="Visible"
 Palette="Material"
-PresetColorShape="Circle" />
+PresetColorShape="Circle"
+PresetColorSize="Large" />
 ```
+### Custom preset colors
 Set up a custom collection of predefined colors using the PresetCustomColors property.
 In your XAML file:
 ```xml
@@ -208,16 +226,21 @@ This project is licensed under the [MIT License](LICENSE).
 
 # Русский
 **ColorPickerUI** — библиотека с настраиваемым элементом управления для выбора цвета в WPF-приложениях.
-Она предоставляет удобный интерфейс для выбора и редактирования цветов, поддерживает цветовые модели HSV и RGB, ввод HEX-кода, прозрачность и настраиваемые палитры готовых цветов.
----
+
+Она предоставляет удобный интерфейс для выбора и редактирования цветов, поддерживает цветовые модели HSV и RGB, ввод HEX-кода, прозрачность, настраиваемые палитры готовых цветов, копирование цвета и выбор цвета непосредственно с экрана.
+
 ## Возможности
 - **Модель HSV** — настройка Hue, Saturation и Value.
 - **Модель RGB** — настройка компонентов Red, Green и Blue.
 - **Альфа-канал** — управление прозрачностью цвета.
 - **Ввод HEX** — ввод цвета в шестнадцатеричном формате.
+- **Копирование цвета** — копирование выбранного цвета в форматах HEX, RGB и ARGB.
+- **Экранная пипетка** — выбор цвета из любой области экрана с помощью увеличительной лупы и сетки пикселей.
 - **Готовые палитры** — выбор из предустановленных наборов цветов.
 - **Пользовательские палитры** — возможность задать собственную коллекцию цветов.
 - **Форма образцов цветов** — квадратные или круглые элементы.
+- **Размер образцов цветов** — малый, обычный или большой.
+- **Предварительный просмотр** — отображение выбранного цвета.
 - **Двусторонняя привязка данных** — поддержка Binding с ViewModel.
 - **XML-документация** — описания публичного API для IntelliSense.
 ---
@@ -263,15 +286,19 @@ public class MainViewModel
 }
 ```
 Свойство `SelectedColor` поддерживает двустороннюю привязку данных. Изменения цвета в ColorPicker будут передаваться в ViewModel.
----
+
 ## Настройка
-| Свойство             | Описание                                       |
-| -------------------- | ---------------------------------------------- |
-| `SelectedColor`      | Получает или задаёт выбранный цвет.            |
-| `ShowPresetColors`   | Управляет видимостью готовых цветов.           |
-| `Palette`            | Выбирает палитру готовых цветов.               |
-| `PresetColorShape`   | Задаёт форму образцов цветов.                  |
-| `PresetCustomColors` | Позволяет задать собственную коллекцию цветов. |
+
+| Свойство                   | Описание                                                            |
+| -------------------------- | ------------------------------------------------------------------- |
+| `SelectedColor`            | Получает или задаёт выбранный цвет.                                 |
+| `ShowPresetColors`         | Управляет видимостью готовых цветов.                                |
+| `ShowPreviewSelectedColor` | Управляет отображением предварительного просмотра выбранного цвета. |
+| `Palette`                  | Выбирает палитру готовых цветов.                                    |
+| `PresetColorShape`         | Задаёт форму образцов цветов.                                       |
+| `PresetColorSize`          | Задаёт размер образцов цветов.                                      |
+| `PresetCustomColors`       | Позволяет задать собственную коллекцию цветов.                      |
+
 ### Доступные палитры
 - `Classic`
 - `Material`
@@ -282,14 +309,20 @@ public class MainViewModel
 ### Форма образцов цветов
 - `Circle` — круглая.
 - `Square` — квадратная.
+### Размер образцов цветов
+- `Small` — малый.
+- `Normal` — обычный.
+- `Large` — большой.
 ---
 ## Пример
 ```xml
 <controls:ColorPicker Width="342" Height="665"
 SelectedColor="{Binding SelectedColor, Mode=TwoWay}"
 ShowPresetColors="Visible"
+ShowPreviewSelectedColor="Visible"
 Palette="Material"
-PresetColorShape="Circle" />
+PresetColorShape="Circle"
+PresetColorSize="Large" />
 ```
 Установить собственную коллекцию готовых цветов с помощью свойства PresetCustomColors.
 В XAML-файле добавьте:
@@ -332,7 +365,6 @@ picker.PresetCustomColors = new ObservableCollection<Color>
 ---
 ## Демонстрационное приложение
 В репозитории находится демонстрационное WPF-приложение, показывающее использование и настройку элемента ColorPicker.
----
 
 ## Лицензия
 

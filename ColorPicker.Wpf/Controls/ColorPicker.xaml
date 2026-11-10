@@ -486,15 +486,74 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox x:Name="HexTextBox" Grid.Column="0"
-                         Height="35" Padding="9 0"
-                         VerticalContentAlignment="Center"
-                         Background="#FF303134" Foreground="#FFE8EAED"
-                         BorderBrush="#FF5F6368" BorderThickness="1"
-                         FontFamily="Consolas"
-                         KeyDown="HexTextBox_KeyDown"/>
+                <Grid Grid.Column="0">
+                    <TextBox x:Name="HexTextBox" Height="35" Padding="9 0"
+                             VerticalContentAlignment="Center"
+                             Background="#FF303134" Foreground="#FFE8EAED"
+                             BorderBrush="#FF5F6368" BorderThickness="1"
+                             FontFamily="Consolas"
+                             KeyDown="HexTextBox_KeyDown"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                                VerticalAlignment="Center" Margin="0 0 5 0">
+
+                        <!--Button for the copies the currently selected color-->
+                        <Button Height="25" Width="25" Padding="0"
+                                Background="Transparent" Foreground="#FFBDC1C6"
+                                BorderThickness="0" Cursor="Hand"
+                                Click="CopyColorButton_Click">
+
+                            <Grid>
+                                <Viewbox x:Name="CopyIcon"
+                                         Width="23" Height="23" Stretch="Uniform">
+                                    <Canvas Width="48" Height="48">
+                                        <Path Fill="#FF3B82F6"
+                                              Data="M17 16.5h-4.75a3.75 3.75 0 0 0-3.75 3.75v15.5a3.75 3.75 0 0 0 3.75 3.75h10.5a3.75 3.75 0 0 0 3.741-3.5h2.503a6.25 6.25 0 0 1-6.244 6h-10.5A6.25 6.25 0 0 1 6 35.75v-15.5A6.25 6.25 0 0 1 12.25 14H17zM35.75 6A6.25 6.25 0 0 1 42 12.25v15.5A6.25 6.25 0 0 1 35.75 34h-10.5A6.25 6.25 0 0 1 19 27.75v-15.5A6.25 6.25 0 0 1 25.25 6zm-10.5 2.5a3.75 3.75 0 0 0-3.75 3.75v15.5a3.75 3.75 0 0 0 3.75 3.75h10.5a3.75 3.75 0 0 0 3.75-3.75v-15.5a3.75 3.75 0 0 0-3.75-3.75z"/>
+                                    </Canvas>
+                                </Viewbox>
+
+                                <Viewbox x:Name="CopySuccessIcon"
+                                         Width="23" Height="23" Stretch="Uniform">
+                                    <Canvas Width="48" Height="48">
+                                        <Path Fill="#FF0FAF16"
+                                              Data="M40.139 12.871a1.25 1.25 0 0 1-.01 1.768l-22.25 22a1.25 1.25 0 0 1-1.75.007l-9.25-9a1.25 1.25 0 1 1 1.743-1.792L16.993 34l21.378-21.138a1.25 1.25 0 0 1 1.768.01"/>
+                                    </Canvas>
+                                </Viewbox>
+                            </Grid>
+                            
+
+                        </Button>
+
+                        <!--Button for the updates the selected color copy format-->
+                        <Button Height="25" Width="25" Padding="0"
+                                Background="Transparent" Foreground="#FFBDC1C6"
+                                BorderThickness="0" Cursor="Hand"
+                                Click="CopyFormatButton_Click">
+
+                            <Button.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="HEX" Tag="HEX"
+                                              Click="CopyFormatMenuItem_Click"/>
+                                    <MenuItem Header="RGB" Tag="RGB"
+                                              Click="CopyFormatMenuItem_Click"/>
+                                    <MenuItem Header="ARGB" Tag="ARGB"
+                                              Click="CopyFormatMenuItem_Click"/>
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                            
+                            <Viewbox Width="10" Height="10" Stretch="Uniform">
+                                <Canvas Width="48" Height="48">
+                                    <Path Fill="#FF3B82F6"
+                                          Data="M27.528 40.772c-1.617 2.99-5.915 2.966-7.499-.041L4.495 11.229C3.005 8.4 5.057 5 8.255 5h31.488c3.22 0 5.27 3.44 3.739 6.272z"/>
+                                </Canvas>
+                            </Viewbox>
+                            
+                        </Button>
+                    </StackPanel>
+                </Grid>
 
                 <Button Grid.Column="1" Content="Apply"
                         Margin="8 0 0 0" Padding="14 0"
@@ -502,6 +561,21 @@
                         Background="#FF3B82F6" Foreground="White"
                         BorderThickness="0" Cursor="Hand"
                         Click="ApplyHexButton_Click"/>
+
+                <Button x:Name="EyedropperButton" Grid.Column="2" Width="35" Height="35"
+                        Margin="8 0 0 0" Padding="0" Background="Transparent"
+                        BorderBrush="#FF3B82F6" BorderThickness="0" Cursor="Hand"
+                        Click="EyedropperButton_Click">
+                    <Grid>
+                        <Viewbox Width="33" Height="33" Stretch="Uniform">
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="#FF3B82F6"
+                                      Data="M21.03 2.97a3.58 3.58 0 0 0-5.06 0L14 4.94l-.013-.013a1.75 1.75 0 0 0-2.475 0l-.585.586a1.75 1.75 0 0 0 0 2.475l.012.012l-6.78 6.78a2.25 2.25 0 0 0-.659 1.592v.687l-1.28 2.347c-.836 1.533.841 3.21 2.374 2.375l2.347-1.28h.688a2.25 2.25 0 0 0 1.59-.66L16 13.061l.012.012a1.75 1.75 0 0 0 2.475 0l.586-.585a1.75 1.75 0 0 0 0-2.475L19.061 10l1.97-1.97a3.58 3.58 0 0 0 0-5.06M12 9.061l2.94 2.94l-6.78 6.78a.75.75 0 0 1-.531.22H6.75a.75.75 0 0 0-.359.09l-2.515 1.373a.23.23 0 0 1-.159.032a.26.26 0 0 1-.138-.075a.26.26 0 0 1-.075-.138a.23.23 0 0 1 .033-.158l1.372-2.515A.75.75 0 0 0 5 17.25v-.878a.75.75 0 0 1 .22-.53z"/>
+
+                            </Canvas>
+                        </Viewbox>
+                    </Grid>
+                </Button>
             </Grid>
 
             <TextBlock x:Name="ErrorTextBlock"
