@@ -10,15 +10,21 @@
 		<RootNamespace>ColorPickerUI</RootNamespace>
 
 		<PackageId>ColorPickerUI</PackageId>
-		<Version>0.1.0</Version>
+		<Version>0.3.0</Version>
 		<Authors>Maxim Storozhenko</Authors>
 		<Description>A customizable WPF color picker control with HSV, RGB, HEX and preset color palettes.</Description>
 		<PackageTags>WPF;ColorPicker;Color;ColorSelection</PackageTags>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+
+		<PackageProjectUrl>https://github.com/MaximStorozhenko/ColorPickerUI</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/MaximStorozhenko/ColorPickerUI</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<None Include="../LICENSE" Pack="true" PackagePath="" />
+		<None Include="../README.md" Pack="true" PackagePath="" />
 	</ItemGroup>
 
 </Project>
