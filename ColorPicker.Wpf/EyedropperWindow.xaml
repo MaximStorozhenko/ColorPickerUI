@@ -6,7 +6,8 @@
         WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True"
         Background="Transparent" Topmost="True" ShowInTaskbar="False">
 
-    <Border Background="#FF202124" BorderBrush="#FF5F6368"
+    <Border Background="{DynamicResource PickerBackgroundBrush}"
+            BorderBrush="{DynamicResource PickerBorderBrush}"
             BorderThickness="1" CornerRadius="12" Padding="8">
         <Grid>
             <Image x:Name="MagnifierImage" Stretch="Fill"

@@ -1,0 +1,30 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Light theme resources for ColorPicker. -->
+    
+    <SolidColorBrush x:Key="PickerBackgroundBrush" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="PickerBorderBrush" Color="#FFDADCE0"/>
+
+    <SolidColorBrush x:Key="PrimaryTextBrush" Color="#FF202124"/>
+    <SolidColorBrush x:Key="SecondaryTextBrush" Color="#FF5F6368"/>
+
+    <SolidColorBrush x:Key="InputBackgroundBrush" Color="#FFF1F3F4"/>
+    <SolidColorBrush x:Key="InputBorderBrush" Color="#FFDADCE0"/>
+
+    <SolidColorBrush x:Key="TabBackgroundBrush" Color="#FFE8EAED"/>
+    <SolidColorBrush x:Key="AccentBrush" Color="#FF3B82F6"/>
+
+    <SolidColorBrush x:Key="ThumbBorderBrush" Color="#FF9AA0A6"/>
+
+    <SolidColorBrush x:Key="MenuBackgroundBrush" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="MenuForegroundBrush" Color="#FF202124"/>
+    <SolidColorBrush x:Key="MenuBorderBrush" Color="#FFDADCE0"/>
+    <SolidColorBrush x:Key="MenuHoverBrush" Color="#FFE8EAED"/>
+
+    <SolidColorBrush x:Key="ActionButtonBackgroundBrush" Color="#FFF1F3F4"/>
+    <SolidColorBrush x:Key="ActionButtonForegroundBrush" Color="#FF202124"/>
+    <SolidColorBrush x:Key="ActionButtonBorderBrush" Color="#FFDADCE0"/>
+    <SolidColorBrush x:Key="ActionButtonHoverBrush" Color="#FFE8EAED"/>
+
+</ResourceDictionary>

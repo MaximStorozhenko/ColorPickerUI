@@ -9,85 +9,107 @@
              MinWidth="262" d:DesignWidth="310">
 
     <UserControl.Resources>
-        <converters:SliderValuePositionConverter x:Key="SliderValuePositionConverter"/>
-        <converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ColorPickerUI;component/Themes/DarkTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        
+            <converters:SliderValuePositionConverter x:Key="SliderValuePositionConverter"/>
+            <converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
 
-        <DrawingBrush x:Key="CheckerboardBrush"
-                      TileMode="Tile"
-                      Viewport="0 0 16 16" ViewportUnits="Absolute"
-                      Viewbox="0 0 16 16" ViewboxUnits="Absolute" Stretch="None">
-            <DrawingBrush.Drawing>
-                <DrawingGroup>
-                    <GeometryDrawing Brush="White">
-                        <GeometryDrawing.Geometry>
-                            <RectangleGeometry Rect="0 0 16 16"/>
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
+            <DrawingBrush x:Key="CheckerboardBrush"
+                          TileMode="Tile"
+                          Viewport="0 0 16 16" ViewportUnits="Absolute"
+                          Viewbox="0 0 16 16" ViewboxUnits="Absolute" Stretch="None">
+                <DrawingBrush.Drawing>
+                    <DrawingGroup>
+                        <GeometryDrawing Brush="White">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry Rect="0 0 16 16"/>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
 
-                    <GeometryDrawing Brush="#FFCCCCCC">
-                        <GeometryDrawing.Geometry>
-                            <GeometryGroup>
-                                <RectangleGeometry Rect="0 0 8 8"/>
-                                <RectangleGeometry Rect="8 8 8 8"/>
-                            </GeometryGroup>
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingGroup>
-            </DrawingBrush.Drawing>
-        </DrawingBrush>
+                        <GeometryDrawing Brush="#FFCCCCCC">
+                            <GeometryDrawing.Geometry>
+                                <GeometryGroup>
+                                    <RectangleGeometry Rect="0 0 8 8"/>
+                                    <RectangleGeometry Rect="8 8 8 8"/>
+                                </GeometryGroup>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                </DrawingBrush.Drawing>
+            </DrawingBrush>
 
-        <Style x:Key="ColorSliderStyle" TargetType="{x:Type Slider}">
-            <Setter Property="Height" Value="22"/>
-            <Setter Property="Background" Value="#FF9A9A9B"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Slider}">
-                        <Grid VerticalAlignment="Center">
+            <Style x:Key="ColorSliderStyle" TargetType="{x:Type Slider}">
+                <Setter Property="Height" Value="22"/>
+                <Setter Property="Background" Value="#FF9A9A9B"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Slider}">
+                            <Grid VerticalAlignment="Center">
 
-                            <!--Colored path-->
-                            <Border Height="8" CornerRadius="4" Background="{TemplateBinding Background}"/>
+                                <!--Colored path-->
+                                <Border Height="8" CornerRadius="4" Background="{TemplateBinding Background}"/>
 
-                            <!--Thumb-->
-                            <Track x:Name="PART_Track" IsDirectionReversed="{TemplateBinding IsDirectionReversed}">
-                                <Track.Thumb>
-                                    <Thumb Width="20" Height="20" Background="#FF0067C0" BorderBrush="#FF454545" BorderThickness="3">
-                                        <Thumb.Template>
-                                            <ControlTemplate TargetType="{x:Type Thumb}">
-                                                <Grid>
-                                                    <Ellipse x:Name="FocusRing" Stroke="#80454545" StrokeThickness="2"
-                                                     Fill="Transparent" Margin="0"/>
+                                <!--Thumb-->
+                                <Track x:Name="PART_Track" IsDirectionReversed="{TemplateBinding IsDirectionReversed}">
+                                    <Track.Thumb>
+                                        <Thumb Width="20" Height="20" Background="#FF0067C0" BorderBrush="#FF454545" BorderThickness="3">
+                                            <Thumb.Template>
+                                                <ControlTemplate TargetType="{x:Type Thumb}">
+                                                    <Grid>
+                                                        <Ellipse x:Name="FocusRing" Stroke="#80454545" StrokeThickness="2"
+                                                         Fill="Transparent" Margin="0"/>
 
-                                                    <Ellipse x:Name="ThumbCircle" Width="18" Height="18" Fill="{TemplateBinding Background}"
-                                                     StrokeThickness="3" Stroke="{TemplateBinding BorderBrush}"
-                                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                </Grid>
+                                                        <Ellipse x:Name="ThumbCircle" Width="18" Height="18" Fill="{TemplateBinding Background}"
+                                                         StrokeThickness="3" Stroke="{TemplateBinding BorderBrush}"
+                                                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Grid>
 
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="ThumbCircle" Property="Fill" Value="#71ADDC"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Thumb.Template>
-                                    </Thumb>
-                                </Track.Thumb>
-                            </Track>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="ThumbCircle" Property="Fill" Value="#71ADDC"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Thumb.Template>
+                                        </Thumb>
+                                    </Track.Thumb>
+                                </Track>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="SliderValueBorderStyle" TargetType="{x:Type Border}">
+                <Setter Property="Width" Value="35"/>
+                <Setter Property="Height" Value="18"/>
+                <Setter Property="CornerRadius" Value="4"/>
+                <Setter Property="Background" Value="{DynamicResource InputBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+            </Style>
+
+            <Style x:Key="SliderValueTextStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+            </Style>
+        </ResourceDictionary>
     </UserControl.Resources>
     
-    <Border Background="#FF202124" BorderBrush="#FF3C4043"
+    <Border Background="{DynamicResource PickerBackgroundBrush}" BorderBrush="{DynamicResource PickerBorderBrush}"
             BorderThickness="1" CornerRadius="10" Padding="10">
         <StackPanel>
-            <!--<TextBlock Text="COLOR PICKER" Foreground="#FFE8EAED" FontSize="15" FontWeight="SemiBold" Margin="0 0 0 10"/>-->
+            <!--<TextBlock Text="COLOR PICKER" Foreground="{DynamicResource PrimaryTextBrush}" FontSize="15" FontWeight="SemiBold" Margin="0 0 0 10"/>-->
 
             <!--Preview of the selected color-->
             <Border Height="50" CornerRadius="8" Margin="0 0 0 10"
                     Visibility="{Binding ShowPreviewSelectedColor, RelativeSource={RelativeSource AncestorType={x:Type local:ColorPicker}}}"
-                    BorderBrush="#FF5F6368" BorderThickness="1" ClipToBounds="True">
+                    BorderBrush="{DynamicResource InputBorderBrush}" BorderThickness="1" ClipToBounds="True">
                 <Grid>
                     <!-- Chess background -->
                     <Border Background="{StaticResource CheckerboardBrush}" CornerRadius="7.5"/>
@@ -149,8 +171,8 @@
                 <TabControl.Resources>
                     <!--Style buttons-->
                     <Style TargetType="{x:Type TabItem}">
-                        <Setter Property="Foreground" Value="#FFBDC1C6"/>
-                        <Setter Property="Background" Value="#FF303134"/>
+                        <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
+                        <Setter Property="Background" Value="{DynamicResource TabBackgroundBrush}"/>
                         <Setter Property="BorderThickness" Value="0"/>
                         <Setter Property="Padding" Value="12 8"/>
                         <Setter Property="Margin" Value="2 0"/>
@@ -173,7 +195,7 @@
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsSelected" Value="True">
                                             <Setter TargetName="TabBorder"
-                                                    Property="Background" Value="#FF3B82F6"/>
+                                                    Property="Background" Value="{DynamicResource AccentBrush}"/>
                                             <Setter Property="Foreground" Value="White"/>
                                         </Trigger>
 
@@ -220,7 +242,7 @@
                 <TabItem Header="HSV">
                     <StackPanel Background="Transparent">
 
-                        <TextBlock Text="Hue" Foreground="#FFBDC1C6"/>
+                        <TextBlock Text="Hue" Foreground="{DynamicResource SecondaryTextBrush}"/>
 
                         <Grid>
                             <Slider x:Name="HueSlider" Minimum="0" Maximum="359"
@@ -240,8 +262,7 @@
                             </Slider>
 
                             <Canvas IsHitTestVisible="False">
-                                <Border Width="35" Height="18" CornerRadius="4"
-                                        Background="#FF303134" BorderBrush="#FF5F6368" BorderThickness="1">
+                                <Border Style="{StaticResource SliderValueBorderStyle}">
 
                                     <Canvas.Left>
                                         <MultiBinding Converter="{StaticResource SliderValuePositionConverter}">
@@ -253,13 +274,12 @@
                                     </Canvas.Left>
 
                                     <TextBlock Text="{Binding ElementName=HueSlider, Path=Value, StringFormat={}{0:F0}}"
-                                               Foreground="White" FontSize="12"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                               Style="{StaticResource SliderValueTextStyle}"/>
                                 </Border>
                             </Canvas>
                         </Grid>
 
-                        <TextBlock Text="Saturation" Foreground="#FFBDC1C6"/>
+                        <TextBlock Text="Saturation" Foreground="{DynamicResource SecondaryTextBrush}"/>
 
                         <Grid>
                             <Slider x:Name="SaturationSlider" Minimum="0" Maximum="100"
@@ -274,8 +294,7 @@
                             </Slider>
 
                             <Canvas IsHitTestVisible="False">
-                                <Border Width="35" Height="18" CornerRadius="4"
-                                        Background="#FF303134" BorderBrush="#FF5F6368" BorderThickness="1">
+                                <Border Style="{StaticResource SliderValueBorderStyle}">
 
                                     <Canvas.Left>
                                         <MultiBinding Converter="{StaticResource SliderValuePositionConverter}">
@@ -287,14 +306,13 @@
                                     </Canvas.Left>
 
                                     <TextBlock Text="{Binding ElementName=SaturationSlider, Path=Value, StringFormat={}{0:F0}}"
-                                               Foreground="White" FontSize="12"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                               Style="{StaticResource SliderValueTextStyle}"/>
                                 </Border>
                             </Canvas>
                             
                         </Grid>
 
-                        <TextBlock Text="Value" Foreground="#FFBDC1C6"/>
+                        <TextBlock Text="Value" Foreground="{DynamicResource SecondaryTextBrush}"/>
 
                         <Grid>
                             <Slider x:Name="ValueSlider" Minimum="0" Maximum="100"
@@ -309,8 +327,7 @@
                             </Slider>
 
                             <Canvas IsHitTestVisible="False">
-                                <Border Width="35" Height="18" CornerRadius="4"
-                                        Background="#FF303134" BorderBrush="#FF5F6368" BorderThickness="1">
+                                <Border Style="{StaticResource SliderValueBorderStyle}">
                                     <Canvas.Left>
                                         <MultiBinding Converter="{StaticResource SliderValuePositionConverter}">
                                             <Binding ElementName="ValueSlider" Path="Value"/>
@@ -321,8 +338,7 @@
                                     </Canvas.Left>
 
                                     <TextBlock Text="{Binding ElementName=ValueSlider, Path=Value, StringFormat={}{0:F0}}"
-                                               Foreground="White" FontSize="12"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                               Style="{StaticResource SliderValueTextStyle}"/>
                                 </Border>
                             </Canvas>
                         </Grid>
@@ -334,7 +350,7 @@
                 <TabItem Header="RGB">
                     <StackPanel Background="Transparent">
 
-                        <TextBlock Text="Red"  Foreground="#FFBDC1C6"/>
+                        <TextBlock Text="Red"  Foreground="{DynamicResource SecondaryTextBrush}"/>
 
                         <Grid>
                             <Slider x:Name="RedSlider" Minimum="0" Maximum="255" Height="22"
@@ -350,8 +366,7 @@
                             </Slider>
 
                             <Canvas IsHitTestVisible="False">
-                                <Border Width="35" Height="18" CornerRadius="4"
-                                        Background="#FF303134" BorderBrush="#FF5F6368" BorderThickness="1">
+                                <Border Style="{StaticResource SliderValueBorderStyle}">
                                     <Canvas.Left>
                                         <MultiBinding Converter="{StaticResource SliderValuePositionConverter}">
                                             <Binding ElementName="RedSlider" Path="Value"/>
@@ -362,13 +377,12 @@
                                     </Canvas.Left>
 
                                     <TextBlock Text="{Binding ElementName=RedSlider, Path=Value, StringFormat={}{0:F0}}"
-                                               Foreground="White" FontSize="12"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                               Style="{StaticResource SliderValueTextStyle}"/>
                                 </Border>
                             </Canvas>
                         </Grid>
 
-                        <TextBlock Text="Green" Foreground="#FFBDC1C6"/>
+                        <TextBlock Text="Green" Foreground="{DynamicResource SecondaryTextBrush}"/>
 
                         <Grid>
                             <Slider x:Name="GreenSlider" Minimum="0" Maximum="255"
@@ -383,8 +397,7 @@
                             </Slider>
 
                             <Canvas IsHitTestVisible="False">
-                                <Border Width="35" Height="18" CornerRadius="4"
-                                        Background="#FF303134" BorderBrush="#FF5F6368" BorderThickness="1">
+                                <Border Style="{StaticResource SliderValueBorderStyle}">
                                     <Canvas.Left>
                                         <MultiBinding Converter="{StaticResource SliderValuePositionConverter}">
                                             <Binding ElementName="GreenSlider" Path="Value"/>
@@ -395,13 +408,12 @@
                                     </Canvas.Left>
 
                                     <TextBlock Text="{Binding ElementName=GreenSlider, Path=Value, StringFormat={}{0:F0}}"
-                                               Foreground="White" FontSize="12"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                               Style="{StaticResource SliderValueTextStyle}"/>
                                 </Border>
                             </Canvas>
                         </Grid>
 
-                        <TextBlock Text="Blue" Foreground="#FFBDC1C6"/>
+                        <TextBlock Text="Blue" Foreground="{DynamicResource SecondaryTextBrush}"/>
 
                         <Grid>
                             <Slider x:Name="BlueSlider" Minimum="0" Maximum="255"
@@ -416,8 +428,7 @@
                             </Slider>
 
                             <Canvas IsHitTestVisible="False">
-                                <Border Width="35" Height="18" CornerRadius="4"
-                                        Background="#FF303134" BorderBrush="#FF5F6368" BorderThickness="1">
+                                <Border Style="{StaticResource SliderValueBorderStyle}">
                                     <Canvas.Left>
                                         <MultiBinding Converter="{StaticResource SliderValuePositionConverter}">
                                             <Binding ElementName="BlueSlider" Path="Value"/>
@@ -428,8 +439,7 @@
                                     </Canvas.Left>
 
                                     <TextBlock Text="{Binding ElementName=BlueSlider, Path=Value, StringFormat={}{0:F0}}"
-                                               Foreground="White" FontSize="12"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                               Style="{StaticResource SliderValueTextStyle}"/>
                                 </Border>
                             </Canvas>
                         </Grid>
@@ -441,7 +451,7 @@
 
             <!-- Common Alpha slider -->
             <StackPanel Margin="0 5 0 0">
-                <TextBlock Text="Alpha" Foreground="#FFBDC1C6"/>
+                <TextBlock Text="Alpha" Foreground="{DynamicResource SecondaryTextBrush}"/>
 
                 <Grid>
                     <Grid>
@@ -460,8 +470,7 @@
                     </Grid>
                     
                     <Canvas IsHitTestVisible="False">
-                        <Border Width="35" Height="18" CornerRadius="4"
-                                Background="#FF303134" BorderBrush="#FF5F6368" BorderThickness="1">
+                        <Border Style="{StaticResource SliderValueBorderStyle}">
                             <Canvas.Left>
                                 <MultiBinding Converter="{StaticResource SliderValuePositionConverter}">
                                     <Binding ElementName="AlphaSlider" Path="Value"/>
@@ -472,15 +481,14 @@
                             </Canvas.Left>
 
                             <TextBlock Text="{Binding ElementName=AlphaSlider, Path=Value, StringFormat={}{0:F0}}"
-                                       Foreground="White" FontSize="12"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                       Style="{StaticResource SliderValueTextStyle}"/>
                         </Border>
                     </Canvas>
                 </Grid>
             </StackPanel>
 
             <!--HEX-->
-            <TextBlock Text="HEX" Foreground="#FFBDC1C6" Margin="0 5"/>
+            <TextBlock Text="HEX" Foreground="{DynamicResource SecondaryTextBrush}" Margin="0 5"/>
 
             <Grid Margin="0 0 0 5">
                 <Grid.ColumnDefinitions>
@@ -492,8 +500,8 @@
                 <Grid Grid.Column="0">
                     <TextBox x:Name="HexTextBox" Height="35" Padding="9 0"
                              VerticalContentAlignment="Center"
-                             Background="#FF303134" Foreground="#FFE8EAED"
-                             BorderBrush="#FF5F6368" BorderThickness="1"
+                             Background="{DynamicResource InputBackgroundBrush}" Foreground="{DynamicResource PrimaryTextBrush}"
+                             BorderBrush="{DynamicResource InputBorderBrush}" BorderThickness="1"
                              FontFamily="Consolas"
                              KeyDown="HexTextBox_KeyDown"/>
 
@@ -502,7 +510,7 @@
 
                         <!--Button for the copies the currently selected color-->
                         <Button Height="25" Width="25" Padding="0"
-                                Background="Transparent" Foreground="#FFBDC1C6"
+                                Background="Transparent" Foreground="{DynamicResource SecondaryTextBrush}"
                                 BorderThickness="0" Cursor="Hand"
                                 Click="CopyColorButton_Click">
 
@@ -510,7 +518,7 @@
                                 <Viewbox x:Name="CopyIcon"
                                          Width="23" Height="23" Stretch="Uniform">
                                     <Canvas Width="48" Height="48">
-                                        <Path Fill="#FF3B82F6"
+                                        <Path Fill="{DynamicResource AccentBrush}"
                                               Data="M17 16.5h-4.75a3.75 3.75 0 0 0-3.75 3.75v15.5a3.75 3.75 0 0 0 3.75 3.75h10.5a3.75 3.75 0 0 0 3.741-3.5h2.503a6.25 6.25 0 0 1-6.244 6h-10.5A6.25 6.25 0 0 1 6 35.75v-15.5A6.25 6.25 0 0 1 12.25 14H17zM35.75 6A6.25 6.25 0 0 1 42 12.25v15.5A6.25 6.25 0 0 1 35.75 34h-10.5A6.25 6.25 0 0 1 19 27.75v-15.5A6.25 6.25 0 0 1 25.25 6zm-10.5 2.5a3.75 3.75 0 0 0-3.75 3.75v15.5a3.75 3.75 0 0 0 3.75 3.75h10.5a3.75 3.75 0 0 0 3.75-3.75v-15.5a3.75 3.75 0 0 0-3.75-3.75z"/>
                                     </Canvas>
                                 </Viewbox>
@@ -529,12 +537,40 @@
 
                         <!--Button for the updates the selected color copy format-->
                         <Button Height="25" Width="25" Padding="0"
-                                Background="Transparent" Foreground="#FFBDC1C6"
+                                Background="Transparent" Foreground="{DynamicResource SecondaryTextBrush}"
                                 BorderThickness="0" Cursor="Hand"
                                 Click="CopyFormatButton_Click">
 
                             <Button.ContextMenu>
-                                <ContextMenu>
+                                <ContextMenu x:Name="CopyContextMenu" Background="{DynamicResource MenuBackgroundBrush}"
+                                             Foreground="{DynamicResource MenuForegroundBrush}"
+                                             BorderBrush="{DynamicResource MenuBorderBrush}"
+                                             BorderThickness="1" Padding="4">
+
+                                    <ContextMenu.Resources>
+                                        <Style TargetType="{x:Type MenuItem}">
+                                            <Setter Property="Foreground" Value="{DynamicResource MenuForegroundBrush}"/>
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Padding" Value="12 7"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type MenuItem}">
+                                                        <Border x:Name="MenuItemBorder" Background="{TemplateBinding Background}"
+                                                                CornerRadius="4" Padding="{TemplateBinding Padding}">
+                                                            <ContentPresenter ContentSource="Header" VerticalAlignment="Center"/>
+                                                        </Border>
+
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsHighlighted" Value="True">
+                                                                <Setter TargetName="MenuItemBorder" Property="Background" Value="{DynamicResource MenuHoverBrush}"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ContextMenu.Resources>
+                                    
                                     <MenuItem Header="HEX" Tag="HEX"
                                               Click="CopyFormatMenuItem_Click"/>
                                     <MenuItem Header="RGB" Tag="RGB"
@@ -546,7 +582,7 @@
                             
                             <Viewbox Width="10" Height="10" Stretch="Uniform">
                                 <Canvas Width="48" Height="48">
-                                    <Path Fill="#FF3B82F6"
+                                    <Path Fill="{DynamicResource AccentBrush}"
                                           Data="M27.528 40.772c-1.617 2.99-5.915 2.966-7.499-.041L4.495 11.229C3.005 8.4 5.057 5 8.255 5h31.488c3.22 0 5.27 3.44 3.739 6.272z"/>
                                 </Canvas>
                             </Viewbox>
@@ -556,20 +592,70 @@
                 </Grid>
 
                 <Button Grid.Column="1" Content="Apply"
-                        Margin="8 0 0 0" Padding="14 0"
-                        Height="35"
-                        Background="#FF3B82F6" Foreground="White"
-                        BorderThickness="0" Cursor="Hand"
-                        Click="ApplyHexButton_Click"/>
+                        Margin="8 0 0 0"
+                        Height="35" Width="50" Cursor="Hand"
+                        Background="{DynamicResource ActionButtonBackgroundBrush}"
+                        Foreground="{DynamicResource ActionButtonForegroundBrush}"
+                        BorderBrush="{DynamicResource ActionButtonBorderBrush}" BorderThickness="1"
+                        Click="ApplyHexButton_Click">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Name="ButtonBorderApply" Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="5">
+                                <ContentPresenter Content="{TemplateBinding Content}"
+                                                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                  RecognizesAccessKey="True"/>
+                            </Border>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="ButtonBorderApply"
+                                            Property="Background" Value="{DynamicResource ActionButtonHoverBrush}"/>
+                                    <Setter TargetName="ButtonBorderApply"
+                                            Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="ButtonBorderApply"
+                                            Property="Opacity" Value="0.7"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
 
                 <Button x:Name="EyedropperButton" Grid.Column="2" Width="35" Height="35"
-                        Margin="8 0 0 0" Padding="0" Background="Transparent"
-                        BorderBrush="#FF3B82F6" BorderThickness="0" Cursor="Hand"
+                        Margin="8 0 0 0" Padding="0" Background="{DynamicResource InputBackgroundBrush}"
+                        BorderBrush="{DynamicResource InputBorderBrush}" BorderThickness="1" Cursor="Hand"
                         Click="EyedropperButton_Click">
+                    
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="5">
+
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="ButtonBorder"
+                                            Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+                                </Trigger>
+
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="ButtonBorder"
+                                            Property="Opacity" Value="0.7"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
                     <Grid>
                         <Viewbox Width="33" Height="33" Stretch="Uniform">
                             <Canvas Width="24" Height="24">
-                                <Path Fill="#FF3B82F6"
+                                <Path Fill="{DynamicResource AccentBrush}"
                                       Data="M21.03 2.97a3.58 3.58 0 0 0-5.06 0L14 4.94l-.013-.013a1.75 1.75 0 0 0-2.475 0l-.585.586a1.75 1.75 0 0 0 0 2.475l.012.012l-6.78 6.78a2.25 2.25 0 0 0-.659 1.592v.687l-1.28 2.347c-.836 1.533.841 3.21 2.374 2.375l2.347-1.28h.688a2.25 2.25 0 0 0 1.59-.66L16 13.061l.012.012a1.75 1.75 0 0 0 2.475 0l.586-.585a1.75 1.75 0 0 0 0-2.475L19.061 10l1.97-1.97a3.58 3.58 0 0 0 0-5.06M12 9.061l2.94 2.94l-6.78 6.78a.75.75 0 0 1-.531.22H6.75a.75.75 0 0 0-.359.09l-2.515 1.373a.23.23 0 0 1-.159.032a.26.26 0 0 1-.138-.075a.26.26 0 0 1-.075-.138a.23.23 0 0 1 .033-.158l1.372-2.515A.75.75 0 0 0 5 17.25v-.878a.75.75 0 0 1 .22-.53z"/>
 
                             </Canvas>
@@ -578,18 +664,14 @@
                 </Button>
             </Grid>
 
-            <TextBlock x:Name="ErrorTextBlock"
-                       Foreground="#FFFF6B6B"
-                       FontSize="12"
-                       Margin="0 5"
-                       Visibility="Collapsed"
-                       Text="Invalid HEX color"/>
+            <TextBlock x:Name="ErrorTextBlock" Text="Invalid HEX color"
+                       Foreground="#FFFF6B6B" FontSize="12" Margin="0 5" Visibility="Collapsed"/>
 
             <!-- Preset colors -->
             <StackPanel Visibility="{Binding ShowPresetColors, RelativeSource={RelativeSource AncestorType={x:Type local:ColorPicker}}}">
 
                 <TextBlock Text="PRESET COLORS"
-                           Foreground="#FFBDC1C6"
+                           Foreground="{DynamicResource SecondaryTextBrush}"
                            Margin="0 5 0 0"/>
 
                 <ItemsControl ItemsSource="{Binding DisplayedPresetColors, RelativeSource={RelativeSource AncestorType={x:Type local:ColorPicker}}}">
@@ -603,7 +685,7 @@
                         <DataTemplate>
                             <Button Margin="5"
                                     Background="{Binding Converter={StaticResource ColorToBrushConverter}}"
-                                    BorderThickness="1" BorderBrush="#FF5F6368"
+                                    BorderThickness="1" BorderBrush="{DynamicResource InputBorderBrush}"
                                     Tag="{Binding}"
                                     Cursor="Hand" Click="PresetColorButton_Click">
 
