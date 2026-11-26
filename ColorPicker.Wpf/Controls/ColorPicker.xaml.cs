@@ -169,6 +169,28 @@ namespace ColorPickerUI.Controls
             get => (Visibility)GetValue(ShowPreviewSelectedColorProperty);
             set => SetValue(ShowPreviewSelectedColorProperty, value);
         }
+
+        /// <summary>
+        /// Identifies the <see cref="Theme"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ThemeProperty =
+            DependencyProperty.Register(
+                nameof(Theme),
+                typeof(ColorPickerTheme),
+                typeof(ColorPicker),
+                new FrameworkPropertyMetadata(ColorPickerTheme.Dark, OnThemeChanged));
+
+        /// <summary>
+        /// Gets or sets the visual theme of the color picker.
+        /// </summary>
+        /// <remarks>
+        /// The default theme is <see cref="ColorPickerTheme.Dark"/>.
+        /// </remarks>
+        public ColorPickerTheme Theme
+        {
+            get => (ColorPickerTheme)GetValue(ThemeProperty);
+            set => SetValue(ThemeProperty, value);
+        }
         #endregion
 
         private double hue = 210;
@@ -203,6 +225,12 @@ namespace ColorPickerUI.Controls
         {
             InitializeComponent();
 
+            CopyContextMenu.Resources.MergedDictionaries.Add(
+                new ResourceDictionary
+                {
+                    Source = new Uri("/ColorPickerUI;component/Themes/DarkTheme.xaml", UriKind.Relative)
+                });
+
             SetCurrentValue(PresetCustomColorsProperty, new ObservableCollection<Color>());
 
             UpdateVisuals();
@@ -232,6 +260,16 @@ namespace ColorPickerUI.Controls
             if(ColorPalettes.All.TryGetValue(Palette, out ColorPalette palette))
                 foreach(Color color in palette.Colors)
                     DisplayedPresetColors.Add(color);
+        }
+
+        /// <summary>
+        /// Handles changes to the selected color theme
+        /// and updates the control
+        /// </summary>
+        private static void OnThemeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ColorPicker control)
+                control.ApplyTheme((ColorPickerTheme)e.NewValue);
         }
 
         /// <summary>
@@ -270,6 +308,42 @@ namespace ColorPickerUI.Controls
                 newColors.CollectionChanged += picker.PresetCustomColors_CollectionChanged;
 
             picker.UpdatePresetColors();
+        }
+
+        /// <summary>
+        /// Applies the specified visual theme to the color picker.
+        /// </summary>
+        /// <param name="theme">The theme to apply.</param>
+        /// <remarks>
+        /// Replaces the current theme resource dictionary while preserving
+        /// other resources defined by the control.
+        /// </remarks>
+        private void ApplyTheme(ColorPickerTheme theme)
+        {
+            string themeFile = theme switch
+            {
+                ColorPickerTheme.Dark => "DarkTheme.xaml",
+                ColorPickerTheme.Light => "LightTheme.xaml",
+                _ => "DarkThem.xaml"
+            };
+
+            Resources.MergedDictionaries.Clear();
+
+            Resources.MergedDictionaries.Add(
+                new ResourceDictionary
+                {
+                    Source = new Uri($"/ColorPickerUI;component/Themes/{themeFile}", UriKind.Relative)
+                });
+
+            CopyContextMenu.Resources.MergedDictionaries.Clear();
+
+            CopyContextMenu.Resources.MergedDictionaries.Add(
+                new ResourceDictionary
+                {
+                    Source = new Uri(
+                        $"/ColorPickerUI;component/Themes/{themeFile}",
+                        UriKind.Relative)
+                });
         }
 
         /// <summary>
@@ -657,6 +731,7 @@ namespace ColorPickerUI.Controls
 
             eyedropperWindow = new();
             eyedropperWindow.Owner = Window.GetWindow(this);
+            eyedropperWindow.ApplyTheme(Theme);
             eyedropperWindow.ColorPicked += color =>
             {
                 SelectedColor = color;

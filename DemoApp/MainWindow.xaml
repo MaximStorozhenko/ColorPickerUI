@@ -6,7 +6,7 @@
         xmlns:controls="clr-namespace:ColorPickerUI.Controls;assembly=ColorPickerUI"
         xmlns:local="clr-namespace:DemoApp"
         mc:Ignorable="d"
-        Title="ColorPicker Demo" Width="1000"
+        Title="ColorPicker Demo" Width="1250"
         MinWidth="1000" MinHeight="500"
         WindowStartupLocation="CenterScreen" Background="#FF2F3035">
 
@@ -15,14 +15,32 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
         <ScrollViewer Grid.Column="0"
-                VerticalScrollBarVisibility="Auto"
-                HorizontalScrollBarVisibility="Disabled"
-                VerticalAlignment="Center">
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalAlignment="Center">
 
             <controls:ColorPicker
+                SelectedColor="{Binding SelectedColor, Mode=TwoWay}"
+                ShowPresetColors="{Binding ShowPresetColor, Mode=TwoWay}"
+                ShowPreviewSelectedColor="{Binding ShowPreviewColor, Mode=TwoWay}"
+                Palette="{Binding ColorPalette, Mode=TwoWay}"
+                PresetCustomColors="{Binding CustomColors, Mode=OneWay}"
+                PresetColorShape="{Binding PresetColorShape, Mode=TwoWay}"
+                PresetColorSize="{Binding PresetColorSize, Mode=TwoWay}"/>
+
+        </ScrollViewer>
+
+        <ScrollViewer Grid.Column="3"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalAlignment="Center">
+
+            <controls:ColorPicker
+                Theme="Light"
                 SelectedColor="{Binding SelectedColor, Mode=TwoWay}"
                 ShowPresetColors="{Binding ShowPresetColor, Mode=TwoWay}"
                 ShowPreviewSelectedColor="{Binding ShowPreviewColor, Mode=TwoWay}"

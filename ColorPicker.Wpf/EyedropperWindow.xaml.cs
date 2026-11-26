@@ -1,4 +1,5 @@
-﻿using ColorPickerUI.Services;
+﻿using ColorPickerUI.Enums;
+using ColorPickerUI.Services;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -50,6 +51,28 @@ namespace ColorPickerUI
         public void SetInitialPosition(int cursorX, int cursorY)
         {
             UpdateWindowPosition(cursorX, cursorY);
+        }
+
+        /// <summary>
+        /// Applies the specified visual theme to the eyedropper window.
+        /// </summary>
+        /// <param name="theme">The theme to apply.</param>
+        internal void ApplyTheme(ColorPickerTheme theme)
+        {
+            string themeFile = theme switch
+            {
+                ColorPickerTheme.Dark => "DarkTheme.xaml",
+                ColorPickerTheme.Light => "LightTheme.xaml",
+                _ => "DarkTheme.xaml"
+            };
+
+            Resources.MergedDictionaries.Clear();
+
+            Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new Uri(
+                    $"/ColorPickerUI;component/Themes/{themeFile}", UriKind.Relative)
+            });
         }
 
         private void Timer_Tick(object? sender, EventArgs e)
