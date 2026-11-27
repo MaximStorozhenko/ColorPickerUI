@@ -512,6 +512,7 @@
                         <Button Height="25" Width="25" Padding="0"
                                 Background="Transparent" Foreground="{DynamicResource SecondaryTextBrush}"
                                 BorderThickness="0" Cursor="Hand"
+                                ToolTip="{Binding Localization.Copy_Text, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
                                 Click="CopyColorButton_Click">
 
                             <Grid>
@@ -591,16 +592,18 @@
                     </StackPanel>
                 </Grid>
 
-                <Button Grid.Column="1" Content="Apply"
+                <Button Grid.Column="1"
+                        Content="{Binding Localization.Apply_Text, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" d:Content="Apply"
+                        ToolTip="{Binding Localization.ApplyToolTip_Text, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
                         Margin="8 0 0 0"
-                        Height="35" Width="50" Cursor="Hand"
+                        Height="35" Cursor="Hand"
                         Background="{DynamicResource ActionButtonBackgroundBrush}"
                         Foreground="{DynamicResource ActionButtonForegroundBrush}"
                         BorderBrush="{DynamicResource ActionButtonBorderBrush}" BorderThickness="1"
                         Click="ApplyHexButton_Click">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
-                            <Border Name="ButtonBorderApply" Background="{TemplateBinding Background}"
+                            <Border Name="ButtonBorderApply" Background="{TemplateBinding Background}" Padding="10 0"
                                     BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
                                     CornerRadius="5">
                                 <ContentPresenter Content="{TemplateBinding Content}"
@@ -628,6 +631,7 @@
                 <Button x:Name="EyedropperButton" Grid.Column="2" Width="35" Height="35"
                         Margin="8 0 0 0" Padding="0" Background="{DynamicResource InputBackgroundBrush}"
                         BorderBrush="{DynamicResource InputBorderBrush}" BorderThickness="1" Cursor="Hand"
+                        ToolTip="{Binding Localization.Eyedropper_Text, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
                         Click="EyedropperButton_Click">
                     
                     <Button.Template>
@@ -670,7 +674,8 @@
             <!-- Preset colors -->
             <StackPanel Visibility="{Binding ShowPresetColors, RelativeSource={RelativeSource AncestorType={x:Type local:ColorPicker}}}">
 
-                <TextBlock Text="PRESET COLORS"
+                <TextBlock Text="{Binding Localization.PresetColors_Text, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                           d:Text="PRESET COLORS"
                            Foreground="{DynamicResource SecondaryTextBrush}"
                            Margin="0 5 0 0"/>
 

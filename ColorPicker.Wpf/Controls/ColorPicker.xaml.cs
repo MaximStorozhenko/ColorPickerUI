@@ -1,10 +1,12 @@
 ﻿using ColorPickerUI.Enums;
 using ColorPickerUI.Helpers;
+using ColorPickerUI.Localization;
 using ColorPickerUI.Models;
 using ColorPickerUI.Services;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -191,6 +193,25 @@ namespace ColorPickerUI.Controls
             get => (ColorPickerTheme)GetValue(ThemeProperty);
             set => SetValue(ThemeProperty, value);
         }
+
+        /// <summary>
+        /// Identifies the Language dependency property.
+        /// </summary>
+        public static readonly DependencyProperty PickerLanguageProperty =
+            DependencyProperty.Register(
+                nameof(PickerLanguage),
+                typeof(ColorPickerLanguage),
+                typeof(ColorPicker),
+                new FrameworkPropertyMetadata(ColorPickerLanguage.Auto, OnPickerLanguageChanged));
+
+        /// <summary>
+        /// Gets or sets the language used by the color picker.
+        /// </summary>
+        public ColorPickerLanguage PickerLanguage
+        {
+            get => (ColorPickerLanguage)GetValue(PickerLanguageProperty);
+            set => SetValue(PickerLanguageProperty, value);
+        }
         #endregion
 
         private double hue = 210;
@@ -203,6 +224,12 @@ namespace ColorPickerUI.Controls
         private bool _isUpdatingFromHsv;
 
         private EyedropperWindow? eyedropperWindow;
+
+        /// <summary>
+        /// Gets the localization manager used to provide translated strings
+        /// for this color picker instance.
+        /// </summary>
+        public LocalizationManager Localization { get; } = new();
 
         /// <summary>
         /// Gets the collection of preset colors currently displayed by the control.
@@ -263,6 +290,15 @@ namespace ColorPickerUI.Controls
         }
 
         /// <summary>
+        /// Handles changes to the PickerLanguage dependency property.
+        /// </summary>
+        private static void OnPickerLanguageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ColorPicker control)
+                control.ApplyLanguage((ColorPickerLanguage)e.NewValue);
+        }
+
+        /// <summary>
         /// Handles changes to the selected color theme
         /// and updates the control
         /// </summary>
@@ -308,6 +344,16 @@ namespace ColorPickerUI.Controls
                 newColors.CollectionChanged += picker.PresetCustomColors_CollectionChanged;
 
             picker.UpdatePresetColors();
+        }
+
+        /// <summary>
+        /// Applies the specified language to the color picker.
+        /// </summary>
+        /// <param name="language">The language to apply.</param>
+        private void ApplyLanguage(ColorPickerLanguage language)
+        {
+            CultureInfo culture = LocalizationManager.GetCulture(language);
+            Localization.ChangeCulture(culture);
         }
 
         /// <summary>

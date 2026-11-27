@@ -23,7 +23,7 @@
                       HorizontalScrollBarVisibility="Disabled"
                       VerticalAlignment="Center">
 
-            <controls:ColorPicker
+            <controls:ColorPicker PickerLanguage="Russian"
                 SelectedColor="{Binding SelectedColor, Mode=TwoWay}"
                 ShowPresetColors="{Binding ShowPresetColor, Mode=TwoWay}"
                 ShowPreviewSelectedColor="{Binding ShowPreviewColor, Mode=TwoWay}"
@@ -40,7 +40,7 @@
                       VerticalAlignment="Center">
 
             <controls:ColorPicker
-                Theme="Light"
+                Theme="Light" PickerLanguage="English"
                 SelectedColor="{Binding SelectedColor, Mode=TwoWay}"
                 ShowPresetColors="{Binding ShowPresetColor, Mode=TwoWay}"
                 ShowPreviewSelectedColor="{Binding ShowPreviewColor, Mode=TwoWay}"
