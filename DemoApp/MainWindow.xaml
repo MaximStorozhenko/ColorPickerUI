@@ -23,7 +23,7 @@
                       HorizontalScrollBarVisibility="Disabled"
                       VerticalAlignment="Center">
 
-            <controls:ColorPicker
+            <controls:ColorPicker PickerLanguage="{Binding SelectedLanguage, Mode=TwoWay}"
                 SelectedColor="{Binding SelectedColor, Mode=TwoWay}"
                 ShowPresetColors="{Binding ShowPresetColor, Mode=TwoWay}"
                 ShowPreviewSelectedColor="{Binding ShowPreviewColor, Mode=TwoWay}"
@@ -40,7 +40,7 @@
                       VerticalAlignment="Center">
 
             <controls:ColorPicker
-                Theme="Light"
+                Theme="Light" PickerLanguage="English"
                 SelectedColor="{Binding SelectedColor, Mode=TwoWay}"
                 ShowPresetColors="{Binding ShowPresetColor, Mode=TwoWay}"
                 ShowPreviewSelectedColor="{Binding ShowPreviewColor, Mode=TwoWay}"
@@ -172,13 +172,13 @@
                         Command="{Binding AddHexButtonCommand}"/>
                 </Grid>
 
-                
+
 
             </StackPanel>
         </ScrollViewer>
 
         <StackPanel Grid.Column="2" Margin="10 10 10 0">
-            
+
             <TextBlock Text="Change visibility preview selected color" Foreground="#FFE8EAED"
                        FontSize="16" FontWeight="SemiBold" Margin="0 0 0 5"/>
 
@@ -235,6 +235,13 @@
                         Command="{Binding SetPresetColorSizeCommand}" CommandParameter="Large"
                         ToolTip="Large" HorizontalAlignment="Center"/>
             </UniformGrid>
+
+            <TextBlock Text="Language" Foreground="#FFE8EAED"
+                       FontSize="16" FontWeight="SemiBold" Margin="0 0 0 5"/>
+
+            <ComboBox ItemsSource="{x:Static controls:ColorPicker.AvailableLanguages}"
+                      DisplayMemberPath="DisplayName" SelectedValuePath="Language"
+                      SelectedValue="{Binding SelectedLanguage, Mode=TwoWay}"/>
 
         </StackPanel>
     </Grid>
