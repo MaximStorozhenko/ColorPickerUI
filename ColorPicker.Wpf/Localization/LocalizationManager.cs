@@ -5,18 +5,28 @@ using System.Globalization;
 namespace ColorPickerUI.Localization
 {
     /// <summary>
-    /// Provides localization services for the ColorPicker control.
+    /// Manages localized resources for a ColorPicker instance.
     /// </summary>
-    public class LocalizationManager : INotifyPropertyChanged
+    internal class LocalizationManager : IColorPickerLocalization
     {
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// <summary>
+        /// Contains the cultures supported by the ColorPicker control.
+        /// </summary>
+        private static readonly Dictionary<ColorPickerLanguage, CultureInfo> SupportedLanguages = new()
+        {
+            [ColorPickerLanguage.English] = new("en"),
+            [ColorPickerLanguage.Russian] = new("ru"),
+            [ColorPickerLanguage.Ukrainian] = new("uk")
+        };
 
         private CultureInfo culture = new("en");
 
         /// <summary>
         /// Gets or sets the current localization culture.
         /// </summary>
-        public CultureInfo Culture
+        internal CultureInfo Culture
         {
             get => culture;
             private set
@@ -29,10 +39,20 @@ namespace ColorPickerUI.Localization
         }
 
         /// <summary>
-        /// Changes the localization culture and refreshes all localized strings.
+        /// Gets the automatically generated list of available language options.
+        /// </summary>
+        public static IReadOnlyList<ColorPickerLanguageOption> AvailableLanguages { get; } = new[]
+            {
+                new ColorPickerLanguageOption(ColorPickerLanguage.Auto, "Auto")
+            }
+        .Concat(SupportedLanguages.Select(language =>
+        new ColorPickerLanguageOption(language.Key, GetNativeLanguageName(language.Value)))).ToArray();
+
+        /// <summary>
+        /// Updates the localization culture.
         /// </summary>
         /// <param name="culture">The culture to apply.</param>
-        public void ChangeCulture(CultureInfo culture)
+        internal void ChangeCulture(CultureInfo culture)
         {
             Culture = culture;
         }
@@ -48,62 +68,40 @@ namespace ColorPickerUI.Localization
             return Strings.ResourceManager.GetString(key, Culture) ?? key;
         }
 
-        /// <summary>
-        /// Gets the localized Apply button text.
-        /// </summary>
         public string Apply_Text => GetString(nameof(Strings.Apply));
-
-        /// <summary>
-        /// Gets the localized Apply button's tooltip text.
-        /// </summary>
         public string ApplyToolTip_Text => GetString(nameof(Strings.ApplyColor));
-
-        /// <summary>
-        /// Gets the localized Copy button's tooltip text.
-        /// </summary>
         public string Copy_Text => GetString(nameof(Strings.Copy));
-
-        /// <summary>
-        /// Gets the localized Eyedropper button's tooltip text.
-        /// </summary>
         public string Eyedropper_Text => GetString(nameof(Strings.Eyedropper));
-
-        /// <summary>
-        /// Gets the localized PresetColors title text.
-        /// </summary>
         public string PresetColors_Text => GetString(nameof(Strings.PresetColors)).ToUpper();
 
         /// <summary>
-        /// Gets the culture corresponding to the specified language.
+        /// Gets the culture associated with the specified language.
         /// </summary>
-        public static CultureInfo GetCulture(ColorPickerLanguage language)
+        /// <param name="language">The selected ColorPicker language.</param>
+        /// <returns>The culture used for localization.</returns>
+        internal static CultureInfo GetCulture(ColorPickerLanguage language)
         {
-            return language switch
+            if(language.Equals(ColorPickerLanguage.Auto))
             {
-                ColorPickerLanguage.English => new CultureInfo("en"),
-                ColorPickerLanguage.Russian => new CultureInfo("ru"),
-                ColorPickerLanguage.Ukrainian => new CultureInfo("uk"),
+                string currentLanguage = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
-                ColorPickerLanguage.Auto => GetApplicationCulture(),
+                return SupportedLanguages.Values.FirstOrDefault(
+                    Culture => Culture.TwoLetterISOLanguageName == currentLanguage)
+                    ?? SupportedLanguages[ColorPickerLanguage.English];
+            }
 
-                _ => new CultureInfo("en")
-            };
+            return SupportedLanguages.TryGetValue(language, out CultureInfo? culture)
+                ? culture : SupportedLanguages[ColorPickerLanguage.English];
         }
 
         /// <summary>
-        /// Determines the supported culture based on the application's current UI culture.
+        /// Gets the native display name of the specified culture.
         /// </summary>
-        /// <returns>The matching supported culture, or English if the application language is unsupported.</returns>
-        private static CultureInfo GetApplicationCulture()
+        /// <param name="culture">The culture to retrieve the native name for.</param>
+        /// <returns>The capitalized native name of the culture.</returns>
+        private static string GetNativeLanguageName(CultureInfo culture)
         {
-            string language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-
-            return language switch
-            {
-                "ru" => new CultureInfo("ru"),
-                "uk" => new CultureInfo("uk"),
-                _ => new CultureInfo("en")
-            };
+            return culture.TextInfo.ToTitleCase(culture.NativeName);
         }
     }
 }

@@ -225,11 +225,21 @@ namespace ColorPickerUI.Controls
 
         private EyedropperWindow? eyedropperWindow;
 
+        private readonly LocalizationManager localizationManager;
+
         /// <summary>
-        /// Gets the localization manager used to provide translated strings
-        /// for this color picker instance.
+        /// Gets the localization provider used to display translated text.
         /// </summary>
-        public LocalizationManager Localization { get; } = new();
+        /// <remarks>
+        /// This property is primarily intended for internal XAML bindings.
+        /// The localization is managed automatically by the ColorPicker control.
+        /// </remarks>
+        public IColorPickerLocalization Localization { get; }
+
+        /// <summary>
+        /// Gets the list of languages supported by the ColorPicker control.
+        /// </summary>
+        public static IReadOnlyList<ColorPickerLanguageOption>? AvailableLanguages => LocalizationManager.AvailableLanguages;
 
         /// <summary>
         /// Gets the collection of preset colors currently displayed by the control.
@@ -250,7 +260,12 @@ namespace ColorPickerUI.Controls
         /// </summary>
         public ColorPicker()
         {
+            localizationManager = new();
+            Localization = localizationManager;
+
             InitializeComponent();
+
+            ApplyLanguage(PickerLanguage);
 
             CopyContextMenu.Resources.MergedDictionaries.Add(
                 new ResourceDictionary
@@ -353,7 +368,7 @@ namespace ColorPickerUI.Controls
         private void ApplyLanguage(ColorPickerLanguage language)
         {
             CultureInfo culture = LocalizationManager.GetCulture(language);
-            Localization.ChangeCulture(culture);
+            localizationManager.ChangeCulture(culture);
         }
 
         /// <summary>

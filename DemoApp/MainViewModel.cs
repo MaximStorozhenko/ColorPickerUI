@@ -99,6 +99,21 @@ namespace DemoApp
             }
         }
 
+        private ColorPickerLanguage selectedLanguage = ColorPickerLanguage.Auto;
+
+        public ColorPickerLanguage SelectedLanguage
+        {
+            get => selectedLanguage;
+            set
+            {
+                if (selectedLanguage == value) return;
+
+                selectedLanguage = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
